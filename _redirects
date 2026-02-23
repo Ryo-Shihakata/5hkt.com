@@ -1,0 +1,3 @@
+# Cloudflare Pages — _redirects
+# SPA fallback (必要に応じて使用)
+# /*    /index.html   200
