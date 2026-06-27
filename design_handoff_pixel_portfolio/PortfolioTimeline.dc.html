@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="position:relative;padding-left:2.5rem;margin-top:.5rem">
+  <div style="position:absolute;left:.55rem;top:.4rem;bottom:.4rem;border-left:3px dashed var(--border)"></div>
+  <sc-for list="{{ items }}" as="item" hint-placeholder-count="4">
+    <div style="position:relative;margin-bottom:2rem">
+      <div style="position:absolute;left:-2.5rem;top:.35rem;width:.85rem;height:.85rem;background:var(--accent);border:2px solid var(--border)"></div>
+      <div style="background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem">
+        <div style="display:flex;align-items:center;gap:.6rem;flex-wrap:wrap">
+          <span style="background:var(--period);color:var(--ink);font-size:.95rem;padding:.15em .55em">{{ item.period }}</span>
+          <sc-if value="{{ item.featured }}" hint-placeholder-val="{{ false }}"><span style="font-family:var(--fpix);font-size:.5rem;background:var(--badge);color:var(--ink);padding:.35em .55em">{{ pickup }}</span></sc-if>
+        </div>
+        <h3 style="font-family:var(--fdisp);font-weight:400;font-size:1rem;line-height:1.45;margin:0">{{ item.title }}</h3>
+        <sc-if value="{{ item.subtitle }}" hint-placeholder-val="{{ false }}"><p style="color:var(--soft);font-size:1rem;margin:0">{{ item.subtitle }}</p></sc-if>
+        <p style="font-size:1.02rem;margin:0">{{ item.description }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+          <sc-for list="{{ item.tags }}" as="tag" hint-placeholder-count="2"><span style="font-family:var(--fdisp);font-size:.85rem;border:2px solid var(--border);padding:.2em .55em;background:var(--bg)">{{ tag }}</span></sc-for>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.2rem">
+          <sc-for list="{{ item.links }}" as="lnk" hint-placeholder-count="1"><a href="{{ lnk.url }}" target="_blank" rel="noopener" style="font-family:var(--fdisp);font-size:.85rem;color:var(--ink);background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:.45em .75em;text-decoration:none" style-active="transform:translate(3px,3px);box-shadow:0 0 0 var(--border)">{{ lnk.label }}</a></sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;items&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;any[]&quot;},&quot;pickup&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;PICK UP&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;noimage&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;No Image&quot;,&quot;tsType&quot;:&quot;string&quot;}}"></script>
+</body>
+</html>
