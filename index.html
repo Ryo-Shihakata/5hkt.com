@@ -1,221 +1,95 @@
 <!DOCTYPE html>
-<html lang="ja">
-
+<html lang="ja" data-lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>5HKT</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5HKT — Portfolio</title>
+  <meta name="description" content="ピクセル調の個人ポートフォリオ — プロフィール / 作成Webアプリ / 学生活動 / 研究活動 / 連絡先">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+<body>
+<div class="pf-root" id="pf-root">
 
-<body class="no-scroll">
-
-  <!-- ===================== INTRO OVERLAY ===================== -->
-  <div id="intro" class="intro">
-    <div class="intro__scanlines"></div>
-    <div class="intro__stage">
-      <div class="intro__name" id="intro-name">3HKT</div>
-      <div class="intro__glitch" id="intro-glitch" aria-hidden="true">3HKT</div>
+  <!-- NAV -->
+  <header class="pf-header">
+    <div class="pf-header-inner">
+      <a href="#top" class="pf-logo">_PORTFOLIO</a>
+      <nav class="pf-nav" id="pf-nav"></nav>
+      <button class="pf-lang" id="pf-lang" type="button"></button>
     </div>
-    <div class="intro__progress-wrap">
-      <div class="intro__progress-bar" id="intro-progress"></div>
-    </div>
-    <button class="intro__skip" id="intro-skip">SKIP ▶</button>
-  </div>
+  </header>
 
-  <!-- ===================== MAIN SITE ===================== -->
-  <div id="site" class="site site--hidden">
+  <main id="top">
 
-    <!-- NAV -->
-    <nav class="nav" id="nav">
-      <div class="nav__logo">5HKT</div>
-      <ul class="nav__links">
-        <li><a class="nav__link" data-section="0">HOME</a></li>
-        <li><a class="nav__link" data-section="1">ABOUT</a></li>
-        <li><a class="nav__link" data-section="2">WORKS</a></li>
-        <li><a class="nav__link" data-section="3">CONTACT</a></li>
-      </ul>
-      <button class="nav__hamburger" id="hamburger" aria-label="menu">
-        <span></span><span></span><span></span>
-      </button>
-    </nav>
-
-    <!-- SIDE DOTS -->
-    <nav class="side-dots" id="side-dots" aria-label="section indicators">
-      <button class="side-dot active" data-section="0"></button>
-      <button class="side-dot" data-section="1"></button>
-      <button class="side-dot" data-section="2"></button>
-      <button class="side-dot" data-section="3"></button>
-    </nav>
-
-    <!-- SECTION INDEX LABEL -->
-    <div class="section-index" id="section-index">01 / 04</div>
-
-    <!-- SNAP CONTAINER -->
-    <main class="snap-container" id="snap-container">
-
-      <!-- 0: HERO -->
-      <section class="snap-section hero-section" id="sec-0">
-        <div class="hero__scanlines"></div>
-        <div class="hero__content">
-          <div class="hero__eyebrow">PORTFOLIO</div>
-          <h1 class="hero__name">5HKT</h1>
-          <div class="hero__rule"></div>
-          <p class="hero__sub">— DEVELOPER / SERVER ENGINEER / CREATOR —</p>
-          <div class="hero__socials">
-            <a href="#" class="hero__social-link" aria-label="X (Twitter)" target="_blank" rel="noopener">
-              <i class="fa-brands fa-x-twitter"></i>
-            </a>
-            <a href="#" class="hero__social-link" aria-label="YouTube" target="_blank" rel="noopener">
-              <i class="fa-brands fa-youtube"></i>
-            </a>
-            <a href="#" class="hero__social-link" aria-label="Discord" target="_blank" rel="noopener">
-              <i class="fa-brands fa-discord"></i>
-            </a>
+    <!-- HERO -->
+    <section class="pf-hero">
+      <div class="pf-hero-inner">
+        <div class="pf-hero-text">
+          <p class="pf-kicker">// whoami</p>
+          <h1 class="pf-name"><span id="pf-name"></span><span class="pf-caret"></span></h1>
+          <p class="pf-role" id="pf-role"></p>
+          <p class="pf-bio" id="pf-bio"></p>
+          <div class="pf-hero-links" id="pf-hero-links"></div>
+        </div>
+        <div class="pf-hero-avatar">
+          <div class="pf-avatar-frame">
+            <canvas class="pf-avatar-canvas" id="pf-canvas"></canvas>
+            <span class="pf-avatar-cap" id="pf-hero-cap"></span>
           </div>
         </div>
-        <div class="hero__scroll-hint">
-          <span>SCROLL</span>
-          <div class="hero__scroll-bar"></div>
-        </div>
-        <span class="corner-deco tl"></span>
-        <span class="corner-deco tr"></span>
-        <span class="corner-deco bl"></span>
-        <span class="corner-deco br"></span>
-      </section>
+      </div>
+      <div class="pf-scroll">SCROLL ▾</div>
+    </section>
 
-      <!-- 1: ABOUT -->
-      <section class="snap-section about-section" id="sec-1">
-        <div class="container">
-          <div class="section-header">
-            <span class="section-label">01 — ABOUT</span>
-            <h2 class="section-title">自己紹介</h2>
-          </div>
-          <div class="about__grid">
-            <div class="about__text">
-              <p class="about__lead">ここに一言キャッチコピーを入れてください。</p>
-              <p class="about__body">
-                自己紹介文をここに記入してください。あなたのバックグラウンド、スキル、
-                情熱についてなど、自由に書いてください。この部分は後から編集できます。
-              </p>
-              <p class="about__body">2行目の自己紹介文をここに記入してください。</p>
-              <div class="about__tags">
-                <span class="tag">SKILL 01</span>
-                <span class="tag">SKILL 02</span>
-                <span class="tag">SKILL 03</span>
-                <span class="tag">SKILL 04</span>
-              </div>
-            </div>
-            <div class="about__visual">
-              <div class="about__frame">
-                <div class="about__frame-inner">
-                  <div class="about__initials">5HKT</div>
-                </div>
-                <span class="corner-deco tl"></span>
-                <span class="corner-deco tr"></span>
-                <span class="corner-deco bl"></span>
-                <span class="corner-deco br"></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <!-- WEB APPS -->
+    <section class="pf-section" id="webapps">
+      <p class="pf-sec-kicker">// projects</p>
+      <h2 class="pf-sec-title" id="pf-apps-title"></h2>
+      <p class="pf-sec-lead" id="pf-apps-lead"></p>
+      <div id="pf-highlights"></div>
+      <div id="pf-apps-body"></div>
+      <div class="pf-toggle-wrap">
+        <button class="pf-btn pf-btn-accent" id="pf-apps-toggle" type="button"></button>
+      </div>
+    </section>
 
-      <!-- 2: WORKS -->
-      <section class="snap-section works-section" id="sec-2">
-        <div class="container">
-          <div class="section-header">
-            <span class="section-label">02 — WORKS</span>
-            <h2 class="section-title">実績紹介</h2>
-          </div>
-          <div class="works__list">
-            <article class="work-item">
-              <div class="work-item__number">001</div>
-              <div class="work-item__body">
-                <h3 class="work-item__title">プロジェクトタイトル</h3>
-                <p class="work-item__desc">プロジェクトの概要をここに記載します。どんな課題に取り組み、どのような成果を出したかを簡潔に説明してください。</p>
-                <div class="work-item__meta">
-                  <span class="tag">カテゴリ</span>
-                  <span class="tag">使用技術</span>
-                  <span class="work-item__year">2024</span>
-                </div>
-              </div>
-              <div class="work-item__arrow">→</div>
-            </article>
-            <article class="work-item">
-              <div class="work-item__number">002</div>
-              <div class="work-item__body">
-                <h3 class="work-item__title">プロジェクトタイトル</h3>
-                <p class="work-item__desc">プロジェクトの概要をここに記載します。どんな課題に取り組み、どのような成果を出したかを簡潔に説明してください。</p>
-                <div class="work-item__meta">
-                  <span class="tag">カテゴリ</span>
-                  <span class="tag">使用技術</span>
-                  <span class="work-item__year">2024</span>
-                </div>
-              </div>
-              <div class="work-item__arrow">→</div>
-            </article>
-            <article class="work-item">
-              <div class="work-item__number">003</div>
-              <div class="work-item__body">
-                <h3 class="work-item__title">プロジェクトタイトル</h3>
-                <p class="work-item__desc">プロジェクトの概要をここに記載します。どんな課題に取り組み、どのような成果を出したかを簡潔に説明してください。</p>
-                <div class="work-item__meta">
-                  <span class="tag">カテゴリ</span>
-                  <span class="tag">使用技術</span>
-                  <span class="work-item__year">2023</span>
-                </div>
-              </div>
-              <div class="work-item__arrow">→</div>
-            </article>
-          </div>
-        </div>
-      </section>
+    <!-- STUDENT -->
+    <section class="pf-section" id="student">
+      <p class="pf-sec-kicker">// campus log</p>
+      <h2 class="pf-sec-title" id="pf-stud-title"></h2>
+      <p class="pf-sec-lead" id="pf-stud-lead"></p>
+      <div id="pf-stud-body"></div>
+      <div class="pf-toggle-wrap">
+        <button class="pf-btn pf-btn-accent" id="pf-stud-toggle" type="button"></button>
+      </div>
+    </section>
 
-      <!-- 3: CONTACT -->
-      <section class="snap-section contact-section" id="sec-3">
-        <div class="container contact__inner">
-          <div class="section-header">
-            <span class="section-label">03 — CONTACT</span>
-            <h2 class="section-title">お問い合わせ</h2>
-          </div>
-          <div class="contact__content">
-            <p class="contact__text">お仕事のご依頼・ご相談はフォームよりお気軽にどうぞ。</p>
-            <a href="#" class="contact__btn" id="contact-btn" target="_blank" rel="noopener">
-              <span class="contact__btn-label">OPEN FORM</span>
-              <span class="contact__btn-icon">↗</span>
-            </a>
-            <p class="contact__note">* リンクをクリックするとお問い合わせフォームが開きます</p>
-          </div>
-        </div>
-        <footer class="footer">
-          <div class="container footer__inner">
-            <div class="footer__logo">5HKT</div>
-            <p class="footer__copy">&copy; 2025 5HKT. All rights reserved.</p>
-          </div>
-        </footer>
-      </section>
+    <!-- RESEARCH -->
+    <section class="pf-section" id="research">
+      <p class="pf-sec-kicker">// research log</p>
+      <h2 class="pf-sec-title" id="pf-research-title"></h2>
+      <p class="pf-sec-lead" id="pf-research-lead"></p>
+      <div class="pf-research-list" id="pf-research-body"></div>
+    </section>
 
-    </main>
+    <!-- CONTACT -->
+    <section class="pf-section" id="contact">
+      <p class="pf-sec-kicker">// contact</p>
+      <h2 class="pf-sec-title" id="pf-contact-title"></h2>
+      <p class="pf-sec-lead" id="pf-contact-lead"></p>
+      <div class="pf-contact-grid" id="pf-contact-body"></div>
+    </section>
 
-    <!-- Mobile overlay -->
-    <div class="mobile-overlay" id="mobile-overlay">
-      <button class="mobile-overlay__close" id="mobile-close">✕</button>
-      <a class="mobile-nav-link" data-section="0">HOME</a>
-      <a class="mobile-nav-link" data-section="1">ABOUT</a>
-      <a class="mobile-nav-link" data-section="2">WORKS</a>
-      <a class="mobile-nav-link" data-section="3">CONTACT</a>
-    </div>
+  </main>
 
-  </div><!-- /site -->
+  <footer class="pf-footer">
+    <p id="pf-footer-text"></p>
+    <p class="pf-footer-copy" id="pf-footer-copy"></p>
+  </footer>
 
-  <script src="js/main.js"></script>
+</div>
+
+<script type="module" src="js/main.js"></script>
+<script type="module" src="js/cms.js"></script>
 </body>
-
 </html>

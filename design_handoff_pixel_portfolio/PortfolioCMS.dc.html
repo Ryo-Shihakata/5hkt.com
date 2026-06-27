@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  .pf-cms-in{width:100%;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;background:#26262c;color:#e9e9ef;border:1px solid #43434f;border-radius:4px;padding:7px 8px;line-height:1.5}
+  .pf-cms-in:focus{outline:none;border-color:#7bdcc7}
+  .pf-cms-lb{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:#8b8b99;margin-bottom:3px;display:block}
+  .pf-cms-btn{cursor:pointer;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;background:#2f2f38;color:#e9e9ef;border:1px solid #50505e;border-radius:4px;padding:6px 10px}
+  .pf-cms-btn:hover{background:#3a3a45;border-color:#7bdcc7}
+  .pf-cms-scroll::-webkit-scrollbar{width:10px}
+  .pf-cms-scroll::-webkit-scrollbar-thumb{background:#3a3a45;border-radius:6px}
+</style>
+</helmet>
+<div>
+  <button onClick="{{ toggleOpen }}" style="position:fixed;right:18px;bottom:18px;z-index:2147483000;cursor:pointer;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;letter-spacing:1px;padding:11px 15px;background:#16161a;color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 rgba(0,0,0,.45)">{{ editLabel }}</button>
+
+  <aside class="pf-cms-scroll" style="position:fixed;top:0;right:0;height:100vh;width:min(440px,94vw);z-index:2147483000;background:#1b1b20;color:#e9e9ef;border-left:2px solid #000;box-shadow:-12px 0 40px rgba(0,0,0,.4);overflow-y:auto;transition:transform .26s cubic-bezier(.4,0,.2,1);transform:{{ drawerTf }};font-family:'JetBrains Mono',ui-monospace,monospace">
+
+    <div style="position:sticky;top:0;z-index:5;background:#16161a;border-bottom:1px solid #34343e;padding:14px 16px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <strong style="font-size:13px;letter-spacing:1px">CONTENT CMS</strong>
+        <span style="font-size:10px;color:#8b8b99">編集は自動保存されます</span>
+      </div>
+      <button onClick="{{ close }}" class="pf-cms-btn" style="font-size:13px">✕</button>
+    </div>
+
+    <div style="display:flex;gap:7px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid #2a2a32">
+      <button onClick="{{ onExport }}" class="pf-cms-btn">⬇ JSON書出</button>
+      <label class="pf-cms-btn" style="display:inline-flex;align-items:center">⬆ JSON読込<input type="file" accept="application/json,.json" onChange="{{ onImportFile }}" style="display:none"></label>
+      <button onClick="{{ onReset }}" class="pf-cms-btn" style="border-color:#7a4a4a;color:#f0b9b9">↺ 初期化</button>
+    </div>
+
+    <sc-if value="{{ ready }}" hint-placeholder-val="{{ true }}">
+    <div style="padding:6px 16px 90px;display:flex;flex-direction:column;gap:22px">
+
+      <!-- PROFILE -->
+      <section style="display:flex;flex-direction:column;gap:10px">
+        <h3 style="margin:6px 0 0;font-size:11px;letter-spacing:2px;color:#7bdcc7">PROFILE</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div><span class="pf-cms-lb">名前 JA</span><input class="pf-cms-in" value="{{ pe.nameJa }}" onInput="{{ pe.onNameJa }}"></div>
+          <div><span class="pf-cms-lb">Name EN</span><input class="pf-cms-in" value="{{ pe.nameEn }}" onInput="{{ pe.onNameEn }}"></div>
+          <div><span class="pf-cms-lb">肩書 JA</span><input class="pf-cms-in" value="{{ pe.roleJa }}" onInput="{{ pe.onRoleJa }}"></div>
+          <div><span class="pf-cms-lb">Role EN</span><input class="pf-cms-in" value="{{ pe.roleEn }}" onInput="{{ pe.onRoleEn }}"></div>
+        </div>
+        <div><span class="pf-cms-lb">紹介 JA</span><textarea class="pf-cms-in" rows="3" value="{{ pe.bioJa }}" onInput="{{ pe.onBioJa }}"></textarea></div>
+        <div><span class="pf-cms-lb">Bio EN</span><textarea class="pf-cms-in" rows="3" value="{{ pe.bioEn }}" onInput="{{ pe.onBioEn }}"></textarea></div>
+        <div><span class="pf-cms-lb">プロフィールのリンク（1行=「ラベル | URL」）</span><textarea class="pf-cms-in" rows="3" value="{{ pe.linksText }}" onInput="{{ pe.onLinks }}"></textarea></div>
+      </section>
+
+      <!-- HIGHLIGHTS -->
+      <section style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #2a2a32;padding-top:14px">
+        <h3 style="margin:0;font-size:11px;letter-spacing:2px;color:#7bdcc7">HIGHLIGHTS（実績バッジ）</h3>
+        <span class="pf-cms-lb">1行=「数値 | ラベルJA | ラベルEN」</span>
+        <textarea class="pf-cms-in" rows="5" value="{{ highlightsText }}" onInput="{{ onHighlights }}"></textarea>
+      </section>
+
+      <!-- SECTIONS -->
+      <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="3">
+        <section style="display:flex;flex-direction:column;gap:10px;border-top:1px solid #2a2a32;padding-top:14px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <h3 style="margin:0;font-size:11px;letter-spacing:2px;color:#7bdcc7">{{ sec.title }}</h3>
+            <button onClick="{{ sec.onAdd }}" class="pf-cms-btn">＋ 追加</button>
+          </div>
+
+          <sc-for list="{{ sec.items }}" as="item" hint-placeholder-count="2">
+            <div style="background:#212128;border:1px solid #33333d;border-radius:6px;padding:11px;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+                <span style="font-size:10px;color:#8b8b99">#{{ item.num }}</span>
+                <div style="display:flex;gap:5px">
+                  <button onClick="{{ item.moveUp }}" class="pf-cms-btn" style="padding:4px 8px">↑</button>
+                  <button onClick="{{ item.moveDown }}" class="pf-cms-btn" style="padding:4px 8px">↓</button>
+                  <button onClick="{{ item.remove }}" class="pf-cms-btn" style="padding:4px 8px;border-color:#7a4a4a;color:#f0b9b9">✕</button>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div><span class="pf-cms-lb">タイトル JA</span><input class="pf-cms-in" value="{{ item.titleJa }}" onInput="{{ item.onTitleJa }}"></div>
+                <div><span class="pf-cms-lb">Title EN</span><input class="pf-cms-in" value="{{ item.titleEn }}" onInput="{{ item.onTitleEn }}"></div>
+                <div><span class="pf-cms-lb">サブ JA</span><input class="pf-cms-in" value="{{ item.subJa }}" onInput="{{ item.onSubJa }}"></div>
+                <div><span class="pf-cms-lb">Sub EN</span><input class="pf-cms-in" value="{{ item.subEn }}" onInput="{{ item.onSubEn }}"></div>
+              </div>
+              <div><span class="pf-cms-lb">説明 JA</span><textarea class="pf-cms-in" rows="2" value="{{ item.descJa }}" onInput="{{ item.onDescJa }}"></textarea></div>
+              <div><span class="pf-cms-lb">Desc EN</span><textarea class="pf-cms-in" rows="2" value="{{ item.descEn }}" onInput="{{ item.onDescEn }}"></textarea></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div><span class="pf-cms-lb">期間</span><input class="pf-cms-in" value="{{ item.period }}" onInput="{{ item.onPeriod }}"></div>
+                <div><span class="pf-cms-lb">画像パス（任意）</span><input class="pf-cms-in" value="{{ item.image }}" onInput="{{ item.onImage }}"></div>
+              </div>
+              <div><span class="pf-cms-lb">タグ（,区切り）</span><input class="pf-cms-in" value="{{ item.tagsText }}" onInput="{{ item.onTags }}"></div>
+              <label style="display:flex;align-items:center;gap:7px;font-size:11px;color:#cfcfd8;cursor:pointer"><input type="checkbox" checked="{{ item.featured }}" onChange="{{ item.onFeatured }}" style="width:15px;height:15px;accent-color:#7bdcc7">抜粋（PICK UP）に表示</label>
+              <div><span class="pf-cms-lb">リンク（1行=「ラベル | URL」）</span><textarea class="pf-cms-in" rows="2" value="{{ item.linksText }}" onInput="{{ item.onLinks }}"></textarea></div>
+            </div>
+          </sc-for>
+        </section>
+      </sc-for>
+
+      <!-- CONTACT -->
+      <section style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #2a2a32;padding-top:14px">
+        <h3 style="margin:0;font-size:11px;letter-spacing:2px;color:#7bdcc7">CONTACT</h3>
+        <span class="pf-cms-lb">1行=「ラベル | サブ | URL」</span>
+        <textarea class="pf-cms-in" rows="5" value="{{ contactText }}" onInput="{{ onContact }}"></textarea>
+      </section>
+
+    </div>
+    </sc-if>
+  </aside>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:440,&quot;height&quot;:880}}">
+class Component extends DCLogic {
+  state = { open: false, ready: false };
+
+  componentDidMount() {
+    import('./portfolio-data.js').then((m) => {
+      this.store = m.store;
+      this._unsub = this.store.subscribe(() => this.forceUpdate());
+      this.setState({ ready: true });
+    });
+  }
+  componentWillUnmount() { if (this._unsub) this._unsub(); }
+
+  _parsePairs(text) {
+    return (text || '').split('\n').map((l) => l.trim()).filter(Boolean).map((l) => {
+      const p = l.split('|').map((s) => (s || '').trim());
+      return { label: p[0] || '', url: p[1] || '#' };
+    });
+  }
+  _parseTriples(text) {
+    return (text || '').split('\n').map((l) => l.trim()).filter(Boolean).map((l) => {
+      const p = l.split('|').map((s) => (s || '').trim());
+      return { label: p[0] || '', sub: p[1] || '', url: p[2] || '#' };
+    });
+  }
+
+  renderVals() {
+    const open = this.state.open;
+    const d = this.state.ready && this.store ? this.store.get() : null;
+    const upd = (fn) => this.store.mutate(fn);
+
+    const base = {
+      toggleOpen: () => this.setState((s) => ({ open: !s.open })),
+      close: () => this.setState({ open: false }),
+      editLabel: open ? '✕ 閉じる' : '✎ 編集',
+      drawerTf: open ? 'translateX(0)' : 'translateX(105%)',
+      ready: !!d,
+      onExport: () => {
+        const blob = new Blob([this.store.exportJSON()], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'portfolio.json'; a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      },
+      onImportFile: (e) => {
+        const f = e.target.files && e.target.files[0]; if (!f) return;
+        const rd = new FileReader();
+        rd.onload = () => { try { this.store.importJSON(rd.result); } catch (err) { alert('JSONの読み込みに失敗しました: ' + err.message); } };
+        rd.readAsText(f); e.target.value = '';
+      },
+      onReset: () => { if (confirm('初期内容に戻しますか？（編集内容は失われます）')) this.store.reset(); },
+    };
+
+    if (!d) return { ...base, pe: {}, sections: [], contactText: '', highlightsText: '' };
+
+    const p = d.profile;
+    const setProf = (f, lang) => (e) => upd((dd) => { if (lang) dd.profile[f][lang] = e.target.value; else dd.profile[f] = e.target.value; });
+    const pe = {
+      nameJa: p.name.ja, nameEn: p.name.en, roleJa: p.role.ja, roleEn: p.role.en, bioJa: p.bio.ja, bioEn: p.bio.en,
+      linksText: (p.links || []).map((l) => `${l.label} | ${l.url}`).join('\n'),
+      onNameJa: setProf('name', 'ja'), onNameEn: setProf('name', 'en'),
+      onRoleJa: setProf('role', 'ja'), onRoleEn: setProf('role', 'en'),
+      onBioJa: setProf('bio', 'ja'), onBioEn: setProf('bio', 'en'),
+      onLinks: (e) => upd((dd) => { dd.profile.links = this._parsePairs(e.target.value); }),
+    };
+
+    const setF = (sec, id, f, lang) => (e) => upd((dd) => { const it = dd[sec].find((x) => x.id === id); if (!it) return; if (lang) { if (typeof it[f] !== 'object' || !it[f]) it[f] = { ja: '', en: '' }; it[f][lang] = e.target.value; } else it[f] = e.target.value; });
+    const move = (sec, id, dir) => () => upd((dd) => { const arr = dd[sec]; const i = arr.findIndex((x) => x.id === id); const j = i + dir; if (i < 0 || j < 0 || j >= arr.length) return; const tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp; });
+    const remove = (sec, id) => () => { if (confirm('この項目を削除しますか？')) upd((dd) => { dd[sec] = dd[sec].filter((x) => x.id !== id); }); };
+    const add = (sec) => () => upd((dd) => { dd[sec].push({ id: sec + Date.now(), featured: false, period: '2025', title: { ja: '新しい項目', en: 'New item' }, subtitle: { ja: '', en: '' }, description: { ja: '', en: '' }, tags: [], image: '', links: [] }); });
+
+    const mkItems = (sec) => d[sec].map((it, i) => ({
+      id: it.id, num: i + 1, period: it.period, featured: !!it.featured,
+      titleJa: (it.title || {}).ja || '', titleEn: (it.title || {}).en || '',
+      subJa: (it.subtitle || {}).ja || '', subEn: (it.subtitle || {}).en || '',
+      descJa: (it.description || {}).ja || '', descEn: (it.description || {}).en || '',
+      tagsText: (it.tags || []).join(', '), image: it.image || '',
+      linksText: (it.links || []).map((l) => `${l.label} | ${l.url}`).join('\n'),
+      onTitleJa: setF(sec, it.id, 'title', 'ja'), onTitleEn: setF(sec, it.id, 'title', 'en'),
+      onSubJa: setF(sec, it.id, 'subtitle', 'ja'), onSubEn: setF(sec, it.id, 'subtitle', 'en'),
+      onDescJa: setF(sec, it.id, 'description', 'ja'), onDescEn: setF(sec, it.id, 'description', 'en'),
+      onPeriod: setF(sec, it.id, 'period', null), onImage: setF(sec, it.id, 'image', null),
+      onTags: (e) => upd((dd) => { const x = dd[sec].find((y) => y.id === it.id); if (x) x.tags = e.target.value.split(',').map((s) => s.trim()).filter(Boolean); }),
+      onLinks: (e) => upd((dd) => { const x = dd[sec].find((y) => y.id === it.id); if (x) x.links = this._parsePairs(e.target.value); }),
+      onFeatured: (e) => upd((dd) => { const x = dd[sec].find((y) => y.id === it.id); if (x) x.featured = e.target.checked; }),
+      moveUp: move(sec, it.id, -1), moveDown: move(sec, it.id, 1), remove: remove(sec, it.id),
+    }));
+
+    return {
+      ...base, pe,
+      highlightsText: (d.highlights || []).map((h) => `${h.value} | ${(h.label || {}).ja || ''} | ${(h.label || {}).en || ''}`).join('\n'),
+      onHighlights: (e) => upd((dd) => {
+        dd.highlights = e.target.value.split('\n').map((l) => l.trim()).filter(Boolean).map((l) => {
+          const q = l.split('|').map((s) => (s || '').trim());
+          return { value: q[0] || '', label: { ja: q[1] || '', en: q[2] || q[1] || '' } };
+        });
+      }),
+      sections: [
+        { title: 'WEB APPS', items: mkItems('webapps'), onAdd: add('webapps') },
+        { title: 'STUDENT', items: mkItems('student'), onAdd: add('student') },
+        { title: 'RESEARCH', items: mkItems('research'), onAdd: add('research') },
+      ],
+      contactText: (d.contact || []).map((c) => `${c.label} | ${c.sub} | ${c.url}`).join('\n'),
+      onContact: (e) => upd((dd) => { dd.contact = this._parseTriples(e.target.value); }),
+    };
+  }
+}
+</script>
+</body>
+</html>

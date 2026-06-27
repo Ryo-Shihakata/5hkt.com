@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  @font-face{font-family:"Press Start 2P";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/press-start-2p-latin-400-normal.woff2") format("woff2")}
+  @font-face{font-family:"VT323";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/vt323-latin-400-normal.woff2") format("woff2")}
+  @font-face{font-family:"DotGothic16";font-style:normal;font-weight:400;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F;src:url("assets/fonts/dotgothic16-latin-400-normal.woff2") format("woff2")}
+  @font-face{font-family:"DotGothic16";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/dotgothic16-japanese-400-normal.woff2") format("woff2")}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0}
+  .pf-root{
+    --bg:#cce4ff;--panel:#ffffff;--ink:#0d2540;--soft:#4a6a8f;--border:#0d2540;--brand:#003672;
+    --accent:#007367;--accent-ink:#ffffff;--badge:#f2d579;--period:#79b2f2;--checker-a:#79b2f2;--checker-b:#cce4ff;
+    --dot:rgba(13,37,64,0.13);
+    --checker:linear-gradient(45deg,var(--checker-a) 25%,transparent 25%),linear-gradient(-45deg,var(--checker-a) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,var(--checker-a) 75%),linear-gradient(-45deg,transparent 75%,var(--checker-a) 75%);
+    --fdisp:'DotGothic16',monospace;--fbody:'DotGothic16',monospace;--fpix:'Press Start 2P','DotGothic16',monospace;
+    background-color:var(--bg);
+    background-image:radial-gradient(var(--dot) 1.6px,transparent 1.6px);
+    background-size:22px 22px;
+  }
+  @keyframes pf-bounce{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
+  @keyframes pf-blink{0%,55%{opacity:1}56%,100%{opacity:0}}
+</style>
+</helmet>
+<div ref="{{ setRoot }}" class="pf-root" style="color:var(--ink);font-family:var(--fbody);font-size:18px;line-height:1.55;min-height:100vh;-webkit-font-smoothing:none">
+
+  <!-- NAV -->
+  <header style="position:sticky;top:0;z-index:50;background:var(--panel);border-bottom:4px solid var(--border)">
+    <div style="max-width:1080px;margin:0 auto;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.55rem 1.25rem;flex-wrap:wrap">
+      <a href="#top" style="font-family:var(--fpix);font-size:.75rem;color:var(--brand);text-decoration:none;white-space:nowrap">_PORTFOLIO</a>
+      <nav style="display:flex;gap:1.1rem;flex-wrap:wrap;margin-left:auto">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="4">
+          <a href="#{{ item.id }}" style="font-family:var(--fdisp);font-size:.95rem;text-decoration:none;padding:.35rem .1rem;border-bottom:3px solid {{ item.bar }};color:{{ item.col }};white-space:nowrap">{{ item.label }}</a>
+        </sc-for>
+      </nav>
+      <button onClick="{{ toggleLang }}" style="font-family:var(--fpix);font-size:.6rem;padding:.5rem .7rem;background:var(--bg);color:var(--ink);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);cursor:pointer" style-active="transform:translate(3px,3px);box-shadow:0 0 0 var(--border)">{{ langToggleLabel }}</button>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section style="min-height:calc(100vh - 64px);display:flex;flex-direction:column;justify-content:center;position:relative;padding:5rem 1.5rem 5rem">
+      <div style="max-width:980px;margin:0 auto;width:100%;display:flex;flex-wrap:wrap-reverse;align-items:center;justify-content:space-between;gap:3rem">
+        <div style="flex:1 1 360px;min-width:300px">
+          <p style="font-family:var(--fpix);font-size:.65rem;color:var(--accent);letter-spacing:.05em;margin:0 0 1rem">// whoami</p>
+          <h1 style="font-family:var(--fdisp);font-weight:400;font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.4;margin:0 0 .8rem">{{ profile.name }}<span style="display:inline-block;width:.5ch;height:.85em;background:var(--accent);margin-left:.15em;vertical-align:-1px;animation:pf-blink 1.1s steps(1) infinite"></span></h1>
+          <p style="color:var(--accent);font-size:1.3rem;margin:0 0 1rem">{{ profile.role }}</p>
+          <p style="color:var(--soft);font-size:1.25rem;line-height:1.7;margin:0 0 1.6rem;max-width:34ch">{{ profile.bio }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:.75rem">
+            <sc-for list="{{ profile.links }}" as="lnk" hint-placeholder-count="3">
+              <a href="{{ lnk.url }}" target="_blank" rel="noopener" style="font-family:var(--fdisp);font-size:.95rem;color:var(--ink);background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:.6em 1em;text-decoration:none" style-active="transform:translate(3px,3px);box-shadow:0 0 0 var(--border)">{{ lnk.label }}</a>
+            </sc-for>
+          </div>
+        </div>
+        <div style="flex:0 0 auto;display:flex;justify-content:center;width:100%;max-width:280px;margin:0 auto">
+          <div style="position:relative;width:min(260px,72vw);aspect-ratio:1/1;background-image:var(--checker);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0;background-color:var(--checker-b);border:4px solid var(--border);box-shadow:7px 7px 0 var(--badge);overflow:hidden">
+            <canvas ref="{{ setCanvas }}" style="position:absolute;inset:0;width:100%;height:100%;display:block;image-rendering:pixelated"></canvas>
+            <span style="position:absolute;left:0;right:0;bottom:0;text-align:center;font-family:var(--fpix);font-size:.5rem;letter-spacing:1px;color:var(--soft);background:color-mix(in srgb,var(--panel) 72%,transparent);padding:6px 4px;border-top:2px solid var(--border)">{{ heroSlotLabel }}</span>
+          </div>
+        </div>
+      </div>
+      <div style="position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);font-family:var(--fpix);font-size:.55rem;color:var(--soft);animation:pf-bounce 2.2s ease-in-out infinite">SCROLL ▾</div>
+    </section>
+
+    <!-- WEB APPS -->
+    <section id="webapps" style="max-width:920px;margin:0 auto;padding:4.5rem 1.5rem;border-top:4px dashed var(--border);scroll-margin-top:80px">
+      <p style="font-family:var(--fpix);font-size:.65rem;color:var(--accent);margin:0 0 .75rem">// projects</p>
+      <h2 style="font-family:var(--fdisp);font-weight:400;font-size:clamp(1.3rem,3.5vw,1.9rem);margin:0 0 .6rem">{{ t.apps.title }}</h2>
+      <p style="color:var(--soft);font-size:1.15rem;max-width:560px;margin:0 0 2rem">{{ t.apps.lead }}</p>
+
+      <sc-if value="{{ showHighlights }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin-bottom:2.5rem">
+          <sc-for list="{{ highlights }}" as="h" hint-placeholder-count="4">
+            <div style="background:var(--badge);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:1rem .75rem;text-align:center">
+              <span style="display:block;font-family:var(--fpix);font-size:1.05rem;color:var(--ink);margin-bottom:.45rem">{{ h.value }}</span>
+              <span style="font-size:.9rem;color:var(--ink);text-transform:uppercase;letter-spacing:.02em">{{ h.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ appsGridView }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem">
+          <sc-for list="{{ appsFeatured }}" as="item" hint-placeholder-count="2">
+            <article style="background:var(--panel);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);display:flex;flex-direction:column;transition:transform .1s,box-shadow .1s" style-hover="transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--accent)">
+              <div style="width:100%;aspect-ratio:16/9;border-bottom:3px solid var(--border);background-image:var(--checker);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0;background-color:var(--checker-b);display:flex;align-items:center;justify-content:center">
+                <span style="font-family:var(--fpix);font-size:.6rem;color:var(--soft)">{{ item.imageLabel }}</span>
+              </div>
+              <div style="padding:1.1rem 1.15rem;display:flex;flex-direction:column;gap:.55rem;flex:1">
+                <span style="align-self:flex-start;font-family:var(--fpix);font-size:.55rem;background:var(--badge);color:var(--ink);padding:.35em .6em">{{ t.pickup }}</span>
+                <span style="align-self:flex-start;background:var(--period);color:var(--ink);font-size:.95rem;padding:.15em .55em">{{ item.period }}</span>
+                <h3 style="font-family:var(--fdisp);font-weight:400;font-size:1.1rem;line-height:1.4;margin:0">{{ item.title }}</h3>
+                <sc-if value="{{ item.subtitle }}" hint-placeholder-val="{{ true }}"><p style="color:var(--soft);font-size:1.05rem;margin:0">{{ item.subtitle }}</p></sc-if>
+                <p style="font-size:1.05rem;margin:0">{{ item.description }}</p>
+                <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                  <sc-for list="{{ item.tags }}" as="tag" hint-placeholder-count="3"><span style="font-family:var(--fdisp);font-size:.85rem;border:2px solid var(--border);padding:.2em .55em;background:var(--bg)">{{ tag }}</span></sc-for>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:.6rem;margin-top:auto;padding-top:.85rem">
+                  <sc-for list="{{ item.links }}" as="lnk" hint-placeholder-count="2"><a href="{{ lnk.url }}" target="_blank" rel="noopener" style="font-family:var(--fdisp);font-size:.85rem;color:var(--ink);background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:.5em .8em;text-decoration:none" style-active="transform:translate(3px,3px);box-shadow:0 0 0 var(--border)">{{ lnk.label }}</a></sc-for>
+                </div>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ appsTimelineView }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="PortfolioTimeline" items="{{ appsAll }}" pickup="{{ t.pickup }}" noimage="{{ t.noimage }}" hint-size="100%,200px"></dc-import>
+      </sc-if>
+      <div style="text-align:center;margin-top:1.6rem">
+        <button onClick="{{ toggleApps }}" style="font-family:var(--fdisp);font-size:.95rem;color:var(--accent-ink);background:var(--accent);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:.6em 1em;cursor:pointer" style-active="transform:translate(3px,3px);box-shadow:0 0 0 var(--border)">{{ appsToggleLabel }}</button>
+      </div>
+    </section>
+
+    <!-- STUDENT -->
+    <section id="student" style="max-width:920px;margin:0 auto;padding:4.5rem 1.5rem;border-top:4px dashed var(--border);scroll-margin-top:80px">
+      <p style="font-family:var(--fpix);font-size:.65rem;color:var(--accent);margin:0 0 .75rem">// campus log</p>
+      <h2 style="font-family:var(--fdisp);font-weight:400;font-size:clamp(1.3rem,3.5vw,1.9rem);margin:0 0 .6rem">{{ t.student.title }}</h2>
+      <p style="color:var(--soft);font-size:1.15rem;max-width:560px;margin:0 0 2rem">{{ t.student.lead }}</p>
+      <sc-if value="{{ studGridView }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem">
+          <sc-for list="{{ studFeatured }}" as="item" hint-placeholder-count="2">
+            <article style="background:var(--panel);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);display:flex;flex-direction:column;transition:transform .1s,box-shadow .1s" style-hover="transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--accent)">
+              <div style="width:100%;aspect-ratio:16/9;border-bottom:3px solid var(--border);background-image:var(--checker);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0;background-color:var(--checker-b);display:flex;align-items:center;justify-content:center">
+                <span style="font-family:var(--fpix);font-size:.6rem;color:var(--soft)">{{ item.imageLabel }}</span>
+              </div>
+              <div style="padding:1.1rem 1.15rem;display:flex;flex-direction:column;gap:.55rem;flex:1">
+                <span style="align-self:flex-start;font-family:var(--fpix);font-size:.55rem;background:var(--badge);color:var(--ink);padding:.35em .6em">{{ t.pickup }}</span>
+                <span style="align-self:flex-start;background:var(--period);color:var(--ink);font-size:.95rem;padding:.15em .55em">{{ item.period }}</span>
+                <h3 style="font-family:var(--fdisp);font-weight:400;font-size:1.1rem;line-height:1.4;margin:0">{{ item.title }}</h3>
+                <p style="font-size:1.05rem;margin:0">{{ item.description }}</p>
+                <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:auto;padding-top:.5rem">
+                  <sc-for list="{{ item.tags }}" as="tag" hint-placeholder-count="2"><span style="font-family:var(--fdisp);font-size:.85rem;border:2px solid var(--border);padding:.2em .55em;background:var(--bg)">{{ tag }}</span></sc-for>
+                </div>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </sc-if>
+      <sc-if value="{{ studTimelineView }}" hint-placeholder-val="{{ false }}">
+        <dc-import name="PortfolioTimeline" items="{{ studAll }}" pickup="{{ t.pickup }}" noimage="{{ t.noimage }}" hint-size="100%,200px"></dc-import>
+      </sc-if>
+      <div style="text-align:center;margin-top:1.6rem">
+        <button onClick="{{ toggleStud }}" style="font-family:var(--fdisp);font-size:.95rem;color:var(--accent-ink);background:var(--accent);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:.6em 1em;cursor:pointer" style-active="transform:translate(3px,3px);box-shadow:0 0 0 var(--border)">{{ studToggleLabel }}</button>
+      </div>
+    </section>
+
+    <!-- RESEARCH -->
+    <section id="research" style="max-width:920px;margin:0 auto;padding:4.5rem 1.5rem;border-top:4px dashed var(--border);scroll-margin-top:80px">
+      <p style="font-family:var(--fpix);font-size:.65rem;color:var(--accent);margin:0 0 .75rem">// research log</p>
+      <h2 style="font-family:var(--fdisp);font-weight:400;font-size:clamp(1.3rem,3.5vw,1.9rem);margin:0 0 .6rem">{{ t.research.title }}</h2>
+      <p style="color:var(--soft);font-size:1.15rem;max-width:560px;margin:0 0 2rem">{{ t.research.lead }}</p>
+      <div style="display:flex;flex-direction:column;gap:1.5rem">
+        <sc-for list="{{ researchItems }}" as="item" hint-placeholder-count="2">
+          <div style="background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);display:grid;grid-template-columns:140px 1fr">
+            <div style="background:var(--period);border-right:3px solid var(--border);padding:1rem .75rem;font-family:var(--fpix);font-size:.6rem;color:var(--ink);line-height:1.6">{{ item.period }}</div>
+            <div style="padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.5rem">
+              <h3 style="font-family:var(--fdisp);font-weight:400;font-size:1.05rem;line-height:1.45;margin:0">{{ item.title }}</h3>
+              <p style="font-size:1.05rem;margin:0">{{ item.description }}</p>
+              <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+                <sc-for list="{{ item.tags }}" as="tag" hint-placeholder-count="2"><span style="font-family:var(--fdisp);font-size:.85rem;border:2px solid var(--border);padding:.2em .55em;background:var(--bg)">{{ tag }}</span></sc-for>
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.25rem">
+                <sc-for list="{{ item.links }}" as="lnk" hint-placeholder-count="1"><a href="{{ lnk.url }}" target="_blank" rel="noopener" style="font-family:var(--fdisp);font-size:.85rem;color:var(--ink);background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:.5em .8em;text-decoration:none" style-active="transform:translate(3px,3px);box-shadow:0 0 0 var(--border)">{{ lnk.label }}</a></sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="max-width:920px;margin:0 auto;padding:4.5rem 1.5rem;border-top:4px dashed var(--border);scroll-margin-top:80px">
+      <p style="font-family:var(--fpix);font-size:.65rem;color:var(--accent);margin:0 0 .75rem">// contact</p>
+      <h2 style="font-family:var(--fdisp);font-weight:400;font-size:clamp(1.3rem,3.5vw,1.9rem);margin:0 0 .6rem">{{ t.contact.title }}</h2>
+      <p style="color:var(--soft);font-size:1.15rem;max-width:560px;margin:0 0 2rem">{{ t.contact.lead }}</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem">
+        <sc-for list="{{ contactLinks }}" as="lnk" hint-placeholder-count="3">
+          <a href="{{ lnk.url }}" target="_blank" rel="noopener" style="display:flex;flex-direction:column;gap:.6rem;justify-content:space-between;min-height:120px;text-decoration:none;color:var(--ink);background:var(--panel);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);padding:1.1rem 1.15rem;transition:transform .1s,box-shadow .1s" style-hover="transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--accent)">
+            <span style="font-family:var(--fpix);font-size:.65rem;color:var(--accent)">{{ lnk.label }}</span>
+            <span style="font-size:1.05rem;color:var(--soft)">{{ lnk.sub }}</span>
+            <span style="font-family:var(--fpix);font-size:.55rem;letter-spacing:1px">OPEN ▸</span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+  </main>
+
+  <footer style="text-align:center;padding:3rem 1.5rem 4rem;color:var(--soft);font-size:1rem;border-top:4px dashed var(--border)">
+    <p style="margin:0 0 .5rem">{{ t.footer }}</p>
+    <p style="margin:0;font-family:var(--fpix);font-size:.55rem">© 2026 {{ profile.name }}</p>
+  </footer>
+
+  <dc-import name="PortfolioCMS" hint-size="1px,1px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:900},&quot;heroFx&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;wave&quot;,&quot;matrix&quot;,&quot;scan&quot;],&quot;default&quot;:&quot;wave&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#007367&quot;,&quot;#003672&quot;,&quot;#a23b2d&quot;,&quot;#6b4ea0&quot;],&quot;default&quot;:&quot;#003672&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;showGrid&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;showHighlights&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;}}">
+class Component extends DCLogic {
+  state = { lang: 'ja', appsView: 'featured', studView: 'featured', dark: false, active: 'webapps', ready: false };
+
+  componentDidMount() {
+    try { const s = localStorage.getItem('pf_lang'); if (s === 'ja' || s === 'en') this.state.lang = s; } catch (e) {}
+    import('./portfolio-data.js').then((m) => {
+      this.store = m.store;
+      this._unsub = this.store.subscribe(() => this.forceUpdate());
+      this.setState({ ready: true });
+    });
+    try {
+      const mq = window.matchMedia('(prefers-color-scheme: dark)');
+      this._mqApply = (m) => { this.setState({ dark: m.matches }); this._applyTokens(m.matches); };
+      this._mqApply(mq);
+      mq.addEventListener('change', this._mqApply);
+      this._mq = mq;
+    } catch (e) {}
+    this._applyFonts();
+    this._applyAccent();
+    this._applyDots();
+    this._startHero();
+    this._initSpy();
+  }
+
+  componentDidUpdate(prev) {
+    this._applyFonts();
+    this._applyDots();
+    if (prev.accent !== this.props.accent) this._applyAccent();
+    if (prev.heroFx !== this.props.heroFx) this._startHero();
+  }
+
+  _applyDots() {
+    const el = this.rootEl; if (!el) return;
+    if (this.props.showGrid === false) { el.style.setProperty('--dot', 'transparent'); return; }
+    el.style.setProperty('--dot', this.state.dark ? 'rgba(226,231,231,0.08)' : 'rgba(13,37,64,0.13)');
+  }
+
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._mq && this._mqApply) this._mq.removeEventListener('change', this._mqApply);
+    if (this._io) this._io.disconnect();
+    if (this._unsub) this._unsub();
+  }
+
+  _applyTokens(dark) {
+    const el = this.rootEl; if (!el) return;
+    const D = { '--bg':'#141417','--panel':'#1c1e25','--ink':'#e2e7e7','--soft':'#838e9a','--border':'#5f6579','--brand':'#4f93d6','--accent':'#4f93d6','--accent-ink':'#141417','--badge':'#1c1e25','--period':'rgba(0,67,122,.32)','--checker-a':'#1c1e25','--checker-b':'#141417' };
+    if (dark) { for (const k in D) el.style.setProperty(k, D[k]); }
+    else { for (const k in D) el.style.removeProperty(k); }
+    this._applyAccent();
+    this._applyDots();
+  }
+
+  _applyAccent() {
+    const el = this.rootEl; if (!el) return;
+    const a = this.props.accent;
+    if (a) { el.style.setProperty('--accent', a); el.style.setProperty('--brand', a); }
+    else if (!this.state.dark) { el.style.removeProperty('--accent'); el.style.removeProperty('--brand'); }
+  }
+
+  _applyFonts() {
+    const el = this.rootEl; if (!el) return;
+    if (this.state.lang === 'en') {
+      el.style.setProperty('--fdisp', "'Press Start 2P','DotGothic16',monospace");
+      el.style.setProperty('--fbody', "'VT323','DotGothic16',monospace");
+    } else {
+      el.style.setProperty('--fdisp', "'DotGothic16',monospace");
+      el.style.setProperty('--fbody', "'DotGothic16',monospace");
+    }
+  }
+
+  _startHero() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    const cv = this.heroCanvas, root = this.rootEl;
+    if (!cv || !root) return;
+    const ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
+    const fx = this.props.heroFx || 'wave';
+    const t0 = performance.now();
+    const draw = (now) => {
+      const r = cv.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const W = Math.max(1, Math.round(r.width * dpr)), H = Math.max(1, Math.round(r.height * dpr));
+      if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+      const w = cv.width, h = cv.height, t = (now - t0) / 1000, u = dpr;
+      const cs = getComputedStyle(root);
+      const accent = (cs.getPropertyValue('--accent') || '#007367').trim();
+      const ink = (cs.getPropertyValue('--ink') || '#0d2540').trim();
+      const panel = (cs.getPropertyValue('--panel') || '#ffffff').trim();
+      const period = (cs.getPropertyValue('--period') || '#79b2f2').trim();
+      ctx.clearRect(0, 0, w, h);
+      if (fx === 'matrix') {
+        const col = 15 * u, cols = Math.ceil(w / col);
+        for (let i = 0; i < cols; i++) {
+          const seed = (i * 73) % 37, sp = (38 + seed * 4) * u;
+          const head = ((t * sp) % (h + 220 * u)) - 110 * u;
+          for (let k = 0; k < 14; k++) {
+            const y = head - k * col; if (y < 0 || y > h) continue;
+            ctx.globalAlpha = Math.max(0, (14 - k) / 14) * 0.9;
+            ctx.fillStyle = k === 0 ? ink : accent;
+            const sz = col * 0.66; ctx.fillRect(i * col + (col - sz) / 2, y, sz, sz);
+          }
+        }
+        ctx.globalAlpha = 1;
+      } else if (fx === 'scan') {
+        const c = 18 * u, bandY = ((t * 70 * u) % (h + 120 * u)) - 60 * u;
+        for (let gx = 0; gx * c < w; gx++) for (let gy = 0; gy * c < h; gy++) {
+          const x = gx * c, y = gy * c, checker = (gx + gy) % 2 === 0;
+          const tw = Math.sin(gx * 12.9 + gy * 78.2 + t * 2) * 0.5 + 0.5;
+          let a = (checker ? 0.12 : 0) + tw * 0.10;
+          const dd = Math.abs(y + c / 2 - bandY); if (dd < c * 1.6) a += (1 - dd / (c * 1.6)) * 0.6;
+          if (a <= 0.02) continue;
+          ctx.globalAlpha = Math.min(0.9, a); ctx.fillStyle = (gx + gy) % 3 === 0 ? period : accent;
+          ctx.fillRect(x + 1, y + 1, c - 2, c - 2);
+        }
+        ctx.globalAlpha = 1;
+      } else {
+        const cell = 22 * u;
+        for (let gx = 0; gx * cell < w; gx++) for (let gy = 0; gy * cell < h; gy++) {
+          const x = gx * cell, y = gy * cell;
+          const v = Math.sin(gx * 0.55 + gy * 0.42 + t * 1.5) * 0.5 + 0.5;
+          const v2 = Math.sin(gx * 0.9 - gy * 0.3 + t * 0.9) * 0.5 + 0.5;
+          let col;
+          if (v > 0.72) col = accent; else if (v > 0.42) col = period; else col = v2 > 0.6 ? accent : null;
+          ctx.fillStyle = period; ctx.globalAlpha = 0.18; ctx.fillRect(x + 1, y + 1, cell - 2, cell - 2);
+          if (col) {
+            const sz = (8 + v * (cell - 12));
+            ctx.globalAlpha = 0.55 + v * 0.45; ctx.fillStyle = col;
+            ctx.fillRect(x + (cell - sz) / 2, y + (cell - sz) / 2, sz, sz);
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+      this._raf = requestAnimationFrame(draw);
+    };
+    this._raf = requestAnimationFrame(draw);
+  }
+
+  _initSpy() {
+    const ids = ['webapps', 'student', 'research', 'contact'];
+    this._io = new IntersectionObserver((es) => {
+      es.forEach(e => { if (e.isIntersecting) this.setState({ active: e.target.id }); });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    setTimeout(() => ids.forEach(id => { const el = document.getElementById(id); if (el) this._io.observe(el); }), 0);
+  }
+
+  _i18n(ja) {
+    return {
+      nav: { webapps: ja ? '作成Webアプリ' : 'Web Apps', student: ja ? '学生活動' : 'Student Activities', research: ja ? '研究活動' : 'Research', contact: ja ? '連絡先' : 'Contact' },
+      apps: { title: ja ? '作成Webアプリ' : 'Web Apps', lead: ja ? '個人または少人数チームで企画から実装まで担当したアプリです。' : 'Apps I planned and built, solo or with a small team.' },
+      student: { title: ja ? '学生活動' : 'Student Activities', lead: ja ? 'サークル・委員会・イベント運営など、学生として取り組んできた活動です。' : "Clubs, committees, and events I've been involved in as a student." },
+      research: { title: ja ? '研究活動' : 'Research', lead: ja ? '研究室での研究テーマや、学会発表・論文の記録です。' : 'My research topics, conference talks, and papers.' },
+      contact: { title: ja ? '連絡先' : 'Get in touch', lead: ja ? 'ご連絡はお気軽にどうぞ。' : 'Feel free to reach out anytime.' },
+      pickup: 'PICK UP', noimage: ja ? 'No Image' : 'No Image',
+      viewTimeline: ja ? '▸ 全履歴をタイムラインで見る' : '▸ View Full Timeline',
+      backFeatured: ja ? '◂ 抜粋表示にもどる' : '◂ Back to Highlights',
+      footer: ja ? 'このサイトは静的HTML / CSS / JSのみで構築されています。' : 'Built with plain HTML, CSS, and JavaScript.',
+    };
+  }
+
+  renderVals() {
+    const lang = this.state.lang, ja = lang === 'ja';
+    const d = this.state.ready && this.store ? this.store.get() : null;
+    const L = (o) => (o && typeof o === 'object' && 'ja' in o) ? (o[lang] ?? o.ja) : (o || '');
+    const t = this._i18n(ja);
+    const resolve = (it) => ({
+      id: it.id, featured: !!it.featured, period: it.period,
+      title: L(it.title), subtitle: L(it.subtitle), description: L(it.description),
+      imageLabel: it.image ? '' : t.noimage, image: it.image || '',
+      tags: it.tags || [],
+      links: (it.links || []).map((l) => ({ label: l.label, url: l.url })),
+    });
+
+    const navItems = [
+      { id: 'webapps', label: t.nav.webapps }, { id: 'student', label: t.nav.student },
+      { id: 'research', label: t.nav.research }, { id: 'contact', label: t.nav.contact },
+    ].map(n => ({ ...n, col: this.state.active === n.id ? 'var(--brand)' : 'var(--ink)', bar: this.state.active === n.id ? 'var(--brand)' : 'transparent' }));
+
+    const webapps = d ? d.webapps : [];
+    const student = d ? d.student : [];
+    const research = d ? d.research : [];
+    const profile = d ? {
+      name: L(d.profile.name), role: L(d.profile.role), bio: L(d.profile.bio),
+      links: (d.profile.links || []).map((l) => ({ label: l.label, url: l.url })),
+    } : { name: '', role: '', bio: '', links: [] };
+    const highlights = d ? (d.highlights || []).map((h) => ({ value: h.value, label: L(h.label) })) : [];
+    const contactLinks = d ? d.contact : [];
+
+    return {
+      setRoot: (el) => { this.rootEl = el; },
+      setCanvas: (el) => { this.heroCanvas = el; },
+      t, navItems, profile, highlights, contactLinks,
+      heroSlotLabel: ja ? 'GIF / 写真をドロップ' : 'DROP GIF / PHOTO',
+      langToggleLabel: ja ? 'EN' : 'JA',
+      toggleLang: () => this.setState(s => { const lang = s.lang === 'ja' ? 'en' : 'ja'; try { localStorage.setItem('pf_lang', lang); } catch (e) {} return { lang }; }),
+      showHighlights: this.props.showHighlights !== false && highlights.length > 0,
+
+      appsFeatured: webapps.filter(a => a.featured).map(resolve),
+      appsAll: webapps.map(resolve),
+      appsGridView: this.state.appsView === 'featured',
+      appsTimelineView: this.state.appsView === 'timeline',
+      appsToggleLabel: this.state.appsView === 'timeline' ? t.backFeatured : t.viewTimeline,
+      toggleApps: () => this.setState(s => ({ appsView: s.appsView === 'timeline' ? 'featured' : 'timeline' })),
+
+      studFeatured: student.filter(a => a.featured).map(resolve),
+      studAll: student.map(resolve),
+      studGridView: this.state.studView === 'featured',
+      studTimelineView: this.state.studView === 'timeline',
+      studToggleLabel: this.state.studView === 'timeline' ? t.backFeatured : t.viewTimeline,
+      toggleStud: () => this.setState(s => ({ studView: s.studView === 'timeline' ? 'featured' : 'timeline' })),
+
+      researchItems: research.map(resolve),
+    };
+  }
+}
+</script>
+</body>
+</html>

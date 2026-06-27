@@ -1,0 +1,6 @@
+# ローカル開発用（プレビューサーバ設定など）
+.claude/
+
+# OS / エディタ
+.DS_Store
+Thumbs.db
