@@ -12,7 +12,7 @@ backend:
   name: github
   repo: Ryo-Shihakata/5hkt.com
   branch: main
-  base_url: https://YOUR-OAUTH-WORKER.example.workers.dev   # ← 要置換（OAuth Worker の URL）
+  base_url: https://sveltia-cms-auth.ryo-shihakata.workers.dev   # OAuth Worker（sveltia-cms-auth）
 
 site_url: https://5hkt.com
 display_url: https://5hkt.com
