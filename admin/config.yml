@@ -21,9 +21,6 @@ display_url: https://5hkt.com
 media_folder: assets/uploads
 public_folder: /assets/uploads
 
-# 管理画面の言語
-locale: ja
-
 collections:
   - name: portfolio
     label: ポートフォリオ
