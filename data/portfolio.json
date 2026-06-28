@@ -5,8 +5,8 @@
       "en": "Ryo Takahashi"
     },
     "role": {
-      "ja": "",
-      "en": ""
+      "ja": "学生",
+      "en": "Student"
     },
     "bio": {
       "ja": "個人開発でWebアプリをいくつか公開しています。",
@@ -32,6 +32,13 @@
       }
     },
     {
+      "value": "5",
+      "label": {
+        "ja": "非公開アプリ",
+        "en": "Non-Published Apps"
+      }
+    },
+    {
       "value": "3",
       "label": {
         "ja": "チーム開発",
@@ -48,151 +55,50 @@
   ],
   "webapps": [
     {
-      "id": "taskflow",
+      "id": "LinkBOX",
       "featured": true,
-      "period": "2025.04 - 2025.07",
+      "period": "2026.05-2026.07",
       "title": {
-        "ja": "TaskFlow",
-        "en": "TaskFlow"
+        "ja": "LinkBOX",
+        "en": "Share Link App"
       },
       "subtitle": {
-        "ja": "チーム向けタスク管理アプリ",
-        "en": "Task management for small teams"
+        "ja": "生徒会内のリンク共有アプリ",
+        "en": "share-app"
       },
       "description": {
-        "ja": "ゼミのチーム開発で企画から実装まで担当。リアルタイム同期に対応したカンバン型タスク管理アプリ。",
-        "en": "Planned and built end-to-end for a seminar team project. A Kanban-style task app with real-time sync."
+        "ja": "PWA対応のリンク共有アプリ\nネイティブアプリを導入できない学校端末でPWA非対応のアプリを快適に使うために作成",
+        "en": "atode"
       },
       "tags": [
-        "React",
-        "Node.js",
-        "PostgreSQL"
+        "PWA",
+        "Cloudflare"
       ],
       "image": "",
-      "links": [
-        {
-          "label": "Demo",
-          "url": "#"
-        },
-        {
-          "label": "GitHub",
-          "url": "#"
-        }
-      ]
+      "links": []
     },
     {
-      "id": "campusmap",
+      "id": "Calender-Signage",
       "featured": true,
-      "period": "2024.10 - 2025.01",
+      "period": "2026.02 - 2026.06",
       "title": {
-        "ja": "CampusMap",
-        "en": "CampusMap"
+        "ja": "Calender-Signage",
+        "en": "Calender-Signage"
       },
       "subtitle": {
-        "ja": "学内施設の混雑可視化アプリ",
-        "en": "Live crowd map for campus facilities"
+        "ja": "カレンダーサイネージ共有システム",
+        "en": ""
       },
       "description": {
-        "ja": "食堂や図書館の混雑状況をリアルタイムで表示するWebアプリ。個人開発、約300人の学生が利用。",
-        "en": "A web app showing real-time crowd levels at the cafeteria and library. Solo project, used by ~300 students."
+        "ja": "Googleカレンダー等のiCal形式で取得できるサイトからCloudflareWorkerで取得し、共有リンクを作成することで簡単にカレンダーが共有できるアプリ",
+        "en": "atode"
       },
-      "tags": [
-        "Vue",
-        "Firebase"
-      ],
-      "image": "",
-      "links": [
-        {
-          "label": "Demo",
-          "url": "#"
-        },
-        {
-          "label": "GitHub",
-          "url": "#"
-        }
-      ]
-    },
-    {
-      "id": "habitpixel",
-      "featured": false,
-      "period": "2024.06 - 2024.09",
-      "title": {
-        "ja": "HabitPixel",
-        "en": "HabitPixel"
-      },
-      "subtitle": {
-        "ja": "ドット絵で育つ習慣トラッカー",
-        "en": "A pixel-art habit tracker"
-      },
-      "description": {
-        "ja": "習慣を継続するとキャラクターがドット絵で成長するトラッカーアプリ。個人開発。",
-        "en": "A habit tracker where a pixel-art character grows as you keep your streak. Personal project."
-      },
-      "tags": [
-        "JavaScript",
-        "Canvas API"
-      ],
+      "tags": [],
       "image": "",
       "links": [
         {
           "label": "GitHub",
-          "url": "#"
-        }
-      ]
-    },
-    {
-      "id": "weatherdash",
-      "featured": false,
-      "period": "2023.12 - 2024.02",
-      "title": {
-        "ja": "WeatherDash",
-        "en": "WeatherDash"
-      },
-      "subtitle": {
-        "ja": "シンプルな天気ダッシュボード",
-        "en": "A minimal weather dashboard"
-      },
-      "description": {
-        "ja": "外部APIを利用した軽量な天気表示アプリ。UI設計の練習として作成。",
-        "en": "A lightweight weather app using a public API. Built as a UI design exercise."
-      },
-      "tags": [
-        "HTML",
-        "CSS",
-        "JavaScript"
-      ],
-      "image": "",
-      "links": [
-        {
-          "label": "GitHub",
-          "url": "#"
-        }
-      ]
-    },
-    {
-      "id": "studybuddy",
-      "featured": false,
-      "period": "2023.08 - 2023.10",
-      "title": {
-        "ja": "StudyBuddy",
-        "en": "StudyBuddy"
-      },
-      "subtitle": {
-        "ja": "ポモドーロ式 学習タイマー",
-        "en": "A Pomodoro-style study timer"
-      },
-      "description": {
-        "ja": "初めて公開したWebアプリ。ポモドーロタイマーと学習ログ記録機能を実装。",
-        "en": "My first published web app. A Pomodoro timer with a simple study log."
-      },
-      "tags": [
-        "JavaScript"
-      ],
-      "image": "",
-      "links": [
-        {
-          "label": "GitHub",
-          "url": "#"
+          "url": "https://github.com/Ryo-Shihakata/Calendar-Signage"
         }
       ]
     }
