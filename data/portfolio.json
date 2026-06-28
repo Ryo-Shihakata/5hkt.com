@@ -1,144 +1,345 @@
 {
   "profile": {
-    "name": { "ja": "山田 太郎", "en": "Taro Yamada" },
-    "role": { "ja": "情報工学専攻 学生 / Webエンジニア志望", "en": "CS Student / Aspiring Web Engineer" },
+    "name": {
+      "ja": "髙橋 諒",
+      "en": "Ryo Takahashi"
+    },
+    "role": {
+      "ja": "",
+      "en": ""
+    },
     "bio": {
-      "ja": "大学で分散システムを研究しながら、個人開発でWebアプリをいくつか公開しています。手を動かして学ぶのが好きです。",
-      "en": "Researching distributed systems at university while shipping a few personal web projects on the side. I learn best by building."
+      "ja": "個人開発でWebアプリをいくつか公開しています。",
+      "en": "A few personal web projects on the side."
     },
     "links": [
-      { "label": "GitHub", "url": "https://github.com/yourname" },
-      { "label": "Email", "url": "mailto:you@example.com" },
-      { "label": "X", "url": "https://x.com/yourname" }
+      {
+        "label": "GitHub",
+        "url": "https://github.com/Ryo-Shihakata"
+      },
+      {
+        "label": "Email",
+        "url": "mailto:you@example.com"
+      }
     ]
   },
-
   "highlights": [
-    { "value": "5", "label": { "ja": "公開アプリ", "en": "Published Apps" } },
-    { "value": "3", "label": { "ja": "チーム開発", "en": "Team Projects" } },
-    { "value": "1.2k", "label": { "ja": "GitHub Stars", "en": "GitHub Stars" } },
-    { "value": "2023-", "label": { "ja": "活動期間", "en": "Active Since" } }
+    {
+      "value": "5",
+      "label": {
+        "ja": "公開アプリ",
+        "en": "Published Apps"
+      }
+    },
+    {
+      "value": "3",
+      "label": {
+        "ja": "チーム開発",
+        "en": "Team Projects"
+      }
+    },
+    {
+      "value": "2023-",
+      "label": {
+        "ja": "活動期間",
+        "en": "Active Since"
+      }
+    }
   ],
-
   "webapps": [
     {
-      "id": "taskflow", "featured": true, "period": "2025.04 - 2025.07",
-      "title": { "ja": "TaskFlow", "en": "TaskFlow" },
-      "subtitle": { "ja": "チーム向けタスク管理アプリ", "en": "Task management for small teams" },
+      "id": "taskflow",
+      "featured": true,
+      "period": "2025.04 - 2025.07",
+      "title": {
+        "ja": "TaskFlow",
+        "en": "TaskFlow"
+      },
+      "subtitle": {
+        "ja": "チーム向けタスク管理アプリ",
+        "en": "Task management for small teams"
+      },
       "description": {
         "ja": "ゼミのチーム開発で企画から実装まで担当。リアルタイム同期に対応したカンバン型タスク管理アプリ。",
         "en": "Planned and built end-to-end for a seminar team project. A Kanban-style task app with real-time sync."
       },
-      "tags": ["React", "Node.js", "PostgreSQL"], "image": "",
-      "links": [{ "label": "Demo", "url": "#" }, { "label": "GitHub", "url": "#" }]
+      "tags": [
+        "React",
+        "Node.js",
+        "PostgreSQL"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "#"
+        },
+        {
+          "label": "GitHub",
+          "url": "#"
+        }
+      ]
     },
     {
-      "id": "campusmap", "featured": true, "period": "2024.10 - 2025.01",
-      "title": { "ja": "CampusMap", "en": "CampusMap" },
-      "subtitle": { "ja": "学内施設の混雑可視化アプリ", "en": "Live crowd map for campus facilities" },
+      "id": "campusmap",
+      "featured": true,
+      "period": "2024.10 - 2025.01",
+      "title": {
+        "ja": "CampusMap",
+        "en": "CampusMap"
+      },
+      "subtitle": {
+        "ja": "学内施設の混雑可視化アプリ",
+        "en": "Live crowd map for campus facilities"
+      },
       "description": {
         "ja": "食堂や図書館の混雑状況をリアルタイムで表示するWebアプリ。個人開発、約300人の学生が利用。",
         "en": "A web app showing real-time crowd levels at the cafeteria and library. Solo project, used by ~300 students."
       },
-      "tags": ["Vue", "Firebase"], "image": "",
-      "links": [{ "label": "Demo", "url": "#" }, { "label": "GitHub", "url": "#" }]
+      "tags": [
+        "Vue",
+        "Firebase"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "Demo",
+          "url": "#"
+        },
+        {
+          "label": "GitHub",
+          "url": "#"
+        }
+      ]
     },
     {
-      "id": "habitpixel", "featured": false, "period": "2024.06 - 2024.09",
-      "title": { "ja": "HabitPixel", "en": "HabitPixel" },
-      "subtitle": { "ja": "ドット絵で育つ習慣トラッカー", "en": "A pixel-art habit tracker" },
+      "id": "habitpixel",
+      "featured": false,
+      "period": "2024.06 - 2024.09",
+      "title": {
+        "ja": "HabitPixel",
+        "en": "HabitPixel"
+      },
+      "subtitle": {
+        "ja": "ドット絵で育つ習慣トラッカー",
+        "en": "A pixel-art habit tracker"
+      },
       "description": {
         "ja": "習慣を継続するとキャラクターがドット絵で成長するトラッカーアプリ。個人開発。",
         "en": "A habit tracker where a pixel-art character grows as you keep your streak. Personal project."
       },
-      "tags": ["JavaScript", "Canvas API"], "image": "",
-      "links": [{ "label": "GitHub", "url": "#" }]
+      "tags": [
+        "JavaScript",
+        "Canvas API"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "#"
+        }
+      ]
     },
     {
-      "id": "weatherdash", "featured": false, "period": "2023.12 - 2024.02",
-      "title": { "ja": "WeatherDash", "en": "WeatherDash" },
-      "subtitle": { "ja": "シンプルな天気ダッシュボード", "en": "A minimal weather dashboard" },
+      "id": "weatherdash",
+      "featured": false,
+      "period": "2023.12 - 2024.02",
+      "title": {
+        "ja": "WeatherDash",
+        "en": "WeatherDash"
+      },
+      "subtitle": {
+        "ja": "シンプルな天気ダッシュボード",
+        "en": "A minimal weather dashboard"
+      },
       "description": {
         "ja": "外部APIを利用した軽量な天気表示アプリ。UI設計の練習として作成。",
         "en": "A lightweight weather app using a public API. Built as a UI design exercise."
       },
-      "tags": ["HTML", "CSS", "JavaScript"], "image": "",
-      "links": [{ "label": "GitHub", "url": "#" }]
+      "tags": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "#"
+        }
+      ]
     },
     {
-      "id": "studybuddy", "featured": false, "period": "2023.08 - 2023.10",
-      "title": { "ja": "StudyBuddy", "en": "StudyBuddy" },
-      "subtitle": { "ja": "ポモドーロ式 学習タイマー", "en": "A Pomodoro-style study timer" },
+      "id": "studybuddy",
+      "featured": false,
+      "period": "2023.08 - 2023.10",
+      "title": {
+        "ja": "StudyBuddy",
+        "en": "StudyBuddy"
+      },
+      "subtitle": {
+        "ja": "ポモドーロ式 学習タイマー",
+        "en": "A Pomodoro-style study timer"
+      },
       "description": {
         "ja": "初めて公開したWebアプリ。ポモドーロタイマーと学習ログ記録機能を実装。",
         "en": "My first published web app. A Pomodoro timer with a simple study log."
       },
-      "tags": ["JavaScript"], "image": "",
-      "links": [{ "label": "GitHub", "url": "#" }]
+      "tags": [
+        "JavaScript"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "#"
+        }
+      ]
     }
   ],
-
   "student": [
     {
-      "id": "festival-committee", "featured": true, "period": "2025.06 - 2025.11",
-      "title": { "ja": "学園祭実行委員会 Web担当", "en": "Campus Festival Committee — Web Lead" },
-      "subtitle": { "ja": "", "en": "" },
+      "id": "festival-committee",
+      "featured": true,
+      "period": "2025.06 - 2025.11",
+      "title": {
+        "ja": "学園祭実行委員会 Web担当",
+        "en": "Campus Festival Committee — Web Lead"
+      },
+      "subtitle": {
+        "ja": "",
+        "en": ""
+      },
       "description": {
         "ja": "学園祭公式サイトの制作と当日のタイムテーブル管理システムを担当。来場者アンケートで使いやすさ1位を獲得。",
         "en": "Built the official festival website and a same-day timetable system. Ranked #1 in visitor usability surveys."
       },
-      "tags": ["運営", "Web制作"], "image": "", "links": []
+      "tags": [
+        "運営",
+        "Web制作"
+      ],
+      "image": "",
+      "links": []
     },
     {
-      "id": "programming-circle", "featured": true, "period": "2024.04 - 2025.03",
-      "title": { "ja": "プログラミングサークル 部長", "en": "Programming Circle — President" },
-      "subtitle": { "ja": "", "en": "" },
+      "id": "programming-circle",
+      "featured": true,
+      "period": "2024.04 - 2025.03",
+      "title": {
+        "ja": "プログラミングサークル 部長",
+        "en": "Programming Circle — President"
+      },
+      "subtitle": {
+        "ja": "",
+        "en": ""
+      },
       "description": {
         "ja": "部員約20名のサークルを運営。週1回のハッカソン形式勉強会を企画し、初心者向け教材を整備。",
         "en": "Led a ~20-member coding club. Organized weekly hackathon-style study sessions and beginner materials."
       },
-      "tags": ["組織運営", "教育"], "image": "", "links": []
+      "tags": [
+        "組織運営",
+        "教育"
+      ],
+      "image": "",
+      "links": []
     },
     {
-      "id": "volunteer-tutor", "featured": false, "period": "2023.09 - 2024.08",
-      "title": { "ja": "地域学習支援ボランティア", "en": "Community Tutoring Volunteer" },
-      "subtitle": { "ja": "", "en": "" },
+      "id": "volunteer-tutor",
+      "featured": false,
+      "period": "2023.09 - 2024.08",
+      "title": {
+        "ja": "地域学習支援ボランティア",
+        "en": "Community Tutoring Volunteer"
+      },
+      "subtitle": {
+        "ja": "",
+        "en": ""
+      },
       "description": {
         "ja": "近隣の中学生を対象に、週末の学習支援ボランティアに参加。数学・プログラミング入門を担当。",
         "en": "Volunteered weekends tutoring local middle schoolers, focusing on math and intro programming."
       },
-      "tags": ["ボランティア"], "image": "", "links": []
+      "tags": [
+        "ボランティア"
+      ],
+      "image": "",
+      "links": []
     }
   ],
-
   "research": [
     {
-      "id": "distributed-systems", "featured": false, "period": "2025.04 -",
-      "title": { "ja": "分散システムにおける耐障害性の研究", "en": "Fault Tolerance in Distributed Systems" },
-      "subtitle": { "ja": "", "en": "" },
+      "id": "distributed-systems",
+      "featured": false,
+      "period": "2025.04 -",
+      "title": {
+        "ja": "分散システムにおける耐障害性の研究",
+        "en": "Fault Tolerance in Distributed Systems"
+      },
+      "subtitle": {
+        "ja": "",
+        "en": ""
+      },
       "description": {
         "ja": "卒業研究として、ノード障害時の自動復旧手法を提案。シミュレーション環境で既存手法と比較評価を実施中。",
         "en": "Undergraduate thesis proposing an auto-recovery method for node failures, evaluated against existing approaches in simulation."
       },
-      "tags": ["分散システム", "卒業研究", "進行中"], "image": "",
-      "links": [{ "label": "Slides", "url": "#" }]
+      "tags": [
+        "分散システム",
+        "卒業研究",
+        "進行中"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "Slides",
+          "url": "#"
+        }
+      ]
     },
     {
-      "id": "conference-talk", "featured": false, "period": "2025.12",
-      "title": { "ja": "学生研究発表会 口頭発表", "en": "Student Research Symposium — Oral Presentation" },
-      "subtitle": { "ja": "", "en": "" },
+      "id": "conference-talk",
+      "featured": false,
+      "period": "2025.12",
+      "title": {
+        "ja": "学生研究発表会 口頭発表",
+        "en": "Student Research Symposium — Oral Presentation"
+      },
+      "subtitle": {
+        "ja": "",
+        "en": ""
+      },
       "description": {
         "ja": "学内の研究発表会にて、分散システムの中間成果を発表。優秀発表賞を受賞。",
         "en": "Presented interim results on distributed systems research at the in-house symposium. Won Best Presentation."
       },
-      "tags": ["学会発表"], "image": "",
-      "links": [{ "label": "Paper", "url": "#" }]
+      "tags": [
+        "学会発表"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "Paper",
+          "url": "#"
+        }
+      ]
     }
   ],
-
   "contact": [
-    { "label": "GitHub", "sub": "github.com/yourname", "url": "https://github.com/yourname" },
-    { "label": "Email", "sub": "you@example.com", "url": "mailto:you@example.com" },
-    { "label": "X", "sub": "@yourname", "url": "https://x.com/yourname" }
+    {
+      "label": "GitHub",
+      "sub": "github.com/yourname",
+      "url": "https://github.com/yourname"
+    },
+    {
+      "label": "Email",
+      "sub": "you@example.com",
+      "url": "mailto:you@example.com"
+    },
+    {
+      "label": "X",
+      "sub": "@yourname",
+      "url": "https://x.com/yourname"
+    }
   ]
 }
