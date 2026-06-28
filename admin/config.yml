@@ -1,0 +1,126 @@
+# ─────────────────────────────────────────────────────────────
+#  Sveltia CMS 設定（/admin）
+#  「公開」(Publish) = data/portfolio.json を GitHub に直 commit
+#   → Cloudflare Pages が自動デプロイ → サイトに反映。
+#
+#  ※ GitHub 認証には OAuth Worker が必要です（一度だけ設定）。
+#     下の base_url を、デプロイした sveltia-cms-auth Worker の URL に置き換えてください。
+#     手順は README.md「Sveltia CMS のセットアップ」を参照。
+# ─────────────────────────────────────────────────────────────
+
+backend:
+  name: github
+  repo: Ryo-Shihakata/5hkt.com
+  branch: main
+  base_url: https://YOUR-OAUTH-WORKER.example.workers.dev   # ← 要置換（OAuth Worker の URL）
+
+site_url: https://5hkt.com
+display_url: https://5hkt.com
+
+# 画像アップロード先（site の絶対パスで参照）
+media_folder: assets/uploads
+public_folder: /assets/uploads
+
+# 管理画面の言語
+locale: ja
+
+collections:
+  - name: portfolio
+    label: ポートフォリオ
+    files:
+      - name: data
+        label: サイトコンテンツ
+        file: data/portfolio.json
+        description: 編集して「公開（Publish）」を押すと、そのまま本番サイトに反映されます。
+        fields:
+          # ── プロフィール ──────────────────────────────
+          - name: profile
+            label: プロフィール
+            widget: object
+            fields:
+              - { name: name, label: 名前, widget: object, fields: [
+                    { name: ja, label: 日本語, widget: string },
+                    { name: en, label: English, widget: string, required: false } ] }
+              - { name: role, label: 肩書, widget: object, fields: [
+                    { name: ja, label: 日本語, widget: string, required: false },
+                    { name: en, label: English, widget: string, required: false } ] }
+              - { name: bio, label: 紹介文, widget: object, fields: [
+                    { name: ja, label: 日本語, widget: text, required: false },
+                    { name: en, label: English, widget: text, required: false } ] }
+              - name: links
+                label: プロフィールのリンク
+                widget: list
+                required: false
+                fields:
+                  - { name: label, label: ラベル, widget: string }
+                  - { name: url, label: URL, widget: string }
+
+          # ── 実績バッジ ────────────────────────────────
+          - name: highlights
+            label: 実績バッジ
+            widget: list
+            required: false
+            label_singular: バッジ
+            summary: '{{fields.value}} — {{fields.label.ja}}'
+            fields:
+              - { name: value, label: 数値, widget: string }
+              - { name: label, label: ラベル, widget: object, fields: [
+                    { name: ja, label: 日本語, widget: string },
+                    { name: en, label: English, widget: string, required: false } ] }
+
+          # ── 作成Webアプリ（/works に全件表示） ────────
+          - name: webapps
+            label: 作成Webアプリ
+            widget: list
+            label_singular: アプリ
+            summary: '{{fields.title.ja}}'
+            fields: &item_fields
+              - { name: id, label: ID（英数字・一意）, widget: string }
+              - { name: featured, label: PICK UP（トップの抜粋に表示）, widget: boolean, default: false }
+              - { name: period, label: 期間, widget: string, required: false }
+              - { name: title, label: タイトル, widget: object, fields: [
+                    { name: ja, label: 日本語, widget: string },
+                    { name: en, label: English, widget: string, required: false } ] }
+              - { name: subtitle, label: サブタイトル, widget: object, required: false, fields: [
+                    { name: ja, label: 日本語, widget: string, required: false },
+                    { name: en, label: English, widget: string, required: false } ] }
+              - { name: description, label: 説明, widget: object, fields: [
+                    { name: ja, label: 日本語, widget: text, required: false },
+                    { name: en, label: English, widget: text, required: false } ] }
+              - { name: tags, label: タグ, widget: list, required: false, field: { name: tag, label: タグ, widget: string } }
+              - { name: image, label: 画像（任意）, widget: image, required: false }
+              - name: links
+                label: リンク
+                widget: list
+                required: false
+                fields:
+                  - { name: label, label: ラベル, widget: string }
+                  - { name: url, label: URL, widget: string }
+
+          # ── 学生活動（webapps と同じ項目構成） ────────
+          - name: student
+            label: 学生活動
+            widget: list
+            label_singular: 活動
+            summary: '{{fields.title.ja}}'
+            fields: *item_fields
+
+          # ── 研究活動（webapps と同じ項目構成） ────────
+          - name: research
+            label: 研究活動
+            widget: list
+            label_singular: 研究
+            summary: '{{fields.title.ja}}'
+            fields: *item_fields
+
+          # ── 連絡先 ────────────────────────────────────
+          - name: contact
+            label: 連絡先
+            widget: list
+            required: false
+            label_singular: 連絡先
+            summary: '{{fields.label}}'
+            fields:
+              - { name: label, label: ラベル, widget: string }
+              - { name: sub, label: サブ表示, widget: string, required: false }
+              - { name: url, label: URL, widget: string }

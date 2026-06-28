@@ -1,7 +1,7 @@
 # 5HKT — ピクセル・ポートフォリオサイト
 
 ドット絵／ピクセル調の個人ポートフォリオ（1ページ静的サイト）。
-プロフィール・作成Webアプリ・学生活動・研究活動・連絡先を、日英切替／ダークモード自動追従／タイムライン切替／HEROピクセルアニメ／簡易CMS付きで掲載します。
+プロフィール・作成Webアプリ・学生活動・研究活動・連絡先を、日英切替／ダークモード自動追従／タイムライン切替／HEROピクセルアニメ付きで掲載。作成Webアプリは `/works` で全件一覧、編集は **Sveltia CMS（GitHub連携・1クリック公開）** で行います。
 
 **ビルド不要・フレームワーク不使用（Vanilla HTML/CSS/JS）。** ES Modules を使うため、ローカル確認時は簡易HTTPサーバ経由で開いてください（`file://` 直開きでは module が読めません）。
 
@@ -9,15 +9,24 @@
 
 ```
 5hkt.com/
-├── index.html              # ページ骨格 + module 読み込み
+├── index.html              # トップ（抜粋＋タイムライン）
+├── works/
+│   └── index.html          # /works — 作成Webアプリの全件一覧
+├── data/
+│   └── portfolio.json      # コンテンツ単一ソース（Sveltia CMS が編集）
+├── admin/
+│   ├── index.html          # Sveltia CMS（/admin）
+│   └── config.yml          # CMS 設定（編集対象・GitHub連携）
 ├── css/
 │   └── style.css           # Design Tokens（light/dark）+ 全コンポーネント
 ├── js/
-│   ├── portfolio-data.js   # コンテンツ単一ソース + localStorage ストア
-│   ├── main.js             # レンダリング / i18n / ダーク / スクロールスパイ / タイムライン / HEROキャンバス
-│   └── cms.js              # 簡易CMS ドロワー（GUI編集 + JSON入出力）
+│   ├── portfolio-data.js   # store：data/portfolio.json を fetch する単一ソース層
+│   ├── render.js           # 共有レンダリング ヘルパ（トップ / works 共用）
+│   ├── main.js             # トップのレンダリング / i18n / ダーク / スパイ / タイムライン / HEROキャンバス
+│   └── works.js            # /works のレンダリング（全件 + タグ絞り込み）
 ├── assets/
-│   └── fonts/              # セルフホスト woff2（Press Start 2P / VT323 / DotGothic16 ×2）
+│   ├── fonts/              # セルフホスト woff2（Press Start 2P / VT323 / DotGothic16 ×2）
+│   └── uploads/            # CMS からの画像アップロード先
 ├── _headers                # Cloudflare Pages セキュリティヘッダー
 ├── _redirects              # Cloudflare Pages リダイレクト設定
 └── README.md
@@ -42,28 +51,42 @@ npx serve .
 
 ## コンテンツの編集方法
 
-### A. サイト上の簡易CMSで編集（非エンジニア向け）
+コンテンツの単一ソースは **`data/portfolio.json`** です。トップ・`/works` の両方がこれを読み込みます。
 
-CMS は**一般訪問者には表示されません**。オーナーは URL に `?edit` を付けてアクセスします:
-`https://5hkt.com/?edit`（解除は `?edit=off`）。詳細は [DESIGN.md](DESIGN.md#簡易cms-とアクセス制限jscmsjs)。
+### A. Sveltia CMS で編集（推奨・非エンジニア向け）
 
-1. `?edit` 付きで開き、サイト右下の **「✎ 編集」** ボタンを押すとドロワーが開く
-2. プロフィール／実績バッジ／各セクション項目／連絡先を編集（**自動で localStorage に保存**）
-3. 項目は **追加・並べ替え（↑↓）・削除・PICK UP 切替** が可能
-4. **「⬇ JSON書出」** で `portfolio.json` をダウンロード
-5. ダウンロードした内容を `js/portfolio-data.js` の `DEFAULTS` に反映して commit すれば、全員に公開されます
-   - （別端末で `「⬆ JSON読込」`すれば編集状態を復元できます）
+`https://5hkt.com/admin/` を開き、GitHub でログイン → GUI で編集 → **「公開（Publish）」** を押すと、
+`data/portfolio.json` が GitHub に commit され、Cloudflare Pages が自動デプロイして本番に反映されます。**手動 commit は不要**です。
 
-> CMS の編集は閲覧中ブラウザの localStorage に保存される“下書き”です。**全公開するには JSON を書き出して `portfolio-data.js` に反映 → commit** してください。
+- 編集できる内容: プロフィール / 実績バッジ / 作成Webアプリ / 学生活動 / 研究活動 / 連絡先
+- 各項目は **追加・並べ替え・削除・PICK UP（featured）切替**・画像アップロードが可能
+
+> 初回のみ GitHub 認証用の OAuth Worker のセットアップが必要です（下記）。
 
 ### B. コードで直接編集（エンジニア向け）
 
-`js/portfolio-data.js` の `DEFAULTS` を編集。各項目のフィールド:
+`data/portfolio.json` を直接編集して commit。各項目のフィールド:
 
-```js
-{ id, featured, title:{ja,en}, subtitle:{ja,en}, description:{ja,en},
-  period, tags:[], image, links:[{label,url}] }
+```json
+{ "id": "", "featured": false, "title": {"ja":"","en":""}, "subtitle": {"ja":"","en":""},
+  "description": {"ja":"","en":""}, "period": "", "tags": [], "image": "", "links": [{"label":"","url":""}] }
 ```
+
+---
+
+## Sveltia CMS のセットアップ（GitHub 認証 / 初回のみ）
+
+Sveltia CMS が GitHub に commit するには OAuth が必要です。Cloudflare に公式の認証 Worker を一度だけ用意します。
+
+1. **GitHub OAuth App を作成**: GitHub → Settings → Developer settings → **OAuth Apps** → New
+   - Authorization callback URL: `https://<あなたのWorker>.workers.dev/callback`
+   - 発行された **Client ID / Client Secret** を控える
+2. **認証 Worker をデプロイ**: [`sveltia/sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth) を Cloudflare Workers にデプロイし、
+   環境変数に `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`（必要に応じて `ALLOWED_DOMAINS=5hkt.com`）を設定
+3. **config.yml を更新**: [admin/config.yml](admin/config.yml) の `backend.base_url` を、デプロイした Worker の URL に置き換えて commit
+4. `https://5hkt.com/admin/` を開き「Login with GitHub」→ 編集 → Publish で公開完了
+
+> `_headers` の `X-Frame-Options: DENY` のままで動作します（認証はポップアップ方式）。
 
 ### サイト設定（HEROアニメ・アクセント色など）
 

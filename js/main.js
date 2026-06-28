@@ -3,6 +3,7 @@
 //  i18n / ダーク（OS追従）/ スクロールスパイ / タイムライン切替 / HEROキャンバス
 // ─────────────────────────────────────────────────────────────
 import { store } from './portfolio-data.js';
+import { esc, L as Lof, resolve, tagsHTML, linksHTML, appCardHTML } from './render.js';
 
 // ─── サイト設定（必要に応じてここを編集） ──────────────────────
 const CONFIG = {
@@ -23,10 +24,8 @@ const state = {
 try { const s = localStorage.getItem('pf_lang'); if (s === 'ja' || s === 'en') state.lang = s; } catch (e) {}
 
 // ─── ヘルパ ───────────────────────────────────────────────────
-const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => (
-  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
-));
-const L = (o) => (o && typeof o === 'object' && 'ja' in o) ? (o[state.lang] ?? o.ja) : (o ?? '');
+// esc / resolve / tagsHTML / linksHTML / appCardHTML は render.js から import
+const L = (o) => Lof(o, state.lang);
 const $ = (id) => document.getElementById(id);
 
 function i18n(ja) {
@@ -39,42 +38,15 @@ function i18n(ja) {
     pickup: 'PICK UP', noimage: 'No Image',
     viewTimeline: ja ? '▸ 全履歴をタイムラインで見る' : '▸ View Full Timeline',
     backFeatured: ja ? '◂ 抜粋表示にもどる' : '◂ Back to Highlights',
+    viewAllWorks: ja ? '▸ すべての作品を一覧で見る（/works）' : '▸ View all works (/works)',
     footer: ja ? 'このサイトは静的HTML / CSS / JSのみで構築されています。' : 'Built with plain HTML, CSS, and JavaScript.',
   };
 }
 
-// ─── アイテム解決 ─────────────────────────────────────────────
-function resolve(it, t) {
-  return {
-    id: it.id, featured: !!it.featured, period: it.period,
-    title: L(it.title), subtitle: L(it.subtitle), description: L(it.description),
-    image: it.image || '', noimage: t.noimage,
-    tags: it.tags || [],
-    links: (it.links || []).map((l) => ({ label: l.label, url: l.url })),
-  };
-}
-
-// ─── 部分テンプレート ─────────────────────────────────────────
-const tagsHTML = (tags, extra = '') => `<div class="pf-tags${extra}">${tags.map((tg) => `<span class="pf-tag">${esc(tg)}</span>`).join('')}</div>`;
-const linksHTML = (links, cls) => links.map((l) => `<a class="pf-btn ${cls}" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join('');
+// ─── 部分テンプレート（このページ専用。共有分は render.js） ────
 const cardImgHTML = (it) => it.image
-  ? `<div class="pf-card-img"><img src="${esc(it.image)}" alt="${esc(it.title)}"></div>`
+  ? `<div class="pf-card-img"><img src="${esc(it.image)}" alt="${esc(it.title)}" loading="lazy" decoding="async"></div>`
   : `<div class="pf-card-img"><span class="pf-card-noimg">${esc(it.noimage)}</span></div>`;
-
-function appCardHTML(it, t) {
-  return `<article class="pf-card">
-    ${cardImgHTML(it)}
-    <div class="pf-card-body">
-      ${it.featured ? `<span class="pf-pickup">${esc(t.pickup)}</span>` : ''}
-      <span class="pf-period">${esc(it.period)}</span>
-      <h3 class="pf-card-title">${esc(it.title)}</h3>
-      ${it.subtitle ? `<p class="pf-card-sub">${esc(it.subtitle)}</p>` : ''}
-      <p class="pf-card-desc">${esc(it.description)}</p>
-      ${tagsHTML(it.tags)}
-      ${it.links.length ? `<div class="pf-card-links">${linksHTML(it.links, 'pf-btn-sm')}</div>` : ''}
-    </div>
-  </article>`;
-}
 
 function studCardHTML(it, t) {
   return `<article class="pf-card">
@@ -153,16 +125,17 @@ function render() {
   $('pf-highlights').innerHTML = (CONFIG.showHighlights && highlights.length)
     ? `<div class="pf-highlights">${highlights.map((h) => `<div class="pf-badge"><span class="pf-badge-val">${esc(h.value)}</span><span class="pf-badge-lb">${esc(h.label)}</span></div>`).join('')}</div>`
     : '';
-  const webapps = (d.webapps || []).map((it) => resolve(it, t));
+  const webapps = (d.webapps || []).map((it) => resolve(it, state.lang, t));
   $('pf-apps-body').innerHTML = state.appsView === 'timeline'
     ? timelineHTML(webapps, t)
     : `<div class="pf-grid">${webapps.filter((a) => a.featured).map((a) => appCardHTML(a, t)).join('')}</div>`;
   $('pf-apps-toggle').textContent = state.appsView === 'timeline' ? t.backFeatured : t.viewTimeline;
+  $('pf-apps-all').textContent = t.viewAllWorks;
 
   // STUDENT
   $('pf-stud-title').textContent = t.student.title;
   $('pf-stud-lead').textContent = t.student.lead;
-  const student = (d.student || []).map((it) => resolve(it, t));
+  const student = (d.student || []).map((it) => resolve(it, state.lang, t));
   $('pf-stud-body').innerHTML = state.studView === 'timeline'
     ? timelineHTML(student, t)
     : `<div class="pf-grid">${student.filter((a) => a.featured).map((a) => studCardHTML(a, t)).join('')}</div>`;
@@ -171,7 +144,7 @@ function render() {
   // RESEARCH
   $('pf-research-title').textContent = t.research.title;
   $('pf-research-lead').textContent = t.research.lead;
-  $('pf-research-body').innerHTML = (d.research || []).map((it) => researchCardHTML(resolve(it, t))).join('');
+  $('pf-research-body').innerHTML = (d.research || []).map((it) => researchCardHTML(resolve(it, state.lang, t))).join('');
 
   // CONTACT
   $('pf-contact-title').textContent = t.contact.title;
@@ -285,10 +258,11 @@ function startHero() {
 }
 
 // ─── 初期化 ───────────────────────────────────────────────────
-function init() {
+async function init() {
   applyTheme();
-  render();
   store.subscribe(render);
+  render();              // スケルトン即描画（フォント/レイアウトのちらつき軽減）
+  await store.load();    // data/portfolio.json 取得 → subscribe 経由で再描画
 
   $('pf-lang').addEventListener('click', () => {
     state.lang = state.lang === 'ja' ? 'en' : 'ja';

@@ -17,8 +17,8 @@ body{margin:0}
 
 /* ─── Tokens (light) ────────────────────────────────────────── */
 .pf-root{
-  --bg:#cce4ff;--panel:#ffffff;--ink:#0d2540;--soft:#4a6a8f;--border:#0d2540;--brand:#003672;
-  --accent:#003672;--accent-ink:#ffffff;--badge:#f2d579;--period:#79b2f2;--checker-a:#79b2f2;--checker-b:#cce4ff;
+  --bg:#eef4fc;--panel:#ffffff;--ink:#0d2540;--soft:#4a6a8f;--border:#0d2540;--brand:#003672;
+  --accent:#003672;--accent-ink:#ffffff;--badge:#f2d579;--period:#79b2f2;--checker-a:#79b2f2;--checker-b:#eef4fc;
   --dot:rgba(13,37,64,0.13);
   --checker:linear-gradient(45deg,var(--checker-a) 25%,transparent 25%),linear-gradient(-45deg,var(--checker-a) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,var(--checker-a) 75%),linear-gradient(-45deg,transparent 75%,var(--checker-a) 75%);
   --fdisp:'DotGothic16',monospace;--fbody:'DotGothic16',monospace;--fpix:'Press Start 2P','DotGothic16',monospace;
@@ -154,6 +154,22 @@ html[data-lang="en"] .pf-root{
 
 .pf-hidden{display:none !important}
 
+/* トグル列の二次リンク（トップ→/works 導線など） */
+.pf-toggle-link{display:inline-block;margin-top:.9rem;font-family:var(--fpix);font-size:.6rem;letter-spacing:1px;color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent)}
+.pf-toggle-link:hover{background:var(--accent);color:var(--accent-ink)}
+
+/* ═══ WORKS（成果物一覧ページ /works） ═════════════════════ */
+/* フィルタチップ */
+.pf-filter{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 1.6rem}
+.pf-filter-chip{font-family:var(--fdisp);font-size:.9rem;color:var(--ink);background:var(--panel);border:2px solid var(--border);box-shadow:2px 2px 0 var(--border);padding:.35em .8em;cursor:pointer}
+.pf-filter-chip:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--border)}
+.pf-filter-chip.pf-on{color:var(--accent-ink);background:var(--accent)}
+.pf-works-count{color:var(--soft);font-size:1rem;margin:0 0 1.2rem}
+/* 密グリッド + 画面外カードのレンダリングをスキップ（大量表示でも軽量） */
+.pf-works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+.pf-works-grid .pf-card{content-visibility:auto;contain-intrinsic-size:auto 360px}
+.pf-works-empty{color:var(--soft);font-size:1.1rem;padding:2rem 0}
+
 /* ═══ RESPONSIVE ════════════════════════════════════════════ */
 /* タブレット以下: ヘッダーを縦に整理、グリッド幅を緩める */
 @media (max-width: 760px){
@@ -176,6 +192,7 @@ html[data-lang="en"] .pf-root{
   .pf-bio{font-size:1.15rem}
   .pf-role{font-size:1.15rem}
   .pf-grid{grid-template-columns:1fr;gap:1.25rem}
+  .pf-works-grid{grid-template-columns:1fr;gap:1.25rem}
   .pf-highlights{grid-template-columns:repeat(2,1fr)}
   .pf-research-card{grid-template-columns:1fr}
   .pf-research-period{border-right:none;border-bottom:3px solid var(--border);font-size:.55rem}
