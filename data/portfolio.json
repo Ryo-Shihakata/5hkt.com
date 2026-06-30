@@ -49,7 +49,7 @@
   "webapps": [
     {
       "id": "Links-Page",
-      "featured": true,
+      "featured": false,
       "period": "2026.05-2026.06",
       "title": {
         "ja": "Links-Page",
