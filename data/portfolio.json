@@ -18,14 +18,14 @@
         "url": "https://github.com/Ryo-Shihakata"
       },
       {
-        "label": "Email",
-        "url": "mailto:you@example.com"
+        "label": "X",
+        "url": "https:/x.com/Ryo_Shihakata"
       }
     ]
   },
   "highlights": [
     {
-      "value": "5",
+      "value": "3",
       "label": {
         "ja": "公開アプリ",
         "en": "Published Apps"
@@ -39,14 +39,7 @@
       }
     },
     {
-      "value": "3",
-      "label": {
-        "ja": "チーム開発",
-        "en": "Team Projects"
-      }
-    },
-    {
-      "value": "2023-",
+      "value": "2025-",
       "label": {
         "ja": "活動期間",
         "en": "Active Since"
@@ -102,7 +95,7 @@
         "Workers",
         "Pages"
       ],
-      "image": "/assets/uploads/スクリーンショット 2026-06-30 193831.png",
+      "image": "/assets/uploads/スクリーンショット 2026-06-30 193723.png",
       "links": [
         {
           "label": "GitHub",
@@ -140,20 +133,20 @@
   ],
   "student": [
     {
-      "id": "Student-committee",
-      "featured": true,
-      "period": "2025.04 -",
+      "id": "coming soon...",
+      "featured": false,
+      "period": "",
       "title": {
-        "ja": "生徒会",
-        "en": "Student-committee"
+        "ja": "coming soon...",
+        "en": "coming soon..."
       },
       "subtitle": null,
       "description": {
-        "ja": "生徒会執行部として活動。\n学校行事等の運営を担当。",
-        "en": "Served as a member of the Student Council Executive Committee, helping organize and manage school events and other student activities."
+        "ja": "coming soon...",
+        "en": "coming soon..."
       },
       "tags": [
-        "生徒会"
+        "soon"
       ],
       "image": "",
       "links": []
