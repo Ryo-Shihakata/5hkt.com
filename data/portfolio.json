@@ -10,7 +10,7 @@
     },
     "bio": {
       "ja": "個人開発でWebアプリをいくつか公開しています。",
-      "en": "A few personal web projects on the side."
+      "en": "I have published several web applications as personal projects."
     },
     "links": [
       {
@@ -55,119 +55,105 @@
   ],
   "webapps": [
     {
-      "id": "LinkBOX",
+      "id": "Links-Page",
       "featured": true,
-      "period": "2026.05-2026.07",
+      "period": "2026.05-2026.06",
       "title": {
-        "ja": "LinkBOX",
-        "en": "Share Link App"
+        "ja": "Links-Page",
+        "en": "Links-Page"
       },
       "subtitle": {
-        "ja": "生徒会内のリンク共有アプリ",
-        "en": "share-app"
+        "ja": "PWA対応の個人リンクサイト",
+        "en": "A PWA-enabled personal link hub"
       },
       "description": {
         "ja": "PWA対応のリンク共有アプリ\nネイティブアプリを導入できない学校端末でPWA非対応のアプリを快適に使うために作成",
-        "en": "atode"
+        "en": "Developed a PWA-enabled link sharing app to make non-PWA web applications easier and more convenient to use on school-managed devices where native apps cannot be installed."
       },
       "tags": [
         "PWA",
-        "Cloudflare"
+        "Workers"
       ],
-      "image": "",
-      "links": []
+      "image": "/assets/uploads/スクリーンショット 2026-06-30 193831.png",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/links-page"
+        }
+      ]
     },
     {
       "id": "Calender-Signage",
       "featured": true,
       "period": "2026.02 - 2026.06",
       "title": {
-        "ja": "Calender-Signage",
+        "ja": "カレンダーサイネージ",
         "en": "Calender-Signage"
       },
       "subtitle": {
-        "ja": "カレンダーサイネージ共有システム",
-        "en": ""
+        "ja": "生徒会内カレンダー共有システム",
+        "en": "Shared Calendar System for the Student Council"
       },
       "description": {
-        "ja": "Googleカレンダー等のiCal形式で取得できるサイトからCloudflareWorkerで取得し、共有リンクを作成することで簡単にカレンダーが共有できるアプリ",
-        "en": "atode"
+        "ja": "Googleカレンダー等のiCal形式で取得できるサイトからWorkersで取得し、複数プロファイルを作成し、共有リンクを作成することで簡単にカレンダーが共有できるアプリ",
+        "en": "An application that uses Cloudflare Workers to retrieve iCalendar (iCal) feeds from services such as Google Calendar, supports multiple calendar profiles, and makes it easy to share calendars through shareable links."
       },
-      "tags": [],
-      "image": "",
+      "tags": [
+        "Workers",
+        "Pages"
+      ],
+      "image": "/assets/uploads/スクリーンショット 2026-06-30 193831.png",
       "links": [
         {
           "label": "GitHub",
           "url": "https://github.com/Ryo-Shihakata/Calendar-Signage"
         }
       ]
+    },
+    {
+      "id": "Claude-Usage-Widget-Win",
+      "featured": true,
+      "period": "2026.06",
+      "title": {
+        "ja": "Claude使用量ウィジェット(Win)",
+        "en": "Claude Usage Widget (Windows)"
+      },
+      "subtitle": {
+        "ja": "利用枠を常時表示するElectronアプリ",
+        "en": "An Electron app that continuously displays your Claude usage quota."
+      },
+      "description": {
+        "ja": "画面の片隅で「あと5時間枠・週間枠をどれだけ使えるか／今日どれだけ使ったか」をフローティングウィジェットで一目で確認できます。\nClaude Code のターミナル風（暖色ダーク＋コーラル）デザイン。",
+        "en": "A lightweight floating desktop widget for Windows, built with Electron, that continuously displays your Claude Code usage. It provides an at-a-glance view of your remaining 5-hour and weekly usage quotas, as well as your usage for the current day.\nThe interface is inspired by Claude Code's terminal aesthetic, featuring a warm dark theme accented with coral colors for a clean and familiar experience."
+      },
+      "tags": [
+        "Electron"
+      ],
+      "image": "/assets/uploads/スクリーンショット 2026-06-30 193936.png",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/Claude-Usage-Widget-Win"
+        }
+      ]
     }
   ],
   "student": [
     {
-      "id": "festival-committee",
+      "id": "Student-committee",
       "featured": true,
-      "period": "2025.06 - 2025.11",
+      "period": "2025.04 -",
       "title": {
-        "ja": "学園祭実行委員会 Web担当",
-        "en": "Campus Festival Committee — Web Lead"
+        "ja": "生徒会",
+        "en": "Student-committee"
       },
-      "subtitle": {
-        "ja": "",
-        "en": ""
-      },
+      "subtitle": null,
       "description": {
-        "ja": "学園祭公式サイトの制作と当日のタイムテーブル管理システムを担当。来場者アンケートで使いやすさ1位を獲得。",
-        "en": "Built the official festival website and a same-day timetable system. Ranked #1 in visitor usability surveys."
+        "ja": "生徒会執行部として活動。\n学校行事等の運営を担当。",
+        "en": "Served as a member of the Student Council Executive Committee, helping organize and manage school events and other student activities."
       },
       "tags": [
-        "運営",
-        "Web制作"
-      ],
-      "image": "",
-      "links": []
-    },
-    {
-      "id": "programming-circle",
-      "featured": true,
-      "period": "2024.04 - 2025.03",
-      "title": {
-        "ja": "プログラミングサークル 部長",
-        "en": "Programming Circle — President"
-      },
-      "subtitle": {
-        "ja": "",
-        "en": ""
-      },
-      "description": {
-        "ja": "部員約20名のサークルを運営。週1回のハッカソン形式勉強会を企画し、初心者向け教材を整備。",
-        "en": "Led a ~20-member coding club. Organized weekly hackathon-style study sessions and beginner materials."
-      },
-      "tags": [
-        "組織運営",
-        "教育"
-      ],
-      "image": "",
-      "links": []
-    },
-    {
-      "id": "volunteer-tutor",
-      "featured": false,
-      "period": "2023.09 - 2024.08",
-      "title": {
-        "ja": "地域学習支援ボランティア",
-        "en": "Community Tutoring Volunteer"
-      },
-      "subtitle": {
-        "ja": "",
-        "en": ""
-      },
-      "description": {
-        "ja": "近隣の中学生を対象に、週末の学習支援ボランティアに参加。数学・プログラミング入門を担当。",
-        "en": "Volunteered weekends tutoring local middle schoolers, focusing on math and intro programming."
-      },
-      "tags": [
-        "ボランティア"
+        "生徒会"
       ],
       "image": "",
       "links": []
@@ -175,77 +161,38 @@
   ],
   "research": [
     {
-      "id": "distributed-systems",
+      "id": "coming soon",
       "featured": false,
-      "period": "2025.04 -",
+      "period": "",
       "title": {
-        "ja": "分散システムにおける耐障害性の研究",
-        "en": "Fault Tolerance in Distributed Systems"
+        "ja": "coming soon...",
+        "en": "coming soon..."
       },
-      "subtitle": {
-        "ja": "",
-        "en": ""
-      },
+      "subtitle": null,
       "description": {
-        "ja": "卒業研究として、ノード障害時の自動復旧手法を提案。シミュレーション環境で既存手法と比較評価を実施中。",
-        "en": "Undergraduate thesis proposing an auto-recovery method for node failures, evaluated against existing approaches in simulation."
+        "ja": "coming soon...",
+        "en": "coming soon..."
       },
-      "tags": [
-        "分散システム",
-        "卒業研究",
-        "進行中"
-      ],
+      "tags": [],
       "image": "",
-      "links": [
-        {
-          "label": "Slides",
-          "url": "#"
-        }
-      ]
-    },
-    {
-      "id": "conference-talk",
-      "featured": false,
-      "period": "2025.12",
-      "title": {
-        "ja": "学生研究発表会 口頭発表",
-        "en": "Student Research Symposium — Oral Presentation"
-      },
-      "subtitle": {
-        "ja": "",
-        "en": ""
-      },
-      "description": {
-        "ja": "学内の研究発表会にて、分散システムの中間成果を発表。優秀発表賞を受賞。",
-        "en": "Presented interim results on distributed systems research at the in-house symposium. Won Best Presentation."
-      },
-      "tags": [
-        "学会発表"
-      ],
-      "image": "",
-      "links": [
-        {
-          "label": "Paper",
-          "url": "#"
-        }
-      ]
+      "links": []
     }
   ],
   "contact": [
     {
       "label": "GitHub",
-      "sub": "github.com/yourname",
-      "url": "https://github.com/yourname"
-    },
-    {
-      "label": "Email",
-      "sub": "you@example.com",
-      "url": "mailto:you@example.com"
+      "sub": "@Ryo-Shihakata",
+      "url": "https://github.com/Ryo-Shihakata"
     },
     {
       "label": "X",
-      "sub": "@yourname",
-      "url": "https://x.com/yourname"
+      "sub": "@Ryo_Shihakata",
+      "url": "https://x.com/Ryo_Shihakata"
+    },
+    {
+      "label": "_",
+      "sub": "you@example.com",
+      "url": "mailto:you@example.com"
     }
   ]
 }
