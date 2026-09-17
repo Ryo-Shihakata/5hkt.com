@@ -25,17 +25,10 @@
   },
   "highlights": [
     {
-      "value": "3",
+      "value": "7",
       "label": {
-        "ja": "公開アプリ",
-        "en": "Published Apps"
-      }
-    },
-    {
-      "value": "5",
-      "label": {
-        "ja": "非公開アプリ",
-        "en": "Non-Published Apps"
+        "ja": "制作アプリ",
+        "en": "Web Apps"
       }
     },
     {
@@ -129,6 +122,102 @@
           "url": "https://github.com/Ryo-Shihakata/Claude-Usage-Widget-Win"
         }
       ]
+    },
+    {
+      "id": "markdown-vault",
+      "featured": true,
+      "period": "2026.08 - 2026.09",
+      "title": {
+        "ja": "Markdown Vault",
+        "en": "Markdown Vault"
+      },
+      "subtitle": {
+        "ja": "GitHub と同期する個人用Markdown書庫",
+        "en": "A personal Markdown library synced with GitHub"
+      },
+      "description": {
+        "ja": "GitHubリポジトリ上のMarkdownを取り込み、ブラウザから読める書庫にするアプリ。\n折りたたみ式のフォルダツリー、本文の全文検索、frontmatterのタグ・日付による並べ替えに対応。認証はゼロトラスト方式で保護しています。",
+        "en": "A web app that ingests Markdown from a GitHub repository and turns it into a browsable library.\nIt offers a collapsible folder tree, full-text search across document bodies, and sorting by frontmatter tags and dates, all behind zero-trust authentication."
+      },
+      "tags": [
+        "Workers",
+        "Zero Trust",
+        "Markdown"
+      ],
+      "image": "",
+      "links": []
+    },
+    {
+      "id": "mosaic-palette",
+      "featured": true,
+      "period": "2026.09",
+      "title": {
+        "ja": "mosaic-palette",
+        "en": "mosaic-palette"
+      },
+      "subtitle": {
+        "ja": "モザイクアート向けの写真カラーマネージャ",
+        "en": "A photo color manager for mosaic art"
+      },
+      "description": {
+        "ja": "モザイクアート制作のために、1,000〜10,000枚規模の写真の色を解析して分類・管理するアプリ。\n色別の一覧、不足している色の可視化、下絵への自動配置、写真の追加・除外の管理に対応。複数人が同じデータをPCとタブレットの両方から同時に扱えます。",
+        "en": "An app that analyzes and organizes the colors of 1,000 to 10,000 photos for building mosaic art.\nIt supports browsing by color, spotting which colors are missing, automatic placement onto a reference image, and managing which photos are included. Several people can work on the same data at once, from both desktop and tablet."
+      },
+      "tags": [
+        "Workers",
+        "D1",
+        "R2"
+      ],
+      "image": "",
+      "links": []
+    },
+    {
+      "id": "sns-follower-tracker",
+      "featured": true,
+      "period": "2026.07 - 2026.09",
+      "title": {
+        "ja": "SNSフォロワー推移トラッカー",
+        "en": "SNS Follower Tracker"
+      },
+      "subtitle": {
+        "ja": "フォロワー数を自動記録し推移を可視化",
+        "en": "Automatically records follower counts and charts their trends"
+      },
+      "description": {
+        "ja": "指定したSNSアカウントのフォロワー数を定期取得してデータベースに蓄積し、推移をダッシュボードで可視化するアプリ。\n日次・週次・月次のレポートをPDFとして出力でき、取得が失敗したときは複数の手段へ自動でフォールバックします。収集は常時稼働のLinuxサーバー、閲覧はPWAとして動作します。",
+        "en": "An app that periodically collects follower counts for a given set of social accounts, stores them in a database, and charts the trends on a dashboard.\nIt exports daily, weekly, and monthly reports as PDFs, and falls back across several collection methods when one fails. Collection runs on an always-on Linux server; the viewer works as a PWA."
+      },
+      "tags": [
+        "Workers",
+        "D1",
+        "PWA"
+      ],
+      "image": "",
+      "links": []
+    },
+    {
+      "id": "ytdl-hub",
+      "featured": true,
+      "period": "2026.07",
+      "title": {
+        "ja": "ytdl-hub",
+        "en": "ytdl-hub"
+      },
+      "subtitle": {
+        "ja": "スマホに直接保存する動画ダウンローダー",
+        "en": "A video downloader that saves straight to your phone"
+      },
+      "description": {
+        "ja": "外出先のスマートフォンからURLを渡すと、形式と画質を選んでその端末に直接保存できる個人用アプリ。\nyt-dlpをコマンドではなくPythonライブラリとして呼び出し、選べるフォーマット一覧・進捗・エラーを構造化データとして扱います。サーバーには溜め込まず、一時ファイルは24時間で自動削除。専用の仮想マシンに隔離して運用しています。",
+        "en": "A personal app for handing it a URL from your phone while out, choosing a format and quality, and saving the result straight to that device.\nIt calls yt-dlp as a Python library rather than a shell command, so the available formats, progress, and errors all arrive as structured data. Nothing is stockpiled on the server: temporary files are deleted automatically after 24 hours, and the whole thing runs isolated on a dedicated VM."
+      },
+      "tags": [
+        "Python",
+        "FastAPI",
+        "React"
+      ],
+      "image": "",
+      "links": []
     }
   ],
   "student": [
