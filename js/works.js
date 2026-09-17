@@ -6,6 +6,9 @@
 import { store } from './portfolio-data.js';
 import { esc, resolve, appCardHTML } from './render.js';
 
+// トップページ（js/main.js の CONFIG）で非表示にしているセクションはナビにも出さない
+const SHOW = { student: false, research: false };
+
 const state = { lang: 'ja', filter: null }; // filter: null=ALL / 文字列=タグ名
 try { const s = localStorage.getItem('pf_lang'); if (s === 'ja' || s === 'en') state.lang = s; } catch (e) {}
 
@@ -42,8 +45,10 @@ function render() {
 
   // ヘッダー（トップの各セクションへ戻るリンク）
   const navItems = [
-    { id: 'webapps', label: t.nav.webapps }, { id: 'student', label: t.nav.student },
-    { id: 'research', label: t.nav.research }, { id: 'contact', label: t.nav.contact },
+    { id: 'webapps', label: t.nav.webapps },
+    ...(SHOW.student ? [{ id: 'student', label: t.nav.student }] : []),
+    ...(SHOW.research ? [{ id: 'research', label: t.nav.research }] : []),
+    { id: 'contact', label: t.nav.contact },
   ];
   $('pf-nav').innerHTML = navItems.map((n) => `<a href="../#${n.id}">${esc(n.label)}</a>`).join('');
   $('pf-lang').textContent = ja ? 'EN' : 'JA';

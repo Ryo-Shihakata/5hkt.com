@@ -12,6 +12,10 @@ const CONFIG = {
   avatarImage: '',       // HEROアバター画像/GIFのパス（'' でキャンバスアニメ）
   showHighlights: true,  // 実績バッジの表示
   showGrid: true,        // 背景ドットグリッド
+  // セクションの表示切替。false のあいだ index.html 側の .pf-hidden を維持し、
+  // ナビ・スクロールスパイ・描画からも外す。データ（portfolio.json）と CMS 設定は残す。
+  showStudent: false,
+  showResearch: false,
 };
 
 // ─── 状態 ─────────────────────────────────────────────────────
@@ -103,8 +107,10 @@ function render() {
 
   // ヘッダー
   const navItems = [
-    { id: 'webapps', label: t.nav.webapps }, { id: 'student', label: t.nav.student },
-    { id: 'research', label: t.nav.research }, { id: 'contact', label: t.nav.contact },
+    { id: 'webapps', label: t.nav.webapps },
+    ...(CONFIG.showStudent ? [{ id: 'student', label: t.nav.student }] : []),
+    ...(CONFIG.showResearch ? [{ id: 'research', label: t.nav.research }] : []),
+    { id: 'contact', label: t.nav.contact },
   ];
   $('pf-nav').innerHTML = navItems.map((n) => `<a href="#${n.id}" data-id="${n.id}" class="${state.active === n.id ? 'pf-active' : ''}">${esc(n.label)}</a>`).join('');
   $('pf-lang').textContent = ja ? 'EN' : 'JA';
@@ -133,18 +139,22 @@ function render() {
   $('pf-apps-all').textContent = t.viewAllWorks;
 
   // STUDENT
-  $('pf-stud-title').textContent = t.student.title;
-  $('pf-stud-lead').textContent = t.student.lead;
-  const student = (d.student || []).map((it) => resolve(it, state.lang, t));
-  $('pf-stud-body').innerHTML = state.studView === 'timeline'
-    ? timelineHTML(student, t)
-    : `<div class="pf-grid">${student.filter((a) => a.featured).map((a) => studCardHTML(a, t)).join('')}</div>`;
-  $('pf-stud-toggle').textContent = state.studView === 'timeline' ? t.backFeatured : t.viewTimeline;
+  if (CONFIG.showStudent) {
+    $('pf-stud-title').textContent = t.student.title;
+    $('pf-stud-lead').textContent = t.student.lead;
+    const student = (d.student || []).map((it) => resolve(it, state.lang, t));
+    $('pf-stud-body').innerHTML = state.studView === 'timeline'
+      ? timelineHTML(student, t)
+      : `<div class="pf-grid">${student.filter((a) => a.featured).map((a) => studCardHTML(a, t)).join('')}</div>`;
+    $('pf-stud-toggle').textContent = state.studView === 'timeline' ? t.backFeatured : t.viewTimeline;
+  }
 
   // RESEARCH
-  $('pf-research-title').textContent = t.research.title;
-  $('pf-research-lead').textContent = t.research.lead;
-  $('pf-research-body').innerHTML = (d.research || []).map((it) => researchCardHTML(resolve(it, state.lang, t))).join('');
+  if (CONFIG.showResearch) {
+    $('pf-research-title').textContent = t.research.title;
+    $('pf-research-lead').textContent = t.research.lead;
+    $('pf-research-body').innerHTML = (d.research || []).map((it) => researchCardHTML(resolve(it, state.lang, t))).join('');
+  }
 
   // CONTACT
   $('pf-contact-title').textContent = t.contact.title;
@@ -167,7 +177,7 @@ function setActive(id) {
   document.querySelectorAll('#pf-nav a').forEach((a) => a.classList.toggle('pf-active', a.dataset.id === id));
 }
 function initSpy() {
-  const ids = ['webapps', 'student', 'research', 'contact'];
+  const ids = ['webapps', ...(CONFIG.showStudent ? ['student'] : []), ...(CONFIG.showResearch ? ['research'] : []), 'contact'];
   const io = new IntersectionObserver((es) => {
     es.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
   }, { rootMargin: '-45% 0px -50% 0px' });
@@ -179,6 +189,9 @@ function applyTheme() {
   const el = $('pf-root');
   if (CONFIG.accent) { el.style.setProperty('--accent', CONFIG.accent); el.style.setProperty('--brand', CONFIG.accent); }
   el.classList.toggle('pf-nogrid', CONFIG.showGrid === false);
+  // index.html 側は既定で .pf-hidden 付き。フラグが true のときだけ外す。
+  $('student')?.classList.toggle('pf-hidden', !CONFIG.showStudent);
+  $('research')?.classList.toggle('pf-hidden', !CONFIG.showResearch);
 }
 
 // ─── HERO キャンバスアニメ ────────────────────────────────────
