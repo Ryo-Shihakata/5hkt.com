@@ -5,10 +5,14 @@
    ═══════════════════════════════════════════════════════════════ */
 
 /* ─── Self-hosted fonts ─────────────────────────────────────── */
-@font-face{font-family:"Press Start 2P";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/press-start-2p-latin-400-normal.woff2") format("woff2")}
-@font-face{font-family:"VT323";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/vt323-latin-400-normal.woff2") format("woff2")}
-@font-face{font-family:"DotGothic16";font-style:normal;font-weight:400;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F;src:url("../assets/fonts/dotgothic16-latin-400-normal.woff2") format("woff2")}
-@font-face{font-family:"DotGothic16";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/dotgothic16-japanese-400-normal.woff2") format("woff2")}
+/* 宣言順が重要: 和文（範囲指定なし＝全域）を先、欧文（範囲指定あり）を後に置く。
+   同一コードポイントに複数の face が一致した場合、CSS Fonts は「後に宣言した方」を
+   採用するため、この順序にすると ASCII は 9KB の欧文サブセットから引かれる。
+   逆順にすると欧文にも 600KB の和文ファイルが使われてしまう。 */
+@font-face{font-family:"M PLUS 1 Code";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/m-plus-1-code-japanese-400-normal.woff2") format("woff2")}
+@font-face{font-family:"M PLUS 1 Code";font-style:normal;font-weight:700;font-display:swap;src:url("../assets/fonts/m-plus-1-code-japanese-700-normal.woff2") format("woff2")}
+@font-face{font-family:"M PLUS 1 Code";font-style:normal;font-weight:400;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F;src:url("../assets/fonts/m-plus-1-code-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"M PLUS 1 Code";font-style:normal;font-weight:700;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F;src:url("../assets/fonts/m-plus-1-code-latin-700-normal.woff2") format("woff2")}
 
 /* ─── Reset ─────────────────────────────────────────────────── */
 *{box-sizing:border-box}
@@ -21,21 +25,15 @@ body{margin:0}
   --accent:#003672;--accent-ink:#ffffff;--badge:#f2d579;--period:#79b2f2;--checker-a:#79b2f2;--checker-b:#eef4fc;
   --dot:rgba(13,37,64,0.13);
   --checker:linear-gradient(45deg,var(--checker-a) 25%,transparent 25%),linear-gradient(-45deg,var(--checker-a) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,var(--checker-a) 75%),linear-gradient(-45deg,transparent 75%,var(--checker-a) 75%);
-  --fdisp:'DotGothic16',monospace;--fbody:'DotGothic16',monospace;--fpix:'Press Start 2P','DotGothic16',monospace;
+  --fdisp:'M PLUS 1 Code',ui-monospace,monospace;--fbody:'M PLUS 1 Code',ui-monospace,monospace;--flabel:'M PLUS 1 Code',ui-monospace,monospace;
   color:var(--ink);
   font-family:var(--fbody);
   font-size:18px;
   line-height:1.55;
   min-height:100vh;
-  -webkit-font-smoothing:none;
   background-color:var(--bg);
   background-image:radial-gradient(var(--dot) 1.6px,transparent 1.6px);
   background-size:22px 22px;
-}
-/* 英語時のフォント差し替え（JS が html[data-lang] を切替） */
-html[data-lang="en"] .pf-root{
-  --fdisp:'Press Start 2P','DotGothic16',monospace;
-  --fbody:'VT323','DotGothic16',monospace;
 }
 /* グリッド背景 OFF */
 .pf-root.pf-nogrid{--dot:transparent}
@@ -57,19 +55,19 @@ html[data-lang="en"] .pf-root{
 /* ═══ HEADER / NAV ══════════════════════════════════════════ */
 .pf-header{position:sticky;top:0;z-index:50;background:var(--panel);border-bottom:4px solid var(--border)}
 .pf-header-inner{max-width:1080px;margin:0 auto;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.55rem 1.25rem;flex-wrap:wrap}
-.pf-logo{font-family:var(--fpix);font-size:.75rem;color:var(--brand);text-decoration:none;white-space:nowrap}
+.pf-logo{font-family:var(--flabel);font-weight:700;letter-spacing:.08em;font-size:.95rem;color:var(--brand);text-decoration:none;white-space:nowrap}
 .pf-nav{display:flex;gap:1.1rem;flex-wrap:wrap;margin-left:auto}
 .pf-nav a{font-family:var(--fdisp);font-size:.95rem;text-decoration:none;padding:.35rem .1rem;border-bottom:3px solid transparent;color:var(--ink);white-space:nowrap}
-.pf-nav a.pf-active{border-bottom-color:var(--brand);color:var(--brand)}
-.pf-lang{font-family:var(--fpix);font-size:.6rem;padding:.5rem .7rem;background:var(--bg);color:var(--ink);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);cursor:pointer}
+.pf-nav a.pf-active{border-bottom-color:var(--brand);color:var(--brand);font-weight:700}
+.pf-lang{font-family:var(--flabel);font-weight:700;font-size:.78rem;padding:.5rem .7rem;background:var(--bg);color:var(--ink);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);cursor:pointer}
 .pf-lang:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--border)}
 
 /* ═══ HERO ══════════════════════════════════════════════════ */
 .pf-hero{min-height:calc(100vh - 64px);display:flex;flex-direction:column;justify-content:center;position:relative;padding:5rem 1.5rem}
 .pf-hero-inner{max-width:980px;margin:0 auto;width:100%;display:flex;flex-wrap:wrap-reverse;align-items:center;justify-content:space-between;gap:3rem}
 .pf-hero-text{flex:1 1 360px;min-width:300px}
-.pf-kicker{font-family:var(--fpix);font-size:.65rem;color:var(--accent);letter-spacing:.05em;margin:0 0 1rem}
-.pf-name{font-family:var(--fdisp);font-weight:400;font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.4;margin:0 0 .8rem}
+.pf-kicker{font-family:var(--flabel);font-weight:700;font-size:.82rem;color:var(--accent);letter-spacing:.08em;margin:0 0 1rem}
+.pf-name{font-family:var(--fdisp);font-weight:700;font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.4;margin:0 0 .8rem}
 .pf-caret{display:inline-block;width:.5ch;height:.85em;background:var(--accent);margin-left:.15em;vertical-align:-1px;animation:pf-blink 1.1s steps(1) infinite}
 .pf-role{color:var(--accent);font-size:1.3rem;margin:0 0 1rem}
 .pf-bio{color:var(--soft);font-size:1.25rem;line-height:1.7;margin:0 0 1.6rem;max-width:34ch}
@@ -78,17 +76,17 @@ html[data-lang="en"] .pf-root{
 .pf-avatar-frame{position:relative;width:min(260px,72vw);aspect-ratio:1/1;background-image:var(--checker);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0;background-color:var(--checker-b);border:4px solid var(--border);box-shadow:7px 7px 0 var(--badge);overflow:hidden}
 .pf-avatar-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;image-rendering:pixelated}
 .pf-avatar-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;display:block}
-.pf-avatar-cap{position:absolute;left:0;right:0;bottom:0;text-align:center;font-family:var(--fpix);font-size:.5rem;letter-spacing:1px;color:var(--soft);background:color-mix(in srgb,var(--panel) 72%,transparent);padding:6px 4px;border-top:2px solid var(--border)}
-.pf-scroll{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);font-family:var(--fpix);font-size:.55rem;color:var(--soft);animation:pf-bounce 2.2s ease-in-out infinite}
+.pf-avatar-cap{position:absolute;left:0;right:0;bottom:0;text-align:center;font-family:var(--flabel);font-weight:700;font-size:.7rem;letter-spacing:.06em;color:var(--soft);background:color-mix(in srgb,var(--panel) 72%,transparent);padding:6px 4px;border-top:2px solid var(--border)}
+.pf-scroll{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);font-family:var(--flabel);font-weight:700;letter-spacing:.1em;font-size:.72rem;color:var(--soft);animation:pf-bounce 2.2s ease-in-out infinite}
 
 /* ═══ SECTION 共通 ══════════════════════════════════════════ */
 .pf-section{max-width:920px;margin:0 auto;padding:4.5rem 1.5rem;border-top:4px dashed var(--border);scroll-margin-top:80px}
-.pf-sec-kicker{font-family:var(--fpix);font-size:.65rem;color:var(--accent);margin:0 0 .75rem}
-.pf-sec-title{font-family:var(--fdisp);font-weight:400;font-size:clamp(1.3rem,3.5vw,1.9rem);margin:0 0 .6rem}
+.pf-sec-kicker{font-family:var(--flabel);font-weight:700;letter-spacing:.08em;font-size:.82rem;color:var(--accent);margin:0 0 .75rem}
+.pf-sec-title{font-family:var(--fdisp);font-weight:700;font-size:clamp(1.3rem,3.5vw,1.9rem);margin:0 0 .6rem}
 .pf-sec-lead{color:var(--soft);font-size:1.15rem;max-width:560px;margin:0 0 2rem}
 
 /* ═══ ピクセルボタン（共通） ════════════════════════════════ */
-.pf-btn{font-family:var(--fdisp);font-size:.95rem;color:var(--ink);background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:.6em 1em;text-decoration:none;display:inline-block;cursor:pointer}
+.pf-btn{font-family:var(--fdisp);font-weight:700;font-size:.95rem;color:var(--ink);background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:.6em 1em;text-decoration:none;display:inline-block;cursor:pointer}
 .pf-btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--border)}
 .pf-btn-sm{padding:.5em .8em;font-size:.85rem}
 .pf-btn-accent{color:var(--accent-ink);background:var(--accent)}
@@ -96,7 +94,7 @@ html[data-lang="en"] .pf-root{
 /* ═══ HIGHLIGHTS ════════════════════════════════════════════ */
 .pf-highlights{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin-bottom:2.5rem}
 .pf-badge{background:var(--badge);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:1rem .75rem;text-align:center}
-.pf-badge-val{display:block;font-family:var(--fpix);font-size:1.05rem;color:var(--ink);margin-bottom:.45rem}
+.pf-badge-val{display:block;font-family:var(--flabel);font-weight:700;font-size:1.4rem;color:var(--ink);margin-bottom:.45rem}
 .pf-badge-lb{font-size:.9rem;color:var(--ink);text-transform:uppercase;letter-spacing:.02em}
 
 /* ═══ カード（核） ══════════════════════════════════════════ */
@@ -105,11 +103,11 @@ html[data-lang="en"] .pf-root{
 .pf-card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--accent)}
 .pf-card-img{width:100%;aspect-ratio:16/9;border-bottom:3px solid var(--border);background-image:var(--checker);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0;background-color:var(--checker-b);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .pf-card-img img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;display:block}
-.pf-card-noimg{font-family:var(--fpix);font-size:.6rem;color:var(--soft)}
+.pf-card-noimg{font-family:var(--flabel);font-weight:700;font-size:.8rem;color:var(--soft)}
 .pf-card-body{padding:1.1rem 1.15rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
-.pf-pickup{align-self:flex-start;font-family:var(--fpix);font-size:.55rem;background:var(--badge);color:var(--ink);padding:.35em .6em}
+.pf-pickup{align-self:flex-start;font-family:var(--flabel);font-weight:700;letter-spacing:.06em;font-size:.72rem;background:var(--badge);color:var(--ink);padding:.35em .6em}
 .pf-period{align-self:flex-start;background:var(--period);color:var(--ink);font-size:.95rem;padding:.15em .55em}
-.pf-card-title{font-family:var(--fdisp);font-weight:400;font-size:1.1rem;line-height:1.4;margin:0}
+.pf-card-title{font-family:var(--fdisp);font-weight:700;font-size:1.1rem;line-height:1.4;margin:0}
 .pf-card-sub{color:var(--soft);font-size:1.05rem;margin:0}
 .pf-card-desc{font-size:1.05rem;margin:0}
 .pf-tags{display:flex;flex-wrap:wrap;gap:.4rem}
@@ -121,9 +119,9 @@ html[data-lang="en"] .pf-root{
 /* ═══ RESEARCH（横型カード） ════════════════════════════════ */
 .pf-research-list{display:flex;flex-direction:column;gap:1.5rem}
 .pf-research-card{background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);display:grid;grid-template-columns:140px 1fr}
-.pf-research-period{background:var(--period);border-right:3px solid var(--border);padding:1rem .75rem;font-family:var(--fpix);font-size:.6rem;color:var(--ink);line-height:1.6}
+.pf-research-period{background:var(--period);border-right:3px solid var(--border);padding:1rem .75rem;font-family:var(--flabel);font-weight:700;font-size:.78rem;color:var(--ink);line-height:1.6}
 .pf-research-body{padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.5rem}
-.pf-research-title{font-family:var(--fdisp);font-weight:400;font-size:1.05rem;line-height:1.45;margin:0}
+.pf-research-title{font-family:var(--fdisp);font-weight:700;font-size:1.05rem;line-height:1.45;margin:0}
 .pf-research-desc{font-size:1.05rem;margin:0}
 .pf-research-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.25rem}
 
@@ -131,9 +129,9 @@ html[data-lang="en"] .pf-root{
 .pf-contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}
 .pf-contact-card{display:flex;flex-direction:column;gap:.6rem;justify-content:space-between;min-height:120px;text-decoration:none;color:var(--ink);background:var(--panel);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);padding:1.1rem 1.15rem;transition:transform .1s,box-shadow .1s}
 .pf-contact-card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--accent)}
-.pf-contact-label{font-family:var(--fpix);font-size:.65rem;color:var(--accent)}
+.pf-contact-label{font-family:var(--flabel);font-weight:700;letter-spacing:.06em;font-size:.82rem;color:var(--accent)}
 .pf-contact-sub{font-size:1.05rem;color:var(--soft)}
-.pf-contact-open{font-family:var(--fpix);font-size:.55rem;letter-spacing:1px}
+.pf-contact-open{font-family:var(--flabel);font-weight:700;font-size:.72rem;letter-spacing:.08em}
 
 /* ═══ TIMELINE ══════════════════════════════════════════════ */
 .pf-timeline{position:relative;padding-left:2.5rem;margin-top:.5rem}
@@ -142,20 +140,20 @@ html[data-lang="en"] .pf-root{
 .pf-timeline-node{position:absolute;left:-2.5rem;top:.35rem;width:.85rem;height:.85rem;background:var(--accent);border:2px solid var(--border)}
 .pf-timeline-card{background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem}
 .pf-timeline-head{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
-.pf-timeline-pickup{font-family:var(--fpix);font-size:.5rem;background:var(--badge);color:var(--ink);padding:.35em .55em}
-.pf-timeline-title{font-family:var(--fdisp);font-weight:400;font-size:1rem;line-height:1.45;margin:0}
+.pf-timeline-pickup{font-family:var(--flabel);font-weight:700;letter-spacing:.06em;font-size:.7rem;background:var(--badge);color:var(--ink);padding:.35em .55em}
+.pf-timeline-title{font-family:var(--fdisp);font-weight:700;font-size:1rem;line-height:1.45;margin:0}
 .pf-timeline-sub{color:var(--soft);font-size:1rem;margin:0}
 .pf-timeline-desc{font-size:1.02rem;margin:0}
 
 /* ═══ FOOTER ════════════════════════════════════════════════ */
 .pf-footer{text-align:center;padding:3rem 1.5rem 4rem;color:var(--soft);font-size:1rem;border-top:4px dashed var(--border)}
 .pf-footer p{margin:0 0 .5rem}
-.pf-footer-copy{margin:0 !important;font-family:var(--fpix);font-size:.55rem}
+.pf-footer-copy{margin:0 !important;font-family:var(--flabel);font-weight:700;font-size:.75rem;letter-spacing:.05em}
 
 .pf-hidden{display:none !important}
 
 /* トグル列の二次リンク（トップ→/works 導線など） */
-.pf-toggle-link{display:inline-block;margin-top:.9rem;font-family:var(--fpix);font-size:.6rem;letter-spacing:1px;color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent)}
+.pf-toggle-link{display:inline-block;margin-top:.9rem;font-family:var(--flabel);font-weight:700;font-size:.78rem;letter-spacing:.05em;color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent)}
 .pf-toggle-link:hover{background:var(--accent);color:var(--accent-ink)}
 
 /* ═══ WORKS（成果物一覧ページ /works） ═════════════════════ */
@@ -183,7 +181,7 @@ html[data-lang="en"] .pf-root{
 @media (max-width: 560px){
   .pf-root{font-size:16px}
   .pf-header-inner{flex-wrap:nowrap;justify-content:flex-start;gap:.75rem}
-  .pf-logo{font-size:.65rem}
+  .pf-logo{font-size:.82rem}
   .pf-nav{display:none}                         /* 狭幅ではナビ非表示（ロゴ→#top で代替） */
   .pf-lang{margin-left:auto;order:0}
   .pf-hero{padding:3.5rem 1.25rem;min-height:auto}
@@ -195,7 +193,7 @@ html[data-lang="en"] .pf-root{
   .pf-works-grid{grid-template-columns:1fr;gap:1.25rem}
   .pf-highlights{grid-template-columns:repeat(2,1fr)}
   .pf-research-card{grid-template-columns:1fr}
-  .pf-research-period{border-right:none;border-bottom:3px solid var(--border);font-size:.55rem}
+  .pf-research-period{border-right:none;border-bottom:3px solid var(--border);font-size:.72rem}
   .pf-contact-grid{grid-template-columns:1fr}
   .pf-timeline{padding-left:2rem}
 }
