@@ -1,7 +1,12 @@
-# 5HKT — ピクセル・ポートフォリオサイト
+# 5HKT — ポートフォリオサイト
 
-ドット絵／ピクセル調の個人ポートフォリオ（1ページ静的サイト）。
-プロフィール・作成Webアプリ・学生活動・研究活動・連絡先を、日英切替／ダークモード自動追従／タイムライン切替／HEROピクセルアニメ付きで掲載。作成Webアプリは `/works` で全件一覧、編集は **Sveltia CMS（GitHub連携・1クリック公開）** で行います。
+個人ポートフォリオ（静的サイト）。プロフィール・作成Webアプリ・自宅サーバー（Homelab）・連絡先を、日英切替／ダークモード自動追従／控えめなアニメーション付きで掲載。作成Webアプリは `/works` で全件一覧、編集は **Sveltia CMS（GitHub連携・1クリック公開）** で行います。
+
+デザインは2種類あり、ヘッダーのボタンで切り替えられます（選択はブラウザに記憶）。
+- **新デザイン（既定）** `/`・`/works/` — 生成り + 墨 + 朱、セリフ見出しのエディトリアルなデザイン
+- **旧デザイン** `/classic/`・`/classic/works/` — ドット絵／ピクセル調（背景の柄なし）
+
+仕様の詳細は [DESIGN.md](DESIGN.md)。
 
 **ビルド不要・フレームワーク不使用（Vanilla HTML/CSS/JS）。** ES Modules を使うため、ローカル確認時は簡易HTTPサーバ経由で開いてください（`file://` 直開きでは module が読めません）。
 
@@ -9,23 +14,33 @@
 
 ```
 5hkt.com/
-├── index.html              # トップ（抜粋＋タイムライン）
-├── works/
-│   └── index.html          # /works — 作成Webアプリの全件一覧
+├── index.html              # トップ（新デザイン）
+├── works/index.html        # /works — 作成Webアプリの全件一覧（新デザイン）
+├── classic/
+│   ├── index.html          # /classic — 旧デザイン（ピクセル調）のトップ
+│   └── works/index.html    # /classic/works — 旧デザインの全件一覧
 ├── data/
-│   └── portfolio.json      # コンテンツ単一ソース（Sveltia CMS が編集）
+│   └── portfolio.json      # コンテンツ単一ソース（Sveltia CMS が編集。両デザイン共通）
 ├── admin/
 │   ├── index.html          # Sveltia CMS（/admin）
 │   └── config.yml          # CMS 設定（編集対象・GitHub連携）
 ├── css/
-│   └── style.css           # Design Tokens（light/dark）+ 全コンポーネント
+│   ├── style.css           # 新デザイン
+│   └── classic.css         # 旧デザイン
 ├── js/
-│   ├── portfolio-data.js   # store：data/portfolio.json を fetch する単一ソース層
-│   ├── render.js           # 共有レンダリング ヘルパ（トップ / works 共用）
-│   ├── main.js             # トップのレンダリング / i18n / ダーク / スパイ / タイムライン / HEROキャンバス
-│   └── works.js            # /works のレンダリング（全件 + タグ絞り込み）
+│   ├── portfolio-data.js   # store：data/portfolio.json を fetch する単一ソース層（共通）
+│   ├── style-pref.js       # 新／旧デザインの選択を記憶（共通）
+│   ├── site.js             # 新デザイン共用（言語・ヘッダー・出現アニメ・カード）
+│   ├── icon.js             # 5HKT アイコン（活版 / ドット、ICON で切替）
+│   ├── icon-glyphs.js      # アイコン用の 5/H/K/T アウトライン
+│   ├── main.js             # 新デザインのトップ（名前の見出し・アイコン・スパイ）
+│   ├── works.js            # 新デザインの /works（全件 + タグ絞り込み）
+│   ├── render.js           # 共有ヘルパ（esc / L）+ 旧デザインのカード描画
+│   ├── classic-main.js     # 旧デザインのトップ
+│   └── classic-works.js    # 旧デザインの /works
 ├── assets/
-│   ├── fonts/              # セルフホスト woff2（Press Start 2P / VT323 / DotGothic16 ×2）
+│   ├── icon/               # ファビコン（favicon.svg / favicon-32.png / apple-touch-icon.png）
+│   ├── fonts/              # 旧デザイン用セルフホスト woff2（M PLUS 1 Code）
 │   └── uploads/            # CMS からの画像アップロード先
 ├── _headers                # Cloudflare Pages セキュリティヘッダー
 ├── _redirects              # Cloudflare Pages リダイレクト設定
@@ -58,7 +73,7 @@ npx serve .
 `https://5hkt.com/admin/` を開き、GitHub でログイン → GUI で編集 → **「公開（Publish）」** を押すと、
 `data/portfolio.json` が GitHub に commit され、Cloudflare Pages が自動デプロイして本番に反映されます。**手動 commit は不要**です。
 
-- 編集できる内容: プロフィール / 実績バッジ / 作成Webアプリ / 学生活動 / 研究活動 / 連絡先
+- 編集できる内容: プロフィール / 実績バッジ / 作成Webアプリ / 学生活動 / 研究活動 / 自宅サーバー（Homelab）/ 連絡先
 - 各項目は **追加・並べ替え・削除・PICK UP（featured）切替**・画像アップロードが可能
 
 > 初回のみ GitHub 認証用の OAuth Worker のセットアップが必要です（下記）。

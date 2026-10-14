@@ -1,30 +1,21 @@
 // ─────────────────────────────────────────────────────────────
-//  /works — 作成Webアプリの全件一覧（タグ絞り込み付き）
-//  トップの「抜粋＋タイムライン」とは別に、成果物を密グリッドで列挙。
+//  新デザイン /works — 作成Webアプリの全件一覧（タグ絞り込み付き）
 //  データは data/portfolio.json（store.load）を1回 fetch するだけ。
 // ─────────────────────────────────────────────────────────────
 import { store } from './portfolio-data.js';
-import { esc, resolve, appCardHTML } from './render.js';
+import { $, esc, lang, common, renderChrome, initChrome, observeReveals, cardHTML } from './site.js';
 
-// トップページ（js/main.js の CONFIG）で非表示にしているセクションはナビにも出さない
-const SHOW = { student: false, research: false };
-
-const state = { lang: 'ja', filter: null }; // filter: null=ALL / 文字列=タグ名
-try { const s = localStorage.getItem('pf_lang'); if (s === 'ja' || s === 'en') state.lang = s; } catch (e) {}
-
-const $ = (id) => document.getElementById(id);
+const state = { filter: null }; // null = すべて / 文字列 = タグ名
 
 function i18n(ja) {
   return {
-    nav: { webapps: ja ? '作成Webアプリ' : 'Web Apps', student: ja ? '学生活動' : 'Student Activities', research: ja ? '研究活動' : 'Research', contact: ja ? '連絡先' : 'Contact' },
-    title: ja ? '作品一覧' : 'All Works',
-    lead: ja ? '個人または少人数チームで企画から実装まで担当した、作成Webアプリの全一覧です。' : 'Every web app I built — solo or with a small team, from planning to implementation.',
-    back: ja ? '◂ トップにもどる' : '◂ Back to Home',
+    ...common(ja),
+    title: ja ? '制作物' : 'All work',
+    lead: ja ? '個人または少人数チームで、企画から実装まで担当したWebアプリの一覧です。' : 'Every web app I planned and built, solo or with a small team.',
+    back: ja ? 'トップへ' : 'Home',
     all: ja ? 'すべて' : 'All',
-    count: (n) => ja ? `全 ${n} 件` : `${n} works`,
-    empty: ja ? '該当する作品がありません。' : 'No works match this filter.',
-    pickup: 'PICK UP', noimage: 'No Image',
-    footer: ja ? 'このサイトは静的HTML / CSS / JSのみで構築されています。' : 'Built with plain HTML, CSS, and JavaScript.',
+    count: (n) => ja ? `${n} 件` : `${n} ${n === 1 ? 'project' : 'projects'}`,
+    empty: ja ? '該当する作品がありません。' : 'No projects match this filter.',
   };
 }
 
@@ -36,66 +27,47 @@ function uniqueTags(apps) {
 }
 
 function render() {
-  const ja = state.lang === 'ja';
-  const t = i18n(ja);
+  const t = i18n(lang.value === 'ja');
   const d = store.get();
+  const hasLab = !!(d.homelab && (d.homelab.groups || []).length);
 
-  document.documentElement.lang = state.lang;
-  document.documentElement.setAttribute('data-lang', state.lang);
+  renderChrome(t, d, { navBase: '../', sections: ['works', ...(hasLab ? ['homelab'] : []), 'contact'] });
+  document.querySelector('#nav a[data-id="works"]')?.classList.add('is-active');
 
-  // ヘッダー（トップの各セクションへ戻るリンク）
-  const navItems = [
-    { id: 'webapps', label: t.nav.webapps },
-    ...(SHOW.student ? [{ id: 'student', label: t.nav.student }] : []),
-    ...(SHOW.research ? [{ id: 'research', label: t.nav.research }] : []),
-    { id: 'contact', label: t.nav.contact },
-  ];
-  $('pf-nav').innerHTML = navItems.map((n) => `<a href="../#${n.id}">${esc(n.label)}</a>`).join('');
-  $('pf-lang').textContent = ja ? 'EN' : 'JA';
-
-  // 見出し
-  $('pf-works-title').textContent = t.title;
-  $('pf-works-lead').textContent = t.lead;
-  $('pf-works-back').textContent = t.back;
+  $('works-back').innerHTML = `<span class="arr" aria-hidden="true">←</span>${esc(t.back)}`;
+  $('works-title').textContent = t.title;
+  $('works-lead').textContent = t.lead;
   document.title = `${t.title} — 5HKT`;
 
   const apps = d.webapps || [];
-
-  // フィルタチップ（ALL + 各タグ）
   const tags = uniqueTags(apps);
-  const chip = (label, value, on) => `<button type="button" class="pf-filter-chip${on ? ' pf-on' : ''}" data-tag="${value === null ? '' : esc(value)}">${esc(label)}</button>`;
-  $('pf-works-filter').innerHTML =
-    chip(t.all, null, state.filter === null) +
-    tags.map((tg) => chip(tg, tg, state.filter === tg)).join('');
+  if (state.filter && !tags.includes(state.filter)) state.filter = null;
+  const chip = (label, value) => {
+    const on = state.filter === value;
+    return `<button type="button" class="filter-chip${on ? ' is-on' : ''}" aria-pressed="${on}" data-tag="${value === null ? '' : esc(value)}">${esc(label)}</button>`;
+  };
+  $('works-filter').innerHTML = chip(t.all, null) + tags.map((tg) => chip(tg, tg)).join('');
 
-  // 絞り込み → 全件描画
   const shown = state.filter ? apps.filter((a) => (a.tags || []).includes(state.filter)) : apps;
-  $('pf-works-count').textContent = t.count(shown.length);
-  $('pf-works-body').innerHTML = shown.length
-    ? shown.map((it) => appCardHTML(resolve(it, state.lang, t), t)).join('')
-    : `<p class="pf-works-empty">${esc(t.empty)}</p>`;
+  $('works-count').textContent = t.count(shown.length);
+  $('works-grid').innerHTML = shown.length
+    ? shown.map((a, i) => cardHTML(a, t, { i, showPick: true })).join('')
+    : `<p class="works-empty">${esc(t.empty)}</p>`;
 
-  // フッター
-  $('pf-footer-text').textContent = t.footer;
-  $('pf-footer-copy').textContent = `© 2026 ${(d.profile && d.profile.name && (d.profile.name[state.lang] || d.profile.name.ja)) || ''}`;
+  observeReveals();
 }
 
 async function init() {
+  lang.load();
   store.subscribe(render);
   render();
+  initChrome(render);
+  $('works-filter').addEventListener('click', (e) => {
+    const el = e.target.closest('.filter-chip'); if (!el) return;
+    state.filter = el.dataset.tag || null;
+    render();
+  });
   await store.load();
-
-  $('pf-lang').addEventListener('click', () => {
-    state.lang = state.lang === 'ja' ? 'en' : 'ja';
-    try { localStorage.setItem('pf_lang', state.lang); } catch (e) {}
-    render();
-  });
-  // フィルタチップ（イベント委譲）
-  $('pf-works-filter').addEventListener('click', (e) => {
-    const el = e.target.closest('.pf-filter-chip'); if (!el) return;
-    state.filter = el.dataset.tag ? el.dataset.tag : null;
-    render();
-  });
 }
 
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

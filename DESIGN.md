@@ -1,15 +1,64 @@
-# DESIGN.md — ピクセル・ポートフォリオ デザイン仕様
+# DESIGN.md — デザイン仕様
 
-実装済みのデザインシステムの仕様書。配色・タイポグラフィ・余白・コンポーネント・インタラクションの「正」。
-角ばったピクセルUI（**border-radius は基本 0**）と**ハードシャドウ（ぼかし無し）**が基調。
-
-実体: [css/style.css](css/style.css) / [js/main.js](js/main.js) / [js/works.js](js/works.js) / [js/render.js](js/render.js) / [js/portfolio-data.js](js/portfolio-data.js) / [data/portfolio.json](data/portfolio.json) / [admin/](admin/)（Sveltia CMS）
+サイトには2つのデザインがある。**新デザイン（既定、`/`・`/works/`）** と、**旧デザイン（ピクセル調、`/classic/`・`/classic/works/`）**。
+どちらも `data/portfolio.json` を読む。ヘッダーのボタン（新:「旧デザイン」/ 旧:「新デザイン」）で行き来でき、
+選んだ方は `localStorage['pf_style']` に記憶される（[js/style-pref.js](js/style-pref.js)）。新デザイン側の各ページは `<head>` のインラインスクリプトで、
+`pf_style === 'classic'` のとき `/classic/` 側へ移る。言語（`pf_lang`）は両デザインで共有。
 
 ---
 
+# 新デザイン（`/`）
+
+原点ラボ（Genten Lab）の配色を土台にした、Anthropic 風のエディトリアルなデザイン。
+生成りの紙色 + 墨 + 朱の一点。見出しはセリフ/明朝、本文はゴシック。
+**角丸・影・すりガラス・ピル型・柄は使わない（AIっぽい定型を避ける）。四角と罫線と余白で組む。**
+
+実体: [css/style.css](css/style.css) / [js/site.js](js/site.js)（共用）/ [js/main.js](js/main.js)（トップ）/ [js/works.js](js/works.js)（/works）
+
+## Tokens（`:root`、ダークは `prefers-color-scheme` で上書き）
+| Token | Light | Dark | 用途 |
+|---|---|---|---|
+| `--bg` | `#f0ece3` | `#191815` | 背景（生成り） |
+| `--surface` | `#fbf8f2` | `#22211d` | カード地 |
+| `--surface-2` | `#e7e1d5` | `#2b2925` | 沈んだ面（Homelab セクション） |
+| `--ink` / `--ink-2` / `--ink-3` | `#1f1e1b` / `#5c5850` / `#8a8478` | `#f0ece3` / `#b3ad9f` / `#86806f` | 文字 |
+| `--accent` | `#c2412f` | `#e0664f` | 朱（点・ホバー・強調） |
+| `--tone-0..4` | 若竹/砂/薄青/桃/藤 | 各暗色 | 画像なしカードの表紙色（id のハッシュで決定） |
+
+## Typography
+- 見出し `--serif`: `Newsreader`（欧文）→ `Noto Serif JP`（和文）。本文 `--sans`: `Noto Sans JP`。Google Fonts から読み込み。
+- HERO の大見出しは名前（`profile.name`）そのもの。
+
+## Components
+| コンポーネント | クラス | 要点 |
+|---|---|---|
+| ヘッダー | `.site-header` | sticky・不透明。スクロールすると下線（`.is-scrolled`） |
+| ロゴ / HERO アイコン | `.brand-mark` `.hero-art` | 5HKT アイコン（[js/icon.js](js/icon.js)）。`ICON` で `letterpress`（墨の活版刷り・升目に 5H/KT を白抜き）/ `dot`（5×7 ドット）を切替。文字はアウトライン（[js/icon-glyphs.js](js/icon-glyphs.js)）なのでフォント待ち無し。ファビコンは `assets/icon/` |
+| HERO | `.hero` | 名前の大見出し、肩書、紹介文、ボタン、実績を1行（`.facts`）で控えめに |
+| カード | `.card` | 四角・細罫線。画像なしは英題の頭文字（イタリック）+ 朱の四角の色面。hover で枠が濃くなり、頭文字が傾く。タグは「A / B / C」の文字列 |
+| 自宅サーバー | `#homelab` `.lab-grid` | `homelab.groups` を3列（狭幅で1列）。`homelab` が無ければセクションごと非表示 |
+| 連絡先 | `.contact-row` | 罫線区切りの行。hover で右へずれる |
+| フッター | `.site-footer` | 墨色の帯。大きなワードマーク、旧デザインへのリンク |
+
+## Motion
+- 出現: `.hero-in`（読み込み時、`--d` で時差）/ `.reveal` → `.is-in`（IntersectionObserver、`--i` で時差）。
+  `html.js` のときだけ隠してから出すので、JS 無効でも中身は見える。
+- HERO アイコン: 活版は版が紙に降りて一度沈んでから落ち着く（`press`）。ドットは升目を1つずつ打つ（`dot-in`）。
+- `prefers-reduced-motion: reduce` ではすべて停止（点は静止した状態で描画）。
+
+## Responsive
+`≤960px` カード2列・Homelab 1列 / `≤760px` HERO 1列（アートを上に）/ `≤640px` ナビ非表示・カード1列。
+
+---
+
+# 旧デザイン（`/classic/`）
+
+以下は旧デザイン（ピクセル調）の仕様。2026-10 の改修で**背景のドット柄を外した**状態で `/classic/` に移した。
+実体: [css/classic.css](css/classic.css) / [js/classic-main.js](js/classic-main.js) / [js/classic-works.js](js/classic-works.js) / [js/render.js](js/render.js)
+
 ## Design Tokens
 
-CSS 変数として `.pf-root` に定義（[css/style.css](css/style.css)）。ダークは `@media (prefers-color-scheme: dark)` で上書き（OS 追従、手動トグル無し）。
+CSS 変数として `.pf-root` に定義（[css/classic.css](css/classic.css)）。ダークは `@media (prefers-color-scheme: dark)` で上書き（OS 追従、手動トグル無し）。
 
 ### Colors（ライト）
 | Token | Hex | 用途 |
@@ -25,15 +74,14 @@ CSS 変数として `.pf-root` に定義（[css/style.css](css/style.css)）。�
 | `--badge` | `#f2d579` | 実績バッジ・PICK UP（ゴールド） |
 | `--period` | `#79b2f2` | 期間チップ・research 左列（ブルー） |
 | `--checker-a` / `--checker-b` | `#79b2f2` / `#eef4fc` | チェッカー柄 前景 / 地 |
-| `--dot` | `rgba(13,37,64,0.13)` | 背景ドットマトリクス |
 
 > 当初ハンドオフのアクセントはティール `#007367` だったが、本実装では**ネイビー `#003672`** に変更（`--accent` と `--brand` を同値）。
 
 ### Colors（ダーク）
-`--bg:#141417` / `--panel:#1c1e25` / `--ink:#e2e7e7` / `--soft:#838e9a` / `--border:#5f6579` / `--brand:#4f93d6` / `--accent:#4f93d6` / `--accent-ink:#141417` / `--badge:#1c1e25` / `--period:rgba(0,67,122,.32)` / `--checker-a:#1c1e25` / `--checker-b:#141417` / `--dot:rgba(226,231,231,0.08)`
+`--bg:#141417` / `--panel:#1c1e25` / `--ink:#e2e7e7` / `--soft:#838e9a` / `--border:#5f6579` / `--brand:#4f93d6` / `--accent:#4f93d6` / `--accent-ink:#141417` / `--badge:#1c1e25` / `--period:rgba(0,67,122,.32)` / `--checker-a:#1c1e25` / `--checker-b:#141417`
 
 ### 背景
-フラットな `--bg` の上に `radial-gradient(var(--dot) 1.6px, transparent 1.6px)` を `background-size:22px 22px` で敷いたドットグリッド。`.pf-nogrid`（`CONFIG.showGrid=false`）で `--dot:transparent`。
+フラットな `--bg`（以前あったドットグリッドは 2026-10 に削除）。
 
 ### チェッカー柄（`--checker`）
 45/-45度の `linear-gradient` 4枚で市松模様。カード画像 `16px` / HERO アバター `20px`。
@@ -76,7 +124,7 @@ CSS 変数として `.pf-root` に定義（[css/style.css](css/style.css)）。�
 
 ---
 
-## Interactions（[js/main.js](js/main.js)）
+## Interactions（[js/classic-main.js](js/classic-main.js)）
 - **言語切替** ja↔en: 全文言+フォント差替、`localStorage['pf_lang']` 永続。
 - **ダークモード**: `matchMedia('(prefers-color-scheme: dark)')`（CSS トークンで適用、OS 追従）。
 - **スクロールスパイ**: `IntersectionObserver`（`rootMargin:'-45% 0px -50% 0px'`）でナビ active 更新。
@@ -100,15 +148,15 @@ HERO は `flex-wrap:wrap-reverse` で狭幅時にアバターが上へ。グリ�
 
 ## カスタマイズ点
 
-### アクセント色 / HEROアニメ等 — [js/main.js](js/main.js) 冒頭 `CONFIG`
+### アクセント色 / HEROアニメ等 — [js/classic-main.js](js/classic-main.js) 冒頭 `CONFIG`
 | キー | 説明 |
 |---|---|
 | `heroFx` | `'wave'`/`'matrix'`/`'scan'` |
 | `accent` | アクセント色の上書き（`''`=CSSトークン既定の `#003672`） |
 | `avatarImage` | HEROアバター画像/GIFパス（`''`でキャンバスアニメ） |
-| `showHighlights` / `showGrid` | バッジ表示 / 背景ドット |
+| `showHighlights` | バッジ表示 |
 
-> 恒久的に色を変える場合は [css/style.css](css/style.css) の `.pf-root` トークンを直接編集（ダークは `@media` 側）。`CONFIG.accent` はライト/ダーク両方を inline で上書きする手段。
+> 恒久的に色を変える場合は [css/classic.css](css/classic.css) の `.pf-root` トークンを直接編集（ダークは `@media` 側）。`CONFIG.accent` はライト/ダーク両方を inline で上書きする手段。
 
 ### コンテンツ — [data/portfolio.json](data/portfolio.json)（Sveltia CMS / コード直編集の単一ソース）
 項目フィールド: `{ id, featured, title{ja,en}, subtitle{ja,en}, description{ja,en}, period, tags[], image, links[{label,url}] }`
@@ -126,13 +174,13 @@ HERO は `flex-wrap:wrap-reverse` で狭幅時にアバターが上へ。グリ�
 ---
 
 ## /works（成果物一覧）
-[works/index.html](works/index.html) + [js/works.js](js/works.js)。`webapps` を**全件**密グリッド（`.pf-works-grid`）で列挙し、
+[works/index.html](works/index.html) + [js/classic-works.js](js/classic-works.js)。`webapps` を**全件**密グリッド（`.pf-works-grid`）で列挙し、
 タグチップ（`.pf-filter`）で絞り込み。トップの「抜粋＋タイムライン」とは独立して共存（トップに `/works` 導線）。
 大量表示でも軽量にするため、画像 `loading="lazy"` ＋ カード `content-visibility:auto`。
 
 ---
 
-## ファイル構成
+## ファイル構成（旧デザイン時点。現在の構成は README.md）
 ```
 index.html              トップ（抜粋＋タイムライン）
 works/index.html        /works — 作成Webアプリ全件一覧
