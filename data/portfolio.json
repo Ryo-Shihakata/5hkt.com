@@ -25,7 +25,7 @@
   },
   "highlights": [
     {
-      "value": "7",
+      "value": "15",
       "label": {
         "ja": "制作アプリ",
         "en": "Web Apps"
@@ -40,6 +40,237 @@
     }
   ],
   "webapps": [
+    {
+      "id": "Today-Board",
+      "featured": true,
+      "period": "2026.09 - 2026.10",
+      "title": {
+        "ja": "Today Board",
+        "en": "Today Board"
+      },
+      "subtitle": {
+        "ja": "Googleカレンダーを正本にした自分専用の司令塔",
+        "en": "A personal command center built on Google Calendar"
+      },
+      "description": {
+        "ja": "Googleカレンダーを正本に、今日やること・予定をひと目で扱えるボード。\nTeamsのメッセージ取り込み、人・決定・会議を結ぶ台帳、アプリ内のClaudeへの質問、朝のまとめ、MCP経由でのClaude連携、Androidウィジェットに対応しています。",
+        "en": "A board for today's tasks and schedule, with Google Calendar as the source of truth.\nIt ingests Teams messages, keeps a ledger linking people, decisions and meetings, lets you ask Claude inside the app, sends a morning digest, connects to Claude over MCP, and ships an Android widget."
+      },
+      "tags": [
+        "Workers",
+        "D1",
+        "Claude",
+        "MCP"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/Today-Board-public"
+        }
+      ]
+    },
+    {
+      "id": "Kirimi",
+      "featured": true,
+      "period": "2026.10",
+      "title": {
+        "ja": "Kirimi",
+        "en": "Kirimi"
+      },
+      "subtitle": {
+        "ja": "WebページをAPIに変えるセルフホストツール",
+        "en": "Self-hosted tool that turns web pages into APIs"
+      },
+      "description": {
+        "ja": "Kimono Labsの再現。Webページからセレクタで項目を抜き出し、JSON・CSV・RSSのAPIとして定期取得できるようにするツール。\nMCPサーバーとしても動き、Claudeから直接APIの作成・実行ができます。",
+        "en": "A recreation of Kimono Labs: pick fields from a web page with selectors and serve them as JSON, CSV or RSS APIs on a schedule.\nIt also runs as an MCP server, so Claude can create and run APIs directly."
+      },
+      "tags": [
+        "Node.js",
+        "MCP",
+        "Scraping"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/Kirimi-public"
+        }
+      ]
+    },
+    {
+      "id": "pico-6",
+      "featured": false,
+      "period": "2026.10",
+      "title": {
+        "ja": "PICO-6",
+        "en": "PICO-6"
+      },
+      "subtitle": {
+        "ja": "ブラウザで動くポケットサンプラー",
+        "en": "A pocket sampler in the browser"
+      },
+      "description": {
+        "ja": "P-6風のポケットサンプラーをWebアプリで再現。サンプルの録音・パッドへの割り当て・パターン演奏をブラウザだけで行えます。",
+        "en": "A P-6 style pocket sampler as a web app: record samples, assign them to pads, and play patterns entirely in the browser."
+      },
+      "tags": [
+        "Web Audio",
+        "Workers"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/pico-6"
+        }
+      ]
+    },
+    {
+      "id": "pocket-tv",
+      "featured": false,
+      "period": "2026.10",
+      "title": {
+        "ja": "ポケットTV",
+        "en": "Pocket TV"
+      },
+      "subtitle": {
+        "ja": "公式配信ランチャーとNHK番組表のPWA",
+        "en": "PWA launcher for official streams with an NHK program guide"
+      },
+      "description": {
+        "ja": "各局の公式配信へすぐ飛べるランチャーと、NHK番組表APIを使った番組表をまとめたPWA。",
+        "en": "A PWA that combines a launcher for broadcasters' official streaming services with a program guide built on the NHK Program API."
+      },
+      "tags": [
+        "PWA",
+        "Workers"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/pocket-tv"
+        }
+      ]
+    },
+    {
+      "id": "MachiScape",
+      "featured": false,
+      "period": "2026.07 - 2026.08",
+      "title": {
+        "ja": "MachiScape",
+        "en": "MachiScape"
+      },
+      "subtitle": {
+        "ja": "Mini Metro系譜のミニマルなまちづくりゲーム",
+        "en": "A minimalist city-building game in the Mini Metro lineage"
+      },
+      "description": {
+        "ja": "線と点だけのミニマルな見た目で、街が育っていく様子を楽しむWebゲーム。スマホでも遊べます。",
+        "en": "A web game about watching a town grow, drawn with nothing but lines and dots. Playable on phones too."
+      },
+      "tags": [
+        "TypeScript",
+        "Canvas",
+        "Game"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/MachiScape-public"
+        }
+      ]
+    },
+    {
+      "id": "MapCraft",
+      "featured": false,
+      "period": "2026.06 - 2026.07",
+      "title": {
+        "ja": "MapCraft",
+        "en": "MapCraft"
+      },
+      "subtitle": {
+        "ja": "国土地理院スタイルの架空地図エディタ",
+        "en": "A fictional map editor in the GSI (Japanese survey map) style"
+      },
+      "description": {
+        "ja": "国土地理院の地形図風の見た目で架空の地図を描けるエディタ。地図の保存・共有に対応しています。",
+        "en": "An editor for drawing fictional maps that look like official Japanese topographic maps, with saving and sharing."
+      },
+      "tags": [
+        "Workers",
+        "D1",
+        "Map"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/MapCraft-public"
+        }
+      ]
+    },
+    {
+      "id": "Memorix",
+      "featured": false,
+      "period": "2026.07",
+      "title": {
+        "ja": "Memorix",
+        "en": "Memorix"
+      },
+      "subtitle": {
+        "ja": "穴埋めクイズのUGCプラットフォーム",
+        "en": "A user-generated fill-in-the-blank quiz platform"
+      },
+      "description": {
+        "ja": "誰でも穴埋めクイズを作って公開・共有できる学習プラットフォーム。モノレポ構成でE2Eテストまで整備しています。",
+        "en": "A learning platform where anyone can create, publish and share fill-in-the-blank quizzes. Built as a monorepo with end-to-end tests."
+      },
+      "tags": [
+        "Workers",
+        "D1",
+        "Monorepo"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/Memorix-public"
+        }
+      ]
+    },
+    {
+      "id": "discord-vcmute",
+      "featured": false,
+      "period": "2026.09",
+      "title": {
+        "ja": "discord-vcmute",
+        "en": "discord-vcmute"
+      },
+      "subtitle": {
+        "ja": "Discord VCの一括強制ミュートbot",
+        "en": "A Discord bot that mass-mutes voice chat"
+      },
+      "description": {
+        "ja": "Minecraftのミニゲーム（人狼・氷鬼・かくれんぼ）と連携し、試合の状況に合わせてDiscordのボイスチャットを一括でミュート・解除するbot。操作パネル付き。",
+        "en": "A bot that mutes and unmutes a Discord voice channel in bulk, driven by Minecraft minigames (werewolf, freeze tag, hide-and-seek). Comes with a control panel."
+      },
+      "tags": [
+        "Discord",
+        "Node.js",
+        "Minecraft"
+      ],
+      "image": "",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/discord-vcmute-public"
+        }
+      ]
+    },
     {
       "id": "Links-Page",
       "featured": false,
@@ -169,7 +400,12 @@
         "R2"
       ],
       "image": "",
-      "links": []
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/mosaic-palette-public"
+        }
+      ]
     },
     {
       "id": "sns-follower-tracker",
@@ -193,7 +429,12 @@
         "PWA"
       ],
       "image": "",
-      "links": []
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/Ryo-Shihakata/sns-follower-tracker-public"
+        }
+      ]
     },
     {
       "id": "ytdl-hub",
