@@ -2,8 +2,8 @@
 //  新デザイン /works — 作成Webアプリの全件一覧（タグ絞り込み付き）
 //  データは data/portfolio.json（store.load）を1回 fetch するだけ。
 // ─────────────────────────────────────────────────────────────
-import { store } from './portfolio-data.js';
-import { $, esc, lang, common, renderChrome, initChrome, observeReveals, cardHTML } from './site.js';
+import { store } from './portfolio-data.js?v=20261014b';
+import { $, esc, initWorkDialog, lang, common, renderChrome, initChrome, observeReveals, cardHTML } from './site.js?v=20261014b';
 
 const state = { filter: null }; // null = すべて / 文字列 = タグ名
 
@@ -29,9 +29,9 @@ function uniqueTags(apps) {
 function render() {
   const t = i18n(lang.value === 'ja');
   const d = store.get();
-  const hasLab = !!(d.homelab && (d.homelab.groups || []).length);
+  const extra = ['homelab', 'ai'].filter((k) => d[k] && (d[k].groups || []).length);
 
-  renderChrome(t, d, { navBase: '../', sections: ['works', ...(hasLab ? ['homelab'] : []), 'contact'] });
+  renderChrome(t, d, { navBase: '../', sections: ['works', ...extra, 'contact'] });
   document.querySelector('#nav a[data-id="works"]')?.classList.add('is-active');
 
   $('works-back').innerHTML = `<span class="arr" aria-hidden="true">←</span>${esc(t.back)}`;
@@ -51,7 +51,7 @@ function render() {
   const shown = state.filter ? apps.filter((a) => (a.tags || []).includes(state.filter)) : apps;
   $('works-count').textContent = t.count(shown.length);
   $('works-grid').innerHTML = shown.length
-    ? shown.map((a, i) => cardHTML(a, t, { i, showPick: true })).join('')
+    ? shown.map((a, i) => cardHTML(a, t, { i, clamp: true, showPick: true })).join('')
     : `<p class="works-empty">${esc(t.empty)}</p>`;
 
   observeReveals();
@@ -62,6 +62,7 @@ async function init() {
   store.subscribe(render);
   render();
   initChrome(render);
+  initWorkDialog(() => store.get().webapps || []);
   $('works-filter').addEventListener('click', (e) => {
     const el = e.target.closest('.filter-chip'); if (!el) return;
     state.filter = el.dataset.tag || null;

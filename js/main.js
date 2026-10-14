@@ -3,9 +3,10 @@
 //  HERO（名前の大見出し / 5HKT アイコン）・実績の1行表記・
 //  制作物の抜粋・自宅サーバー・連絡先・スクロールスパイ
 // ─────────────────────────────────────────────────────────────
-import { store } from './portfolio-data.js';
-import { $, esc, br, L, lang, common, renderChrome, initChrome, observeReveals, cardHTML, arrowLink } from './site.js';
-import { iconSVG } from './icon.js';
+import { store } from './portfolio-data.js?v=20261014b';
+import { $, esc, initWorkDialog, br, L, lang, common, renderChrome, initChrome, observeReveals, cardHTML, arrowLink } from './site.js?v=20261014b';
+import { iconSVG } from './icon.js?v=20261014b';
+import { homelabDiagram, aiDiagram } from './diagrams.js?v=20261014b';
 
 function i18n(ja) {
   return {
@@ -17,12 +18,27 @@ function i18n(ja) {
       all: (n) => ja ? `すべての制作物を見る（${n}件）` : `View all ${n} projects`,
     },
     lab: { title: ja ? '自宅サーバー' : 'Homelab' },
-    contact: { title: ja ? 'お気軽に、\nご連絡ください。' : 'Get in\ntouch.' },
+    ai: { title: ja ? 'AI 運用' : 'How I work with AI' },
+    contact: { title: ja ? '各種リンク' : 'Links' },
   };
 }
 
-const hasLab = (d) => !!(d.homelab && (d.homelab.groups || []).length);
-const sectionsOf = (d) => ['works', ...(hasLab(d) ? ['homelab'] : []), 'contact'];
+const hasGroups = (sec) => !!(sec && (sec.groups || []).length);
+const sectionsOf = (d) => ['works', ...['homelab', 'ai'].filter((k) => hasGroups(d[k])), 'contact'];
+
+function renderLab(key, sec, title, diagram) {
+  $(key).hidden = !hasGroups(sec);
+  if (!hasGroups(sec)) return;
+  $(`${key}-title`).textContent = title;
+  $(`${key}-lead`).textContent = L(sec.lead);
+  $(`${key}-diagram`).innerHTML = diagram;
+  $(`${key}-grid`).innerHTML = sec.groups.map((g, i) => `<div class="lab-col reveal" style="--i:${i % 3}">
+      <p class="lab-num">${String(i + 1).padStart(2, '0')}</p>
+      <h3 class="lab-title">${esc(L(g.title))}</h3>
+      <ul class="lab-list">${(g.items || []).map((it) => `<li>${esc(L(it))}</li>`).join('')}</ul>
+    </div>`).join('');
+  $(`${key}-tags`).innerHTML = (sec.tags || []).map((tg) => `<li>${esc(tg)}</li>`).join('');
+}
 
 // ─── メインレンダー ───────────────────────────────────────────
 function render() {
@@ -55,19 +71,9 @@ function render() {
   $('works-grid').innerHTML = apps.filter((a) => a.featured).map((a, i) => cardHTML(a, t, { i, clamp: true })).join('');
   $('works-all').innerHTML = `${esc(t.works.all(apps.length))}<span class="arr" aria-hidden="true">→</span>`;
 
-  // HOMELAB
-  const lab = d.homelab;
-  $('homelab').hidden = !hasLab(d);
-  if (hasLab(d)) {
-    $('lab-title').textContent = t.lab.title;
-    $('lab-lead').textContent = L(lab.lead);
-    $('lab-grid').innerHTML = lab.groups.map((g, i) => `<div class="lab-col reveal" style="--i:${i % 3}">
-        <p class="lab-num">${String(i + 1).padStart(2, '0')}</p>
-        <h3 class="lab-title">${esc(L(g.title))}</h3>
-        <ul class="lab-list">${(g.items || []).map((it) => `<li>${esc(L(it))}</li>`).join('')}</ul>
-      </div>`).join('');
-    $('lab-tags').innerHTML = (lab.tags || []).map((tg) => `<li>${esc(tg)}</li>`).join('');
-  }
+  // HOMELAB / AI 運用（同じ組み方: リード → 構成図 → 3列の箇条書き → タグ）
+  renderLab('homelab', d.homelab, t.lab.title, homelabDiagram(ja));
+  renderLab('ai', d.ai, t.ai.title, aiDiagram(ja));
 
   // CONTACT
   $('contact-title').innerHTML = br(t.contact.title);
@@ -90,7 +96,7 @@ function initSpy() {
   const io = new IntersectionObserver((es) => {
     es.forEach((e) => { if (e.isIntersecting) { active = e.target.id; markActive(); } });
   }, { rootMargin: '-45% 0px -50% 0px' });
-  ['works', 'homelab', 'contact'].forEach((id) => { const el = $(id); if (el) io.observe(el); });
+  ['works', 'homelab', 'ai', 'contact'].forEach((id) => { const el = $(id); if (el) io.observe(el); });
 }
 
 // ─── HERO アート: 5HKT アイコン（出現の動きは CSS） ─────────────
@@ -105,6 +111,7 @@ async function init() {
   render();
   initChrome(render);
   initHeroArt();
+  initWorkDialog(() => store.get().webapps || []);
   initSpy();
   await store.load();
 }

@@ -1,16 +1,14 @@
 // ─────────────────────────────────────────────────────────────
 //  ピクセル・ポートフォリオ（旧デザイン /classic） — レンダリング + インタラクション
-//  i18n / ダーク（OS追従）/ スクロールスパイ / タイムライン切替 / HEROキャンバス
+//  i18n / ダーク（OS追従）/ スクロールスパイ / タイムライン切替 / HEROアイコン
 // ─────────────────────────────────────────────────────────────
-import { store } from './portfolio-data.js';
-import { esc, L as Lof, resolve, tagsHTML, linksHTML, appCardHTML } from './render.js';
-import { bindStyleSwitch } from './style-pref.js';
+import { store } from './portfolio-data.js?v=20261014b';
+import { esc, L as Lof, resolve, tagsHTML, linksHTML, appCardHTML } from './render.js?v=20261014b';
+import { iconSVG } from './icon.js?v=20261014b';
 
 // ─── サイト設定（必要に応じてここを編集） ──────────────────────
 const CONFIG = {
-  heroFx: 'wave',        // 'wave' | 'matrix' | 'scan'
   accent: '',            // '' = テーマ既定 / 例: '#003672' '#a23b2d' '#6b4ea0'
-  avatarImage: '',       // HEROアバター画像/GIFのパス（'' でキャンバスアニメ）
   showHighlights: true,  // 実績バッジの表示
   // セクションの表示切替。false のあいだ index.html 側の .pf-hidden を維持し、
   // ナビ・スクロールスパイ・描画からも外す。データ（portfolio.json）と CMS 設定は残す。
@@ -123,7 +121,6 @@ function render() {
   $('pf-role').textContent = L(p.role);
   $('pf-bio').textContent = L(p.bio);
   $('pf-hero-links').innerHTML = linksHTML((p.links || []).map((l) => ({ label: l.label, url: l.url })), '');
-  $('pf-hero-cap').textContent = CONFIG.avatarImage ? '' : (ja ? 'GIF / 写真をドロップ' : 'DROP GIF / PHOTO');
   document.title = `${L(p.name)} — Portfolio`;
 
   // WEB APPS
@@ -168,7 +165,6 @@ function render() {
     </a>`).join('');
 
   // FOOTER
-  $('pf-footer-text').textContent = t.footer;
   $('pf-footer-copy').textContent = `© 2026 ${L(p.name)}`;
 }
 
@@ -195,80 +191,9 @@ function applyTheme() {
   $('research')?.classList.toggle('pf-hidden', !CONFIG.showResearch);
 }
 
-// ─── HERO キャンバスアニメ ────────────────────────────────────
-let _raf = null;
+// ─── HERO アバター: 新デザインと同じ 5HKT アイコン ─────────────
 function startHero() {
-  const cv = $('pf-canvas'), root = $('pf-root');
-  if (!cv || !root) return;
-  if (CONFIG.avatarImage) {
-    cv.style.display = 'none';
-    if (!cv._imgInserted) {
-      const img = document.createElement('img');
-      img.className = 'pf-avatar-img'; img.src = CONFIG.avatarImage; img.alt = '';
-      cv.parentNode.insertBefore(img, cv);
-      cv._imgInserted = true;
-    }
-    return;
-  }
-  const ctx = cv.getContext('2d'); ctx.imageSmoothingEnabled = false;
-  const fx = CONFIG.heroFx || 'wave';
-  const t0 = performance.now();
-  const draw = (now) => {
-    const r = cv.getBoundingClientRect();
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const W = Math.max(1, Math.round(r.width * dpr)), H = Math.max(1, Math.round(r.height * dpr));
-    if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
-    const w = cv.width, h = cv.height, t = (now - t0) / 1000, u = dpr;
-    const cs = getComputedStyle(root);
-    const accent = (cs.getPropertyValue('--accent') || '#007367').trim();
-    const ink = (cs.getPropertyValue('--ink') || '#0d2540').trim();
-    const period = (cs.getPropertyValue('--period') || '#79b2f2').trim();
-    ctx.clearRect(0, 0, w, h);
-    if (fx === 'matrix') {
-      const col = 15 * u, cols = Math.ceil(w / col);
-      for (let i = 0; i < cols; i++) {
-        const seed = (i * 73) % 37, sp = (38 + seed * 4) * u;
-        const head = ((t * sp) % (h + 220 * u)) - 110 * u;
-        for (let k = 0; k < 14; k++) {
-          const y = head - k * col; if (y < 0 || y > h) continue;
-          ctx.globalAlpha = Math.max(0, (14 - k) / 14) * 0.9;
-          ctx.fillStyle = k === 0 ? ink : accent;
-          const sz = col * 0.66; ctx.fillRect(i * col + (col - sz) / 2, y, sz, sz);
-        }
-      }
-      ctx.globalAlpha = 1;
-    } else if (fx === 'scan') {
-      const c = 18 * u, bandY = ((t * 70 * u) % (h + 120 * u)) - 60 * u;
-      for (let gx = 0; gx * c < w; gx++) for (let gy = 0; gy * c < h; gy++) {
-        const x = gx * c, y = gy * c, checker = (gx + gy) % 2 === 0;
-        const tw = Math.sin(gx * 12.9 + gy * 78.2 + t * 2) * 0.5 + 0.5;
-        let a = (checker ? 0.12 : 0) + tw * 0.10;
-        const dd = Math.abs(y + c / 2 - bandY); if (dd < c * 1.6) a += (1 - dd / (c * 1.6)) * 0.6;
-        if (a <= 0.02) continue;
-        ctx.globalAlpha = Math.min(0.9, a); ctx.fillStyle = (gx + gy) % 3 === 0 ? period : accent;
-        ctx.fillRect(x + 1, y + 1, c - 2, c - 2);
-      }
-      ctx.globalAlpha = 1;
-    } else {
-      const cell = 22 * u;
-      for (let gx = 0; gx * cell < w; gx++) for (let gy = 0; gy * cell < h; gy++) {
-        const x = gx * cell, y = gy * cell;
-        const v = Math.sin(gx * 0.55 + gy * 0.42 + t * 1.5) * 0.5 + 0.5;
-        const v2 = Math.sin(gx * 0.9 - gy * 0.3 + t * 0.9) * 0.5 + 0.5;
-        let col;
-        if (v > 0.72) col = accent; else if (v > 0.42) col = period; else col = v2 > 0.6 ? accent : null;
-        ctx.fillStyle = period; ctx.globalAlpha = 0.18; ctx.fillRect(x + 1, y + 1, cell - 2, cell - 2);
-        if (col) {
-          const sz = (8 + v * (cell - 12));
-          ctx.globalAlpha = 0.55 + v * 0.45; ctx.fillStyle = col;
-          ctx.fillRect(x + (cell - sz) / 2, y + (cell - sz) / 2, sz, sz);
-        }
-      }
-      ctx.globalAlpha = 1;
-    }
-    _raf = requestAnimationFrame(draw);
-  };
-  _raf = requestAnimationFrame(draw);
+  $('pf-avatar-icon').innerHTML = iconSVG({ id: 'classic' });
 }
 
 // ─── 初期化 ───────────────────────────────────────────────────
@@ -292,7 +217,6 @@ async function init() {
     render();
   });
 
-  bindStyleSwitch();
   initSpy();
   startHero();
 }

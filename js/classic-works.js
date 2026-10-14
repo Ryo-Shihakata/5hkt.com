@@ -3,9 +3,8 @@
 //  トップの「抜粋＋タイムライン」とは別に、成果物を密グリッドで列挙。
 //  データは data/portfolio.json（store.load）を1回 fetch するだけ。
 // ─────────────────────────────────────────────────────────────
-import { store } from './portfolio-data.js';
-import { esc, resolve, appCardHTML } from './render.js';
-import { bindStyleSwitch } from './style-pref.js';
+import { store } from './portfolio-data.js?v=20261014b';
+import { esc, resolve, appCardHTML } from './render.js?v=20261014b';
 
 // トップページ（js/main.js の CONFIG）で非表示にしているセクションはナビにも出さない
 const SHOW = { student: false, research: false };
@@ -79,7 +78,6 @@ function render() {
     : `<p class="pf-works-empty">${esc(t.empty)}</p>`;
 
   // フッター
-  $('pf-footer-text').textContent = t.footer;
   $('pf-footer-copy').textContent = `© 2026 ${(d.profile && d.profile.name && (d.profile.name[state.lang] || d.profile.name.ja)) || ''}`;
 }
 
@@ -93,7 +91,6 @@ async function init() {
     try { localStorage.setItem('pf_lang', state.lang); } catch (e) {}
     render();
   });
-  bindStyleSwitch();
   // フィルタチップ（イベント委譲）
   $('pf-works-filter').addEventListener('click', (e) => {
     const el = e.target.closest('.pf-filter-chip'); if (!el) return;

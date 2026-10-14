@@ -71,9 +71,8 @@ body{margin:0}
 .pf-hero-links{display:flex;flex-wrap:wrap;gap:.75rem}
 .pf-hero-avatar{flex:0 0 auto;display:flex;justify-content:center;width:100%;max-width:280px;margin:0 auto}
 .pf-avatar-frame{position:relative;width:min(260px,72vw);aspect-ratio:1/1;background-image:var(--checker);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0;background-color:var(--checker-b);border:4px solid var(--border);box-shadow:7px 7px 0 var(--badge);overflow:hidden}
-.pf-avatar-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;image-rendering:pixelated}
-.pf-avatar-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;display:block}
-.pf-avatar-cap{position:absolute;left:0;right:0;bottom:0;text-align:center;font-family:var(--flabel);font-weight:700;font-size:.7rem;letter-spacing:.06em;color:var(--soft);background:color-mix(in srgb,var(--panel) 72%,transparent);padding:6px 4px;border-top:2px solid var(--border)}
+.pf-avatar-icon{position:absolute;inset:0}
+.pf-avatar-icon svg{width:100%;height:100%;display:block}
 .pf-scroll{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);font-family:var(--flabel);font-weight:700;letter-spacing:.1em;font-size:.72rem;color:var(--soft);animation:pf-bounce 2.2s ease-in-out infinite}
 
 /* ═══ SECTION 共通 ══════════════════════════════════════════ */

@@ -29,9 +29,9 @@
 │   └── classic.css         # 旧デザイン
 ├── js/
 │   ├── portfolio-data.js   # store：data/portfolio.json を fetch する単一ソース層（共通）
-│   ├── style-pref.js       # 新／旧デザインの選択を記憶（共通）
 │   ├── site.js             # 新デザイン共用（言語・ヘッダー・出現アニメ・カード）
 │   ├── icon.js             # 5HKT アイコン（活版 / ドット、ICON で切替）
+│   ├── diagrams.js         # 自宅サーバー / AI 運用の構成図
 │   ├── icon-glyphs.js      # アイコン用の 5/H/K/T アウトライン
 │   ├── main.js             # 新デザインのトップ（名前の見出し・アイコン・スパイ）
 │   ├── works.js            # 新デザインの /works（全件 + タグ絞り込み）
@@ -42,6 +42,7 @@
 │   ├── icon/               # ファビコン（favicon.svg / favicon-32.png / apple-touch-icon.png）
 │   ├── fonts/              # 旧デザイン用セルフホスト woff2（M PLUS 1 Code）
 │   └── uploads/            # CMS からの画像アップロード先
+├── scripts/bump-assets.sh  # JS/CSS の参照に版番号（?v=）を付け直す。JS/CSS を変えたら実行
 ├── _headers                # Cloudflare Pages セキュリティヘッダー
 ├── _redirects              # Cloudflare Pages リダイレクト設定
 └── README.md
@@ -73,7 +74,7 @@ npx serve .
 `https://5hkt.com/admin/` を開き、GitHub でログイン → GUI で編集 → **「公開（Publish）」** を押すと、
 `data/portfolio.json` が GitHub に commit され、Cloudflare Pages が自動デプロイして本番に反映されます。**手動 commit は不要**です。
 
-- 編集できる内容: プロフィール / 実績バッジ / 作成Webアプリ / 学生活動 / 研究活動 / 自宅サーバー（Homelab）/ 連絡先
+- 編集できる内容: プロフィール / 実績バッジ / 作成Webアプリ / 学生活動 / 研究活動 / 自宅サーバー（Homelab）/ AI 運用 / 連絡先（各種リンク）
 - 各項目は **追加・並べ替え・削除・PICK UP（featured）切替**・画像アップロードが可能
 
 > 初回のみ GitHub 認証用の OAuth Worker のセットアップが必要です（下記）。
