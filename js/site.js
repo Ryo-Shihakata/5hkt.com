@@ -3,9 +3,8 @@
 //  言語・ヘッダー・フッター・スクロール表示アニメ・作品カード
 //  （旧デザイン /classic は render.js / classic-*.js を使う）
 // ─────────────────────────────────────────────────────────────
-import { esc, L as Lof } from './render.js';
-import { bindStyleSwitch } from './style-pref.js';
-import { iconSVG } from './icon.js';
+import { esc, L as Lof } from './render.js?v=20261014b';
+import { iconSVG } from './icon.js?v=20261014b';
 
 export { esc };
 export const $ = (id) => document.getElementById(id);
@@ -29,13 +28,13 @@ export const br = (s) => esc(s).replace(/\n/g, '<br>');
 // ─── 共通の文言 ───────────────────────────────────────────────
 export function common(ja) {
   return {
-    nav: { works: ja ? '制作物' : 'Work', homelab: ja ? '自宅サーバー' : 'Homelab', contact: ja ? '連絡先' : 'Contact' },
+    nav: { works: ja ? '制作物' : 'Work', homelab: ja ? '自宅サーバー' : 'Homelab', ai: ja ? 'AI 運用' : 'AI', contact: ja ? 'リンク' : 'Links' },
     langBtn: ja ? 'EN' : '日本語',
     langLabel: ja ? 'Switch to English' : '日本語に切り替え',
     styleBtn: ja ? '旧デザイン' : 'Classic',
     styleFooter: ja ? '旧デザインで見る' : 'View the classic design',
-    footer: ja ? 'このサイトは静的な HTML / CSS / JavaScript だけで作られています。' : 'Built with plain HTML, CSS, and JavaScript.',
     pickup: 'Pick up',
+    more: ja ? '詳しく見る' : 'Details',
   };
 }
 
@@ -48,14 +47,12 @@ export function renderChrome(t, d, { navBase = '', sections = [] } = {}) {
   $('lang').textContent = t.langBtn;
   $('lang').setAttribute('aria-label', t.langLabel);
   $('style-switch').textContent = t.styleBtn;
-  $('footer-note').textContent = t.footer;
   $('footer-style').textContent = t.styleFooter;
   const name = d.profile ? L(d.profile.name) : '';
   $('footer-copy').textContent = `© 2026 ${name}`;
 }
 
 export function initChrome(onLang) {
-  bindStyleSwitch();
   // ヘッダーのロゴ = 5HKT アイコンの小さい版（かすれ等は省く）
   $('brand-mark').innerHTML = iconSVG({ id: 'bm', texture: false });
   $('lang').addEventListener('click', () => { lang.toggle(); onLang(); });
@@ -96,7 +93,8 @@ function coverHTML(raw, title) {
 export function cardHTML(raw, t, { i = 0, clamp = false, showPick = false } = {}) {
   const title = L(raw.title), sub = L(raw.subtitle), desc = L(raw.description);
   const tags = raw.tags || [], links = raw.links || [];
-  return `<article class="card reveal" style="--i:${i % 3}">
+  // カード全体を押すと詳細ダイアログ（initWorkDialog）。中のリンクはそのまま開く
+  return `<article class="card reveal" style="--i:${i % 3}" data-id="${esc(raw.id)}" tabindex="0" role="button" aria-haspopup="dialog" aria-label="${esc(title)}">
     ${coverHTML(raw, title)}
     <div class="card-body">
       <p class="card-meta">${raw.period ? `<span>${esc(raw.period)}</span>` : ''}${showPick && raw.featured ? `<span class="card-pick">${esc(t.pickup)}</span>` : ''}</p>
@@ -104,9 +102,63 @@ export function cardHTML(raw, t, { i = 0, clamp = false, showPick = false } = {}
       ${sub ? `<p class="card-sub">${esc(sub)}</p>` : ''}
       ${desc ? `<p class="card-desc${clamp ? ' is-clamped' : ''}">${br(desc)}</p>` : ''}
       ${tags.length ? `<ul class="card-tags">${tags.map((tg) => `<li>${esc(tg)}</li>`).join('')}</ul>` : ''}
-      ${links.length ? `<div class="card-links">${links.map((l) => arrowLink(l.label, l.url)).join('')}</div>` : ''}
+      <div class="card-links">${links.map((l) => arrowLink(l.label, l.url)).join('')}<span class="card-more">${esc(t.more)}</span></div>
     </div>
   </article>`;
+}
+
+// ─── 作品の詳細ダイアログ ─────────────────────────────────────
+let dlg = null;
+let getApps = () => [];
+
+function detailHTML(raw) {
+  const ja = lang.value === 'ja';
+  const title = L(raw.title), sub = L(raw.subtitle), desc = L(raw.description);
+  const tags = raw.tags || [], links = raw.links || [];
+  return `<div class="wd-inner">
+    <button type="button" class="wd-close" data-close aria-label="${ja ? '閉じる' : 'Close'}">×</button>
+    ${coverHTML(raw, title)}
+    <div class="wd-body">
+      ${raw.period ? `<p class="card-meta"><span>${esc(raw.period)}</span></p>` : ''}
+      <h2 class="wd-title" id="wd-title">${esc(title)}</h2>
+      ${sub ? `<p class="wd-sub">${esc(sub)}</p>` : ''}
+      ${desc ? `<p class="wd-desc">${br(desc)}</p>` : ''}
+      ${tags.length ? `<ul class="card-tags">${tags.map((tg) => `<li>${esc(tg)}</li>`).join('')}</ul>` : ''}
+      ${links.length ? `<div class="wd-links">${links.map((l) => arrowLink(l.label, l.url, 'btn btn-ghost')).join('')}</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function openWork(id) {
+  const raw = getApps().find((a) => a.id === id);
+  if (!raw || !dlg) return;
+  dlg.innerHTML = detailHTML(raw);
+  dlg.showModal();
+  document.documentElement.classList.add('is-locked');
+  dlg.querySelector('.wd-close').focus();
+}
+
+// apps: 現在のデータの webapps[] を返す関数（言語切替・データ更新後も最新を引く）
+export function initWorkDialog(apps) {
+  getApps = apps;
+  dlg = document.createElement('dialog');
+  dlg.className = 'work-dialog';
+  dlg.setAttribute('aria-labelledby', 'wd-title');
+  document.body.appendChild(dlg);
+  // 背景（dialog 自身）か × を押したら閉じる
+  dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.closest('[data-close]')) dlg.close(); });
+  dlg.addEventListener('close', () => document.documentElement.classList.remove('is-locked'));
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('a') || dlg.contains(e.target)) return;
+    const card = e.target.closest('.card[data-id]');
+    if (card) openWork(card.dataset.id);
+  });
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.card[data-id]')) {
+      e.preventDefault();
+      openWork(e.target.dataset.id);
+    }
+  });
 }
 
 export const arrowLink = (label, url, cls = 'arrow-link') =>

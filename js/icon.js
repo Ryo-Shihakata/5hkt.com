@@ -5,7 +5,7 @@
 //  どちらも 400×400 の SVG 文字列を返す。文字はアウトライン（icon-glyphs.js）なので
 //  フォントの読み込みを待たずに描ける。
 // ─────────────────────────────────────────────────────────────
-import { GLYPHS } from './icon-glyphs.js';
+import { GLYPHS } from './icon-glyphs.js?v=20261014b';
 
 // サイトで使うアイコン（'letterpress' | 'dot'）
 export const ICON = 'letterpress';

@@ -1,9 +1,12 @@
 # DESIGN.md — デザイン仕様
 
 サイトには2つのデザインがある。**新デザイン（既定、`/`・`/works/`）** と、**旧デザイン（ピクセル調、`/classic/`・`/classic/works/`）**。
-どちらも `data/portfolio.json` を読む。ヘッダーのボタン（新:「旧デザイン」/ 旧:「新デザイン」）で行き来でき、
-選んだ方は `localStorage['pf_style']` に記憶される（[js/style-pref.js](js/style-pref.js)）。新デザイン側の各ページは `<head>` のインラインスクリプトで、
-`pf_style === 'classic'` のとき `/classic/` 側へ移る。言語（`pf_lang`）は両デザインで共有。
+どちらも `data/portfolio.json` を読む。ヘッダーのボタン（新:「旧デザイン」/ 旧:「新デザイン」）で行き来できる。
+**どちらを選んだかは記憶しない**（以前は記憶して自動で移していたが、意図せず旧デザインが出るため 2026-10-14 に廃止）。言語（`pf_lang`）は両デザインで共有。
+
+**キャッシュ対策**: 本番の JS/CSS は Cloudflare 側の設定でブラウザに 4 時間キャッシュされる。
+新しい HTML と古い JS/CSS が混ざると表示が壊れるため、HTML の参照とモジュールの import にはすべて `?v=版番号` を付けている。
+**JS/CSS を変えたら `scripts/bump-assets.sh` を実行して版番号を上げること。**
 
 ---
 
@@ -36,9 +39,10 @@
 | ロゴ / HERO アイコン | `.brand-mark` `.hero-art` | 5HKT アイコン（[js/icon.js](js/icon.js)）。`ICON` で `letterpress`（墨の活版刷り・升目に 5H/KT を白抜き）/ `dot`（5×7 ドット）を切替。文字はアウトライン（[js/icon-glyphs.js](js/icon-glyphs.js)）なのでフォント待ち無し。ファビコンは `assets/icon/` |
 | HERO | `.hero` | 名前の大見出し、肩書、紹介文、ボタン、実績を1行（`.facts`）で控えめに |
 | カード | `.card` | 四角・細罫線。画像なしは英題の頭文字（イタリック）+ 朱の四角の色面。hover で枠が濃くなり、頭文字が傾く。タグは「A / B / C」の文字列 |
-| 自宅サーバー | `#homelab` `.lab-grid` | `homelab.groups` を3列（狭幅で1列）。`homelab` が無ければセクションごと非表示 |
-| 連絡先 | `.contact-row` | 罫線区切りの行。hover で右へずれる |
-| フッター | `.site-footer` | 墨色の帯。大きなワードマーク、旧デザインへのリンク |
+| 自宅サーバー / AI 運用 | `#homelab` `#ai` | リード → 構成図（[js/diagrams.js](js/diagrams.js)、段と矢印を HTML+CSS で描く）→ `groups` を3列（狭幅で1列）→ タグ。データが無ければセクションごと非表示 |
+| 作品の詳細 | `.work-dialog` | カードを押す（Enter/Space も可）と `<dialog>` で全文・タグ・リンクを表示。背景か × か Esc で閉じる |
+| 各種リンク | `.contact-row` | 罫線区切りの行。hover で右へずれる |
+| フッター | `.site-footer` | 墨色の帯。大きなワードマーク、旧デザインへのリンク、© |
 
 ## Motion
 - 出現: `.hero-in`（読み込み時、`--d` で時差）/ `.reveal` → `.is-in`（IntersectionObserver、`--i` で時差）。

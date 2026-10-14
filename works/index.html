@@ -6,15 +6,15 @@
   <title>Works — 5HKT</title>
   <meta name="description" content="作成Webアプリの一覧 — 個人・チームで企画から実装まで担当した成果物">
   <meta name="color-scheme" content="light dark">
-  <!-- 旧デザインを選んだ人は /classic/works/ へ（選択は js/style-pref.js が保存） -->
-  <script>document.documentElement.classList.add('js');try{if(localStorage.getItem('pf_style')==='classic')location.replace('../classic/works/')}catch(e){}</script>
+  <!-- 以前の「旧デザインを記憶して自動で移る」設定を消す（今は記憶しない） -->
+  <script>document.documentElement.classList.add('js');try{localStorage.removeItem('pf_style')}catch(e){}</script>
   <link rel="icon" href="../assets/icon/favicon.svg" type="image/svg+xml">
   <link rel="icon" href="../assets/icon/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="../assets/icon/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;600&display=swap">
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/style.css?v=20261014b">
 </head>
 <body>
 
@@ -27,7 +27,7 @@
       <nav class="nav" id="nav" aria-label="Sections"></nav>
       <div class="header-tools">
         <button class="pill-btn" id="lang" type="button"></button>
-        <a class="pill-btn" id="style-switch" href="../classic/works/" data-style-switch="classic"></a>
+        <a class="pill-btn" id="style-switch" href="../classic/works/"></a>
       </div>
     </div>
   </header>
@@ -55,14 +55,13 @@
   <footer class="site-footer">
     <div class="wrap footer-inner">
       <p class="footer-brand">5HKT</p>
-      <p class="footer-note" id="footer-note"></p>
       <p class="footer-meta">
-        <a href="../classic/works/" data-style-switch="classic" id="footer-style"></a>
+        <a href="../classic/works/" id="footer-style"></a>
         <span id="footer-copy"></span>
       </p>
     </div>
   </footer>
 
-<script type="module" src="../js/works.js"></script>
+<script type="module" src="../js/works.js?v=20261014b"></script>
 </body>
 </html>

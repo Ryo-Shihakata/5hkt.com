@@ -584,6 +584,83 @@
       "systemd"
     ]
   },
+  "ai": {
+    "lead": {
+      "ja": "開発はほぼすべて Claude Code と一緒に進めています。役割の違うモデルとエージェントを組み合わせ、記憶と設定を GitHub で管理して、どの端末からでも同じ環境で続きができるようにしています。",
+      "en": "Nearly all of my development happens together with Claude Code. I combine models and agents with different roles, and keep memory and settings on GitHub so I can pick up where I left off from any device."
+    },
+    "groups": [
+      {
+        "title": {
+          "ja": "環境",
+          "en": "Setup"
+        },
+        "items": [
+          {
+            "ja": "開発VM の tmux に Claude Code を常駐させ、スマホからは Remote Control（claude rc）、別PCからは SSH で同じセッションに入る",
+            "en": "Claude Code stays running in tmux on the dev VM; I join the same session from my phone via Remote Control (claude rc) and from other PCs over SSH"
+          },
+          {
+            "ja": "設計・実装・レビューは Opus。調査・実装・検証はサブエージェント（Sonnet）、定型作業は Haiku に振り分ける",
+            "en": "Opus handles design, implementation and review; research, building and verification go to Sonnet subagents, and routine tasks to Haiku"
+          },
+          {
+            "ja": "別系統のモデル（OpenAI Codex）をセカンドオピニオンとして呼べるようにしている",
+            "en": "A different model family (OpenAI Codex) is on call for second opinions"
+          }
+        ]
+      },
+      {
+        "title": {
+          "ja": "仕組み",
+          "en": "Systems"
+        },
+        "items": [
+          {
+            "ja": "skills・agents・hooks・CLAUDE.md を claude-dotfiles リポで管理し、すべての環境で同じ設定を使う",
+            "en": "Skills, agents, hooks and CLAUDE.md live in a claude-dotfiles repo, so every machine runs the same setup"
+          },
+          {
+            "ja": "長く覚えておくべき知見・教訓は memory-vault（GitHub のリポ）に書き、セッションをまたいで引き継ぐ",
+            "en": "Lasting knowledge and lessons go into memory-vault (a GitHub repo) and carry over between sessions"
+          },
+          {
+            "ja": "自作アプリを MCP サーバーにして、予定やタスクを Claude から直接扱う（Today Board など）",
+            "en": "My own apps double as MCP servers, so Claude can work with my schedule and tasks directly (e.g. Today Board)"
+          }
+        ]
+      },
+      {
+        "title": {
+          "ja": "ルール",
+          "en": "Rules"
+        },
+        "items": [
+          {
+            "ja": "読んでから書く。完了の基準を先に決め、ビルドやテストの結果を添えて報告させる",
+            "en": "Read before writing; define \"done\" up front and report with build and test evidence"
+          },
+          {
+            "ja": "認証や入力処理などセキュリティに関わる変更は、セルフ監査してから PR にする",
+            "en": "Security-related changes (auth, input handling, etc.) get a self-audit before the PR"
+          },
+          {
+            "ja": "main へは PR 経由。コミットは Conventional Commits",
+            "en": "Everything reaches main through a PR, with Conventional Commits"
+          }
+        ]
+      }
+    ],
+    "tags": [
+      "Claude Code",
+      "Opus",
+      "Sonnet",
+      "Haiku",
+      "Codex",
+      "MCP",
+      "tmux"
+    ]
+  },
   "contact": [
     {
       "label": "GitHub",
