@@ -110,6 +110,34 @@ collections:
             summary: '{{fields.title.ja}}'
             fields: *item_fields
 
+          # ── 自宅サーバー（Homelab） ───────────────────
+          - name: homelab
+            label: 自宅サーバー（Homelab）
+            widget: object
+            required: false
+            fields:
+              - { name: lead, label: リード文, widget: object, fields: [
+                    { name: ja, label: 日本語, widget: text, required: false },
+                    { name: en, label: English, widget: text, required: false } ] }
+              - name: groups
+                label: 項目グループ
+                widget: list
+                label_singular: グループ
+                summary: '{{fields.title.ja}}'
+                fields:
+                  - { name: title, label: 見出し, widget: object, fields: [
+                        { name: ja, label: 日本語, widget: string },
+                        { name: en, label: English, widget: string, required: false } ] }
+                  - name: items
+                    label: 箇条書き
+                    widget: list
+                    label_singular: 行
+                    summary: '{{fields.ja}}'
+                    fields:
+                      - { name: ja, label: 日本語, widget: text }
+                      - { name: en, label: English, widget: text, required: false }
+              - { name: tags, label: タグ, widget: list, required: false, field: { name: tag, label: タグ, widget: string } }
+
           # ── 連絡先 ────────────────────────────────────
           - name: contact
             label: 連絡先

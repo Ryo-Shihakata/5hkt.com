@@ -501,6 +501,89 @@
       "links": []
     }
   ],
+  "homelab": {
+    "lead": {
+      "ja": "中古ラックサーバーで組んだ自宅 Proxmox クラスタ。開発環境・Webアプリ・ゲームサーバーをすべて自前で運用しています。",
+      "en": "A home Proxmox cluster built from second-hand rack servers, running my dev environment, web apps and game servers."
+    },
+    "groups": [
+      {
+        "title": {
+          "ja": "ハードウェア",
+          "en": "Hardware"
+        },
+        "items": [
+          {
+            "ja": "Dell Precision Rack 7910（Xeon E5-2667 v4）",
+            "en": "Dell Precision Rack 7910 (Xeon E5-2667 v4)"
+          },
+          {
+            "ja": "Dell PowerEdge R430（Xeon E5-2620 v4）",
+            "en": "Dell PowerEdge R430 (Xeon E5-2620 v4)"
+          },
+          {
+            "ja": "2台合計 約23,000円で中古購入。UPS（OMRON）で停電対策",
+            "en": "Both bought second-hand for about ¥23,000 in total, with an OMRON UPS for power outages"
+          },
+          {
+            "ja": "増設待ち: Lenovo System x3550 M5 ×2、富士通 PRIMERGY TX1320 M3",
+            "en": "Waiting to be added: 2× Lenovo System x3550 M5 and a Fujitsu PRIMERGY TX1320 M3"
+          }
+        ]
+      },
+      {
+        "title": {
+          "ja": "動いているもの",
+          "en": "What runs on it"
+        },
+        "items": [
+          {
+            "ja": "開発VM（Ubuntu 24.04）: Claude Code を tmux 上で常駐させ、Remote Control（claude rc）でスマホや出先からも同じセッションに接続。別PCからは SSH で入る。並行作業は git worktree で分離",
+            "en": "Dev VM (Ubuntu 24.04): Claude Code stays running in tmux; I reach the same session from my phone or on the go via Remote Control (claude rc), and from other PCs over SSH. Parallel work is isolated with git worktrees"
+          },
+          {
+            "ja": "Minecraft サーバー網: Velocity プロキシ配下にロビー・生活・建築・ミニゲームの各サーバー。Java 版と統合版のクロスプレイ、自作プラグイン、管理パネル、Discord 連携 bot",
+            "en": "Minecraft network: lobby, survival, building and minigame servers behind a Velocity proxy, with Java/Bedrock cross-play, custom plugins, an admin panel and a Discord bot"
+          },
+          {
+            "ja": "自作 Web アプリのバックエンド: SNS フォロワー収集、yt-dlp 保存ツール、Webスクレイピング API（Kirimi）、Today Board の常駐処理",
+            "en": "Backends for my web apps: SNS follower collection, a yt-dlp download tool, a web-scraping API (Kirimi) and Today Board's background jobs"
+          },
+          {
+            "ja": "Proxmox 管理ダッシュボード（自作、Cloudflare Access で保護）",
+            "en": "A self-made Proxmox dashboard, protected by Cloudflare Access"
+          }
+        ]
+      },
+      {
+        "title": {
+          "ja": "運用",
+          "en": "Operations"
+        },
+        "items": [
+          {
+            "ja": "外部公開は Cloudflare Tunnel + Access。SSH は公開鍵認証のみ",
+            "en": "Public access goes through Cloudflare Tunnel + Access; SSH accepts public keys only"
+          },
+          {
+            "ja": "夜間に別ノードへ vzdump バックアップ、コードはすべて GitHub",
+            "en": "Nightly vzdump backups to another node; all code lives on GitHub"
+          },
+          {
+            "ja": "構築・障害対応も Claude Code と一緒に行い、教訓は記録して再発防止",
+            "en": "I build and troubleshoot together with Claude Code, and write down lessons learned so incidents don't repeat"
+          }
+        ]
+      }
+    ],
+    "tags": [
+      "Proxmox",
+      "Tailscale",
+      "Cloudflare Tunnel",
+      "Velocity",
+      "systemd"
+    ]
+  },
   "contact": [
     {
       "label": "GitHub",

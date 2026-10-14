@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5HKT — Portfolio (Classic)</title>
+  <meta name="description" content="個人ポートフォリオ — プロフィール / 作成Webアプリ / 連絡先">
+  <link rel="stylesheet" href="../css/classic.css">
+</head>
+<body>
+<div class="pf-root" id="pf-root">
+
+  <!-- NAV -->
+  <header class="pf-header">
+    <div class="pf-header-inner">
+      <a href="#top" class="pf-logo">_PORTFOLIO</a>
+      <nav class="pf-nav" id="pf-nav"></nav>
+      <div class="pf-header-tools">
+        <button class="pf-lang" id="pf-lang" type="button"></button>
+        <a class="pf-lang pf-style" id="pf-style" href="../" data-style-switch="new"></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="pf-hero">
+      <div class="pf-hero-inner">
+        <div class="pf-hero-text">
+          <p class="pf-kicker">// whoami</p>
+          <h1 class="pf-name"><span id="pf-name"></span><span class="pf-caret"></span></h1>
+          <p class="pf-role" id="pf-role"></p>
+          <p class="pf-bio" id="pf-bio"></p>
+          <div class="pf-hero-links" id="pf-hero-links"></div>
+        </div>
+        <div class="pf-hero-avatar">
+          <div class="pf-avatar-frame">
+            <canvas class="pf-avatar-canvas" id="pf-canvas"></canvas>
+            <span class="pf-avatar-cap" id="pf-hero-cap"></span>
+          </div>
+        </div>
+      </div>
+      <div class="pf-scroll">SCROLL ▾</div>
+    </section>
+
+    <!-- WEB APPS -->
+    <section class="pf-section" id="webapps">
+      <p class="pf-sec-kicker">// projects</p>
+      <h2 class="pf-sec-title" id="pf-apps-title"></h2>
+      <p class="pf-sec-lead" id="pf-apps-lead"></p>
+      <div id="pf-highlights"></div>
+      <div id="pf-apps-body"></div>
+      <div class="pf-toggle-wrap">
+        <button class="pf-btn pf-btn-accent" id="pf-apps-toggle" type="button"></button>
+        <div><a class="pf-toggle-link" href="works/" id="pf-apps-all"></a></div>
+      </div>
+    </section>
+
+    <!-- STUDENT（CONFIG.showStudent = false のあいだ非表示） -->
+    <section class="pf-section pf-hidden" id="student">
+      <p class="pf-sec-kicker">// campus log</p>
+      <h2 class="pf-sec-title" id="pf-stud-title"></h2>
+      <p class="pf-sec-lead" id="pf-stud-lead"></p>
+      <div id="pf-stud-body"></div>
+      <div class="pf-toggle-wrap">
+        <button class="pf-btn pf-btn-accent" id="pf-stud-toggle" type="button"></button>
+      </div>
+    </section>
+
+    <!-- RESEARCH（CONFIG.showResearch = false のあいだ非表示） -->
+    <section class="pf-section pf-hidden" id="research">
+      <p class="pf-sec-kicker">// research log</p>
+      <h2 class="pf-sec-title" id="pf-research-title"></h2>
+      <p class="pf-sec-lead" id="pf-research-lead"></p>
+      <div class="pf-research-list" id="pf-research-body"></div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="pf-section" id="contact">
+      <p class="pf-sec-kicker">// contact</p>
+      <h2 class="pf-sec-title" id="pf-contact-title"></h2>
+      <p class="pf-sec-lead" id="pf-contact-lead"></p>
+      <div class="pf-contact-grid" id="pf-contact-body"></div>
+    </section>
+
+  </main>
+
+  <footer class="pf-footer">
+    <p id="pf-footer-text"></p>
+    <p class="pf-footer-copy" id="pf-footer-copy"></p>
+  </footer>
+
+</div>
+
+<script type="module" src="../js/classic-main.js"></script>
+</body>
+</html>

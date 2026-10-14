@@ -1,211 +1,235 @@
 /* ═══════════════════════════════════════════════════════════════
-   ピクセル・ポートフォリオ — スタイル
-   Design Tokens（light / dark）+ 全コンポーネント
-   border-radius は基本 0 / 影はハードシャドウ（ぼかし無し）
+   5HKT ポートフォリオ（新デザイン） — スタイル
+   生成りの紙色 + 墨 + 朱の一点。見出しは明朝/セリフ、本文はゴシック。
+   角丸・影・すりガラス・ピル型は使わない。四角と罫線と余白で組む。
+   動きは控えめに（reduced-motion で停止）。
+   旧デザインは css/classic.css（/classic/）
    ═══════════════════════════════════════════════════════════════ */
 
-/* ─── Self-hosted fonts ─────────────────────────────────────── */
-/* 宣言順が重要: 和文（範囲指定なし＝全域）を先、欧文（範囲指定あり）を後に置く。
-   同一コードポイントに複数の face が一致した場合、CSS Fonts は「後に宣言した方」を
-   採用するため、この順序にすると ASCII は 9KB の欧文サブセットから引かれる。
-   逆順にすると欧文にも 600KB の和文ファイルが使われてしまう。 */
-@font-face{font-family:"M PLUS 1 Code";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/m-plus-1-code-japanese-400-normal.woff2") format("woff2")}
-@font-face{font-family:"M PLUS 1 Code";font-style:normal;font-weight:700;font-display:swap;src:url("../assets/fonts/m-plus-1-code-japanese-700-normal.woff2") format("woff2")}
-@font-face{font-family:"M PLUS 1 Code";font-style:normal;font-weight:400;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F;src:url("../assets/fonts/m-plus-1-code-latin-400-normal.woff2") format("woff2")}
-@font-face{font-family:"M PLUS 1 Code";font-style:normal;font-weight:700;font-display:swap;unicode-range:U+0000-00FF,U+2000-206F;src:url("../assets/fonts/m-plus-1-code-latin-700-normal.woff2") format("woff2")}
+/* ─── Tokens ─────────────────────────────────────────────────── */
+:root{
+  --bg:#f0ece3;            /* 生成り */
+  --surface:#fbf8f2;       /* カード地 */
+  --surface-2:#e7e1d5;     /* 一段沈んだ面 */
+  --ink:#1f1e1b;           /* 墨 */
+  --ink-2:#5c5850;         /* 補助テキスト */
+  --ink-3:#8a8478;         /* さらに弱い */
+  --line:rgba(31,30,27,.14);
+  --line-strong:rgba(31,30,27,.32);
+  --accent:#c2412f;        /* 朱 */
+  --accent-ink:#fbf8f2;
+  --tone-0:#b9d3c7; --tone-1:#e3d3bb; --tone-2:#dfe6ec; --tone-3:#ecc9b8; --tone-4:#d6d0e2;
+  --footer-bg:#1f1e1b; --footer-ink:#f0ece3; --footer-ink-2:#a39d90;
 
-/* ─── Reset ─────────────────────────────────────────────────── */
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0}
-
-/* ─── Tokens (light) ────────────────────────────────────────── */
-.pf-root{
-  --bg:#eef4fc;--panel:#ffffff;--ink:#0d2540;--soft:#4a6a8f;--border:#0d2540;--brand:#003672;
-  --accent:#003672;--accent-ink:#ffffff;--badge:#f2d579;--period:#79b2f2;--checker-a:#79b2f2;--checker-b:#eef4fc;
-  --dot:rgba(13,37,64,0.13);
-  --checker:linear-gradient(45deg,var(--checker-a) 25%,transparent 25%),linear-gradient(-45deg,var(--checker-a) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,var(--checker-a) 75%),linear-gradient(-45deg,transparent 75%,var(--checker-a) 75%);
-  --fdisp:'M PLUS 1 Code',ui-monospace,monospace;--fbody:'M PLUS 1 Code',ui-monospace,monospace;--flabel:'M PLUS 1 Code',ui-monospace,monospace;
-  color:var(--ink);
-  font-family:var(--fbody);
-  font-size:18px;
-  line-height:1.55;
-  min-height:100vh;
-  background-color:var(--bg);
-  background-image:radial-gradient(var(--dot) 1.6px,transparent 1.6px);
-  background-size:22px 22px;
+  --serif:'Newsreader','Noto Serif JP','Hiragino Mincho ProN','Yu Mincho',serif;
+  --sans:'Noto Sans JP',system-ui,-apple-system,'Hiragino Sans','Yu Gothic UI',sans-serif;
+  --wrap:1160px;
+  --gutter:clamp(16px,4vw,40px);
+  --ease:cubic-bezier(.2,.7,.2,1);
+  color-scheme:light dark;
 }
-/* グリッド背景 OFF */
-.pf-root.pf-nogrid{--dot:transparent}
-
-/* ─── Tokens (dark, OS 追従) ────────────────────────────────── */
 @media (prefers-color-scheme: dark){
-  .pf-root{
-    --bg:#141417;--panel:#1c1e25;--ink:#e2e7e7;--soft:#838e9a;--border:#5f6579;--brand:#4f93d6;
-    --accent:#4f93d6;--accent-ink:#141417;--badge:#1c1e25;--period:rgba(0,67,122,.32);
-    --checker-a:#1c1e25;--checker-b:#141417;--dot:rgba(226,231,231,0.08);
+  :root{
+    --bg:#191815; --surface:#22211d; --surface-2:#2b2925;
+    --ink:#f0ece3; --ink-2:#b3ad9f; --ink-3:#86806f;
+    --line:rgba(240,236,227,.12); --line-strong:rgba(240,236,227,.3);
+    --accent:#e0664f; --accent-ink:#191815;
+    --tone-0:#2e3b35; --tone-1:#3a3328; --tone-2:#2b3238; --tone-3:#40302a; --tone-4:#332f3c;
+    --footer-bg:#11100e; --footer-ink:#f0ece3; --footer-ink-2:#8f897c;
   }
-  .pf-root.pf-nogrid{--dot:transparent}
 }
 
-/* ─── Keyframes ─────────────────────────────────────────────── */
-@keyframes pf-bounce{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,6px)}}
-@keyframes pf-blink{0%,55%{opacity:1}56%,100%{opacity:0}}
+/* ─── Base ───────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.8;letter-spacing:.01em;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+::selection{background:var(--accent);color:var(--accent-ink)}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
+[hidden]{display:none !important}
 
-/* ═══ HEADER / NAV ══════════════════════════════════════════ */
-.pf-header{position:sticky;top:0;z-index:50;background:var(--panel);border-bottom:4px solid var(--border)}
-.pf-header-inner{max-width:1080px;margin:0 auto;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.55rem 1.25rem;flex-wrap:wrap}
-.pf-logo{font-family:var(--flabel);font-weight:700;letter-spacing:.08em;font-size:.95rem;color:var(--brand);text-decoration:none;white-space:nowrap}
-.pf-nav{display:flex;gap:1.1rem;flex-wrap:wrap;margin-left:auto}
-.pf-nav a{font-family:var(--fdisp);font-size:.95rem;text-decoration:none;padding:.35rem .1rem;border-bottom:3px solid transparent;color:var(--ink);white-space:nowrap}
-.pf-nav a.pf-active{border-bottom-color:var(--brand);color:var(--brand);font-weight:700}
-.pf-lang{font-family:var(--flabel);font-weight:700;font-size:.78rem;padding:.5rem .7rem;background:var(--bg);color:var(--ink);border:2px solid var(--border);box-shadow:3px 3px 0 var(--border);cursor:pointer}
-.pf-lang:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--border)}
+.eyebrow{font-size:.88rem;color:var(--ink-2);margin:0 0 1rem;letter-spacing:.06em}
+.arr{display:inline-block;margin-left:.35em;transition:transform .35s var(--ease)}
 
-/* ═══ HERO ══════════════════════════════════════════════════ */
-.pf-hero{min-height:calc(100vh - 64px);display:flex;flex-direction:column;justify-content:center;position:relative;padding:5rem 1.5rem}
-.pf-hero-inner{max-width:980px;margin:0 auto;width:100%;display:flex;flex-wrap:wrap-reverse;align-items:center;justify-content:space-between;gap:3rem}
-.pf-hero-text{flex:1 1 360px;min-width:300px}
-.pf-kicker{font-family:var(--flabel);font-weight:700;font-size:.82rem;color:var(--accent);letter-spacing:.08em;margin:0 0 1rem}
-.pf-name{font-family:var(--fdisp);font-weight:700;font-size:clamp(1.9rem,5.5vw,3rem);line-height:1.4;margin:0 0 .8rem}
-.pf-caret{display:inline-block;width:.5ch;height:.85em;background:var(--accent);margin-left:.15em;vertical-align:-1px;animation:pf-blink 1.1s steps(1) infinite}
-.pf-role{color:var(--accent);font-size:1.3rem;margin:0 0 1rem}
-.pf-bio{color:var(--soft);font-size:1.25rem;line-height:1.7;margin:0 0 1.6rem;max-width:34ch}
-.pf-hero-links{display:flex;flex-wrap:wrap;gap:.75rem}
-.pf-hero-avatar{flex:0 0 auto;display:flex;justify-content:center;width:100%;max-width:280px;margin:0 auto}
-.pf-avatar-frame{position:relative;width:min(260px,72vw);aspect-ratio:1/1;background-image:var(--checker);background-size:20px 20px;background-position:0 0,0 10px,10px -10px,-10px 0;background-color:var(--checker-b);border:4px solid var(--border);box-shadow:7px 7px 0 var(--badge);overflow:hidden}
-.pf-avatar-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;image-rendering:pixelated}
-.pf-avatar-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;display:block}
-.pf-avatar-cap{position:absolute;left:0;right:0;bottom:0;text-align:center;font-family:var(--flabel);font-weight:700;font-size:.7rem;letter-spacing:.06em;color:var(--soft);background:color-mix(in srgb,var(--panel) 72%,transparent);padding:6px 4px;border-top:2px solid var(--border)}
-.pf-scroll{position:absolute;bottom:1.6rem;left:50%;transform:translateX(-50%);font-family:var(--flabel);font-weight:700;letter-spacing:.1em;font-size:.72rem;color:var(--soft);animation:pf-bounce 2.2s ease-in-out infinite}
+/* ─── Header ─────────────────────────────────────────────────── */
+.site-header{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid transparent;transition:border-color .3s}
+.site-header.is-scrolled{border-bottom-color:var(--line)}
+.header-inner{display:flex;align-items:center;gap:1.5rem;height:64px}
+.brand{display:flex;align-items:center;gap:.55rem;text-decoration:none;color:var(--ink)}
+.brand-mark{width:28px;height:28px;display:block}
+.brand-mark svg{width:100%;height:100%;display:block}
+.brand-name{font-family:var(--serif);font-size:1.3rem;font-weight:500;letter-spacing:.04em}
+.nav{display:flex;gap:1.6rem;margin-left:auto}
+.nav a{position:relative;font-size:.92rem;text-decoration:none;color:var(--ink-2);padding:.3rem 0;transition:color .2s}
+.nav a::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:1.5px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.nav a:hover,.nav a.is-active{color:var(--ink)}
+.nav a:hover::after,.nav a.is-active::after{transform:scaleX(1)}
+.header-tools{display:flex;gap:.5rem}
+.pill-btn{font:500 .8rem/1 var(--sans);letter-spacing:.04em;color:var(--ink);background:transparent;border:1px solid var(--line-strong);padding:.55rem .8rem;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background .2s,border-color .2s}
+.pill-btn:hover{background:var(--surface-2);border-color:var(--ink-3)}
 
-/* ═══ SECTION 共通 ══════════════════════════════════════════ */
-.pf-section{max-width:920px;margin:0 auto;padding:4.5rem 1.5rem;border-top:4px dashed var(--border);scroll-margin-top:80px}
-.pf-sec-kicker{font-family:var(--flabel);font-weight:700;letter-spacing:.08em;font-size:.82rem;color:var(--accent);margin:0 0 .75rem}
-.pf-sec-title{font-family:var(--fdisp);font-weight:700;font-size:clamp(1.3rem,3.5vw,1.9rem);margin:0 0 .6rem}
-.pf-sec-lead{color:var(--soft);font-size:1.15rem;max-width:560px;margin:0 0 2rem}
+/* ─── Buttons / links ────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;font:500 .95rem/1 var(--sans);text-decoration:none;padding:.95rem 1.3rem;transition:background .25s,color .25s,border-color .25s,transform .25s var(--ease)}
+.btn-primary{background:var(--ink);color:var(--bg);border:1px solid var(--ink)}
+.btn-primary:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn-ghost{color:var(--ink);border:1px solid var(--line-strong)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn:hover .arr{transform:translateX(3px)}
+.btn-ghost:hover .arr,.arrow-link:hover .arr,.contact-row:hover .arr{transform:translate(3px,-3px)}
+.text-link{display:inline-flex;align-items:center;font-weight:500;text-decoration:none;color:var(--ink);background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;padding-bottom:3px;transition:background-size .4s var(--ease),color .2s}
+.text-link:hover{color:var(--accent);background-size:0 1px;background-position:100% 100%}
+.text-link:hover .arr{transform:translateX(4px)}
 
-/* ═══ ピクセルボタン（共通） ════════════════════════════════ */
-.pf-btn{font-family:var(--fdisp);font-weight:700;font-size:.95rem;color:var(--ink);background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:.6em 1em;text-decoration:none;display:inline-block;cursor:pointer}
-.pf-btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--border)}
-.pf-btn-sm{padding:.5em .8em;font-size:.85rem}
-.pf-btn-accent{color:var(--accent-ink);background:var(--accent)}
+/* ─── HERO ───────────────────────────────────────────────────── */
+.hero{padding:clamp(3rem,9vh,6.5rem) 0 0}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(2rem,6vw,5.5rem);align-items:center}
+.hero-title{font-family:var(--serif);font-weight:500;font-size:clamp(3rem,8vw,6.4rem);line-height:1.1;letter-spacing:.04em;margin:0 0 1rem}
+.hero-title .line{display:block;overflow:hidden;padding-bottom:.06em}
+.hero-title .line-in{display:inline-block}
+.hero-role{margin:0 0 1.4rem;font-size:1rem;color:var(--ink-2);letter-spacing:.08em}
+.hero-lead{font-size:1.08rem;color:var(--ink-2);max-width:34em;margin:0 0 2.2rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.7rem}
+.hero-art{margin:0;aspect-ratio:1/1;border:1px solid var(--line)}
+.hero-art svg{width:100%;height:100%;display:block}
 
-/* ═══ HIGHLIGHTS ════════════════════════════════════════════ */
-.pf-highlights{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin-bottom:2.5rem}
-.pf-badge{background:var(--badge);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:1rem .75rem;text-align:center}
-.pf-badge-val{display:block;font-family:var(--flabel);font-weight:700;font-size:1.4rem;color:var(--ink);margin-bottom:.45rem}
-.pf-badge-lb{font-size:.9rem;color:var(--ink);text-transform:uppercase;letter-spacing:.02em}
+/* 実績は1行で控えめに */
+.facts{display:flex;flex-wrap:wrap;gap:.3rem 1.8rem;margin:2.2rem 0 0;font-size:.85rem}
+.facts div{display:flex;gap:.6rem}
+.facts dt{color:var(--ink-3)}
+.facts dd{margin:0;color:var(--ink-2);font-variant-numeric:tabular-nums}
 
-/* ═══ カード（核） ══════════════════════════════════════════ */
-.pf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
-.pf-card{background:var(--panel);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);display:flex;flex-direction:column;transition:transform .1s,box-shadow .1s}
-.pf-card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--accent)}
-.pf-card-img{width:100%;aspect-ratio:16/9;border-bottom:3px solid var(--border);background-image:var(--checker);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0;background-color:var(--checker-b);display:flex;align-items:center;justify-content:center;overflow:hidden}
-.pf-card-img img{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;display:block}
-.pf-card-noimg{font-family:var(--flabel);font-weight:700;font-size:.8rem;color:var(--soft)}
-.pf-card-body{padding:1.1rem 1.15rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
-.pf-pickup{align-self:flex-start;font-family:var(--flabel);font-weight:700;letter-spacing:.06em;font-size:.72rem;background:var(--badge);color:var(--ink);padding:.35em .6em}
-.pf-period{align-self:flex-start;background:var(--period);color:var(--ink);font-size:.95rem;padding:.15em .55em}
-.pf-card-title{font-family:var(--fdisp);font-weight:700;font-size:1.1rem;line-height:1.4;margin:0}
-.pf-card-sub{color:var(--soft);font-size:1.05rem;margin:0}
-.pf-card-desc{font-size:1.05rem;margin:0}
-.pf-tags{display:flex;flex-wrap:wrap;gap:.4rem}
-.pf-tag{font-family:var(--fdisp);font-size:.85rem;border:2px solid var(--border);padding:.2em .55em;background:var(--bg)}
-.pf-card-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:auto;padding-top:.85rem}
-.pf-tags-bottom{margin-top:auto;padding-top:.5rem}
-.pf-toggle-wrap{text-align:center;margin-top:1.6rem}
+/* ─── Section ────────────────────────────────────────────────── */
+.section{padding:clamp(4.5rem,11vh,7.5rem) 0;scroll-margin-top:64px}
+.section-tight{padding-top:0}
+.section-alt{background:var(--surface-2)}
+.section-head{margin-bottom:clamp(2.2rem,5vh,3.4rem);padding-top:1.2rem;border-top:1px solid var(--ink)}
+.section-head > *{max-width:720px}
+.section-title{font-family:var(--serif);font-weight:500;font-size:clamp(1.9rem,4vw,2.9rem);line-height:1.25;margin:0 0 1rem;font-feature-settings:'palt'}
+.section-title-lg{font-size:clamp(2.3rem,5.5vw,4rem)}
+.section-lead{color:var(--ink-2);font-size:1.02rem;max-width:40em;margin:0}
+.section-foot{margin-top:2.6rem}
 
-/* ═══ RESEARCH（横型カード） ════════════════════════════════ */
-.pf-research-list{display:flex;flex-direction:column;gap:1.5rem}
-.pf-research-card{background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);display:grid;grid-template-columns:140px 1fr}
-.pf-research-period{background:var(--period);border-right:3px solid var(--border);padding:1rem .75rem;font-family:var(--flabel);font-weight:700;font-size:.78rem;color:var(--ink);line-height:1.6}
-.pf-research-body{padding:1.1rem 1.2rem;display:flex;flex-direction:column;gap:.5rem}
-.pf-research-title{font-family:var(--fdisp);font-weight:700;font-size:1.05rem;line-height:1.45;margin:0}
-.pf-research-desc{font-size:1.05rem;margin:0}
-.pf-research-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.25rem}
+/* ─── Cards ──────────────────────────────────────────────────── */
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1rem,2.2vw,1.6rem)}
+.card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);overflow:hidden;transition:border-color .3s}
+.card:hover{border-color:var(--ink-3)}
+.card-grid-dense .card{content-visibility:auto;contain-intrinsic-size:auto 440px}
+.card-cover{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--surface-2)}
+.card-cover img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.tone-0{background:var(--tone-0)}.tone-1{background:var(--tone-1)}.tone-2{background:var(--tone-2)}.tone-3{background:var(--tone-3)}.tone-4{background:var(--tone-4)}
+.cover-glyph{position:absolute;right:7%;bottom:-.22em;font-family:var(--serif);font-style:italic;font-size:clamp(6rem,11vw,8.5rem);line-height:1;color:var(--ink);opacity:.82;transition:transform .8s var(--ease)}
+.cover-dot{position:absolute;left:8%;top:14%;width:12px;height:12px;background:var(--accent);transition:transform .6s var(--ease)}
+.card:hover .cover-glyph{transform:translate(-6px,-4px) rotate(-3deg)}
+.card:hover .cover-dot{transform:scale(1.4)}
+.card:hover .card-cover img{transform:scale(1.04)}
+.card-body{display:flex;flex-direction:column;gap:.55rem;padding:1.3rem 1.35rem 1.4rem;flex:1}
+.card-meta{display:flex;align-items:center;gap:.7rem;margin:0;font-size:.78rem;color:var(--ink-3);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.card-meta:empty{display:none}
+.card-pick{color:var(--accent);font-weight:500;letter-spacing:.1em;text-transform:uppercase;font-size:.7rem}
+.card-title{font-family:var(--serif);font-weight:500;font-size:1.45rem;line-height:1.3;margin:0}
+.card-sub{margin:0;color:var(--ink);font-size:.95rem;line-height:1.6;font-weight:500}
+.card-desc{margin:0;color:var(--ink-2);font-size:.9rem;line-height:1.75}
+.card-desc.is-clamped{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.card-tags{list-style:none;margin:.2rem 0 0;padding:0;display:flex;flex-wrap:wrap}
+/* タグは囲まず、斜線区切りの文字列として並べる */
+.card-tags li,.tag-row li{font-size:.78rem;color:var(--ink-3);line-height:1.6}
+.card-tags li+li::before,.tag-row li+li::before{content:'/';margin:0 .55em 0 .2em;color:var(--line-strong)}
+.card-links{display:flex;flex-wrap:wrap;gap:1.1rem;margin-top:auto;padding-top:.7rem}
+.arrow-link{font-size:.88rem;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;border-bottom:1px solid var(--line-strong);padding-bottom:1px;transition:border-color .2s,color .2s}
+.arrow-link:hover{color:var(--accent);border-color:var(--accent)}
 
-/* ═══ CONTACT ═══════════════════════════════════════════════ */
-.pf-contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}
-.pf-contact-card{display:flex;flex-direction:column;gap:.6rem;justify-content:space-between;min-height:120px;text-decoration:none;color:var(--ink);background:var(--panel);border:3px solid var(--border);box-shadow:5px 5px 0 var(--border);padding:1.1rem 1.15rem;transition:transform .1s,box-shadow .1s}
-.pf-contact-card:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--accent)}
-.pf-contact-label{font-family:var(--flabel);font-weight:700;letter-spacing:.06em;font-size:.82rem;color:var(--accent)}
-.pf-contact-sub{font-size:1.05rem;color:var(--soft)}
-.pf-contact-open{font-family:var(--flabel);font-weight:700;font-size:.72rem;letter-spacing:.08em}
+/* ─── Homelab ────────────────────────────────────────────────── */
+.lab-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(1.5rem,3vw,2.5rem);border-top:1px solid var(--line-strong)}
+.lab-col{padding-top:1.4rem}
+.lab-num{margin:0 0 .3rem;font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--accent)}
+.lab-title{font-family:var(--serif);font-weight:500;font-size:1.4rem;margin:0 0 1rem}
+.lab-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.85rem}
+.lab-list li{position:relative;padding-left:1.1rem;font-size:.92rem;line-height:1.75;color:var(--ink-2)}
+.lab-list li::before{content:'';position:absolute;left:0;top:.8em;width:.55rem;height:1px;background:var(--ink-3)}
+.tag-row{list-style:none;margin:2.6rem 0 0;padding:0;display:flex;flex-wrap:wrap}
+.tag-row li{font-size:.85rem}
 
-/* ═══ TIMELINE ══════════════════════════════════════════════ */
-.pf-timeline{position:relative;padding-left:2.5rem;margin-top:.5rem}
-.pf-timeline-line{position:absolute;left:.55rem;top:.4rem;bottom:.4rem;border-left:3px dashed var(--border)}
-.pf-timeline-entry{position:relative;margin-bottom:2rem}
-.pf-timeline-node{position:absolute;left:-2.5rem;top:.35rem;width:.85rem;height:.85rem;background:var(--accent);border:2px solid var(--border)}
-.pf-timeline-card{background:var(--panel);border:3px solid var(--border);box-shadow:3px 3px 0 var(--border);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem}
-.pf-timeline-head{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
-.pf-timeline-pickup{font-family:var(--flabel);font-weight:700;letter-spacing:.06em;font-size:.7rem;background:var(--badge);color:var(--ink);padding:.35em .55em}
-.pf-timeline-title{font-family:var(--fdisp);font-weight:700;font-size:1rem;line-height:1.45;margin:0}
-.pf-timeline-sub{color:var(--soft);font-size:1rem;margin:0}
-.pf-timeline-desc{font-size:1.02rem;margin:0}
+/* ─── Contact ────────────────────────────────────────────────── */
+.contact-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(2rem,6vw,5rem);align-items:start}
+.contact-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-strong)}
+.contact-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:baseline;gap:1rem;padding:1.35rem .2rem;border-bottom:1px solid var(--line);text-decoration:none;transition:padding .4s var(--ease),background .3s}
+.contact-row:hover{padding-left:.9rem;background:var(--surface)}
+.contact-label{font-family:var(--serif);font-size:1.6rem;line-height:1.2}
+.contact-sub{color:var(--ink-2);font-size:.9rem}
+.contact-row .arr{color:var(--accent)}
 
-/* ═══ FOOTER ════════════════════════════════════════════════ */
-.pf-footer{text-align:center;padding:3rem 1.5rem 4rem;color:var(--soft);font-size:1rem;border-top:4px dashed var(--border)}
-.pf-footer p{margin:0 0 .5rem}
-.pf-footer-copy{margin:0 !important;font-family:var(--flabel);font-weight:700;font-size:.75rem;letter-spacing:.05em}
+/* ─── Works page ─────────────────────────────────────────────── */
+.page-hero{padding:clamp(2.5rem,7vh,4.5rem) 0 clamp(2rem,5vh,3rem)}
+.back-link{display:inline-flex;align-items:center;font-size:.85rem;color:var(--ink-2);text-decoration:none;margin-bottom:1.6rem}
+.back-link .arr{margin:0 .4em 0 0}
+.back-link:hover{color:var(--ink)}
+.back-link:hover .arr{transform:translateX(-3px)}
+.page-title{font-family:var(--serif);font-weight:500;font-size:clamp(2.6rem,7vw,5rem);line-height:1.15;margin:0 0 1.2rem}
+.filter-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 0;margin-bottom:1.8rem;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.filters{display:flex;flex-wrap:wrap;gap:.4rem}
+.filter-chip{font:400 .82rem/1 var(--sans);color:var(--ink-2);background:transparent;border:1px solid var(--line);padding:.5rem .8rem;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.filter-chip:hover{border-color:var(--line-strong);color:var(--ink)}
+.filter-chip.is-on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.works-count{margin:0;font-size:.85rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.works-empty{grid-column:1/-1;color:var(--ink-2);padding:2rem 0}
 
-.pf-hidden{display:none !important}
+/* ─── Footer ─────────────────────────────────────────────────── */
+.site-footer{background:var(--footer-bg);color:var(--footer-ink);padding:clamp(3.5rem,9vh,5.5rem) 0 2.5rem}
+.footer-inner{display:grid;gap:1rem}
+.footer-brand{margin:0;font-family:var(--serif);font-size:clamp(3rem,10vw,7rem);line-height:1;letter-spacing:.02em}
+.footer-note{margin:0;color:var(--footer-ink-2);font-size:.9rem}
+.footer-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;margin:1.5rem 0 0;padding-top:1.4rem;border-top:1px solid rgba(240,236,227,.16);font-size:.82rem;color:var(--footer-ink-2)}
+.footer-meta a{color:var(--footer-ink);text-underline-offset:4px;text-decoration-thickness:1px}
+.footer-meta a:hover{color:var(--accent)}
 
-/* トグル列の二次リンク（トップ→/works 導線など） */
-.pf-toggle-link{display:inline-block;margin-top:.9rem;font-family:var(--flabel);font-weight:700;font-size:.78rem;letter-spacing:.05em;color:var(--accent);text-decoration:none;border-bottom:2px solid var(--accent)}
-.pf-toggle-link:hover{background:var(--accent);color:var(--accent-ink)}
+/* ═══ Motion ════════════════════════════════════════════════════
+   html.js のときだけ「隠してから出す」（JS 無効でも中身は見える）    */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes line-up{from{transform:translateY(105%)}to{transform:none}}
+/* 活版: 版が紙に降りて、一度沈んでから落ち着く */
+@keyframes press{0%{opacity:0;transform:scale(1.06)}55%{opacity:1;transform:scale(.985)}100%{opacity:1;transform:none}}
+/* ドット: 升目を1つずつ打つ */
+@keyframes dot-in{from{opacity:0}to{opacity:1}}
 
-/* ═══ WORKS（成果物一覧ページ /works） ═════════════════════ */
-/* フィルタチップ */
-.pf-filter{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 1.6rem}
-.pf-filter-chip{font-family:var(--fdisp);font-size:.9rem;color:var(--ink);background:var(--panel);border:2px solid var(--border);box-shadow:2px 2px 0 var(--border);padding:.35em .8em;cursor:pointer}
-.pf-filter-chip:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--border)}
-.pf-filter-chip.pf-on{color:var(--accent-ink);background:var(--accent)}
-.pf-works-count{color:var(--soft);font-size:1rem;margin:0 0 1.2rem}
-/* 密グリッド + 画面外カードのレンダリングをスキップ（大量表示でも軽量） */
-.pf-works-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
-.pf-works-grid .pf-card{content-visibility:auto;contain-intrinsic-size:auto 360px}
-.pf-works-empty{color:var(--soft);font-size:1.1rem;padding:2rem 0}
+.js .hero-in{animation:rise .9s calc(var(--d,0) * 110ms + 80ms) var(--ease) both}
+.js .hero-art .lp-plate{transform-box:fill-box;transform-origin:center;animation:press .9s .35s var(--ease) both}
+.js .hero-art .icon-dot rect[style]{animation:dot-in .01s calc(var(--n) * 14ms + 300ms) steps(1) both}
+.js .hero-title .line-in{animation:line-up 1s calc(var(--d,0) * 110ms + 80ms) var(--ease) both}
+.js .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0) * 90ms)}
+.js .reveal.is-in{opacity:1;transform:none}
+/* .card は hover の transform と競合しないよう、出現後は transition を元に戻す */
+.js .card.reveal.is-in{transition:opacity .9s var(--ease) calc(var(--i,0) * 90ms),transform .9s var(--ease) calc(var(--i,0) * 90ms),border-color .3s}
 
-/* ═══ RESPONSIVE ════════════════════════════════════════════ */
-/* タブレット以下: ヘッダーを縦に整理、グリッド幅を緩める */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.001ms !important;animation-delay:0s !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;transition-delay:0s !important}
+  .js .reveal{opacity:1;transform:none}
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 960px){
+  .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lab-grid{grid-template-columns:1fr;gap:0}
+  .lab-col{padding:1.6rem 0;border-bottom:1px solid var(--line)}
+  .lab-col:last-child{border-bottom:none}
+}
 @media (max-width: 760px){
-  .pf-header-inner{padding:.5rem 1rem;gap:.6rem}
-  .pf-nav{gap:.9rem;width:100%;order:3}
-  .pf-lang{order:2}
-  .pf-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-art{max-width:340px;width:100%;order:-1}
+  .contact-grid{grid-template-columns:1fr}
 }
-
-/* スマホ: 余白・本文サイズを圧縮、研究カードを縦積み */
-@media (max-width: 560px){
-  .pf-root{font-size:16px}
-  .pf-header-inner{flex-wrap:nowrap;justify-content:flex-start;gap:.75rem}
-  .pf-logo{font-size:.82rem}
-  .pf-nav{display:none}                         /* 狭幅ではナビ非表示（ロゴ→#top で代替） */
-  .pf-lang{margin-left:auto;order:0}
-  .pf-hero{padding:3.5rem 1.25rem;min-height:auto}
-  .pf-hero-inner{gap:2rem}
-  .pf-section{padding:3.5rem 1.25rem}
-  .pf-bio{font-size:1.15rem}
-  .pf-role{font-size:1.15rem}
-  .pf-grid{grid-template-columns:1fr;gap:1.25rem}
-  .pf-works-grid{grid-template-columns:1fr;gap:1.25rem}
-  .pf-highlights{grid-template-columns:repeat(2,1fr)}
-  .pf-research-card{grid-template-columns:1fr}
-  .pf-research-period{border-right:none;border-bottom:3px solid var(--border);font-size:.72rem}
-  .pf-contact-grid{grid-template-columns:1fr}
-  .pf-timeline{padding-left:2rem}
+@media (max-width: 640px){
+  .nav{display:none}
+  .header-tools{margin-left:auto}
+  .card-grid{grid-template-columns:1fr}
+  .hero-art{max-width:240px}
+  .contact-label{font-size:1.35rem}
+  .contact-row{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'l a' 's s';row-gap:.2rem}
+  .contact-label{grid-area:l}.contact-row .arr{grid-area:a}.contact-sub{grid-area:s}
+  .filter-bar{flex-direction:column;align-items:flex-start}
 }
-
-/* 極小幅: HEROボタンとタグの折返しを安定化 */
-@media (max-width: 380px){
-  .pf-hero-links{gap:.5rem}
-  .pf-hero-links .pf-btn{padding:.55em .8em;font-size:.85rem}
-  .pf-highlights{grid-template-columns:1fr 1fr;gap:.75rem}
-}
-
-/* タッチ端末ではホバーの浮き上がりを無効化（誤作動防止） */
 @media (hover: none){
-  .pf-card:hover,.pf-contact-card:hover{transform:none;box-shadow:5px 5px 0 var(--border)}
+  .card:hover .cover-glyph,.card:hover .cover-dot{transform:none}
 }
