@@ -3,7 +3,7 @@
 //  上から下へ「段（tier）」を積み、段の間に矢印と説明（link）を挟む単純な図。
 //  HTML + CSS だけで描くので、狭い画面では各段が縦に並び替わる。
 // ─────────────────────────────────────────────────────────────
-import { esc } from './render.js?v=20261014b';
+import { esc } from './render.js?v=20261115a';
 
 // spec: [{ tier: { label, boxes: [{ title, sub, items? }] } } | { link: [label, ...] }]
 function render(spec, caption) {

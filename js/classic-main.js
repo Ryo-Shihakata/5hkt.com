@@ -2,9 +2,8 @@
 //  ピクセル・ポートフォリオ（旧デザイン /classic） — レンダリング + インタラクション
 //  i18n / ダーク（OS追従）/ スクロールスパイ / タイムライン切替 / HEROアイコン
 // ─────────────────────────────────────────────────────────────
-import { store } from './portfolio-data.js?v=20261014b';
-import { esc, L as Lof, resolve, tagsHTML, linksHTML, appCardHTML } from './render.js?v=20261014b';
-import { iconSVG } from './icon.js?v=20261014b';
+import { store } from './portfolio-data.js?v=20261115a';
+import { esc, L as Lof, resolve, tagsHTML, linksHTML, appCardHTML } from './render.js?v=20261115a';
 
 // ─── サイト設定（必要に応じてここを編集） ──────────────────────
 const CONFIG = {
@@ -191,9 +190,9 @@ function applyTheme() {
   $('research')?.classList.toggle('pf-hidden', !CONFIG.showResearch);
 }
 
-// ─── HERO アバター: 新デザインと同じ 5HKT アイコン ─────────────
+// ─── HERO アバター: 新デザインと同じ写真 ───────────────────────
 function startHero() {
-  $('pf-avatar-icon').innerHTML = iconSVG({ id: 'classic' });
+  $('pf-avatar-icon').innerHTML = '<img src="../assets/photo/hero.jpg" alt="" width="288" height="288" decoding="async">';
 }
 
 // ─── 初期化 ───────────────────────────────────────────────────

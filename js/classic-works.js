@@ -3,8 +3,8 @@
 //  トップの「抜粋＋タイムライン」とは別に、成果物を密グリッドで列挙。
 //  データは data/portfolio.json（store.load）を1回 fetch するだけ。
 // ─────────────────────────────────────────────────────────────
-import { store } from './portfolio-data.js?v=20261014b';
-import { esc, resolve, appCardHTML } from './render.js?v=20261014b';
+import { store } from './portfolio-data.js?v=20261115a';
+import { esc, resolve, appCardHTML } from './render.js?v=20261115a';
 
 // トップページ（js/main.js の CONFIG）で非表示にしているセクションはナビにも出さない
 const SHOW = { student: false, research: false };
@@ -59,7 +59,7 @@ function render() {
   $('pf-works-title').textContent = t.title;
   $('pf-works-lead').textContent = t.lead;
   $('pf-works-back').textContent = t.back;
-  document.title = `${t.title} — 5HKT`;
+  document.title = `${t.title} — Takahashi Ryo`;
 
   const apps = d.webapps || [];
 

@@ -2,8 +2,8 @@
 //  新デザイン /works — 作成Webアプリの全件一覧（タグ絞り込み付き）
 //  データは data/portfolio.json（store.load）を1回 fetch するだけ。
 // ─────────────────────────────────────────────────────────────
-import { store } from './portfolio-data.js?v=20261014b';
-import { $, esc, initWorkDialog, lang, common, renderChrome, initChrome, observeReveals, cardHTML } from './site.js?v=20261014b';
+import { store } from './portfolio-data.js?v=20261115a';
+import { $, esc, initWorkDialog, lang, common, renderChrome, initChrome, observeReveals, cardHTML } from './site.js?v=20261115a';
 
 const state = { filter: null }; // null = すべて / 文字列 = タグ名
 
@@ -37,7 +37,7 @@ function render() {
   $('works-back').innerHTML = `<span class="arr" aria-hidden="true">←</span>${esc(t.back)}`;
   $('works-title').textContent = t.title;
   $('works-lead').textContent = t.lead;
-  document.title = `${t.title} — 5HKT`;
+  document.title = `${t.title} — Takahashi Ryo`;
 
   const apps = d.webapps || [];
   const tags = uniqueTags(apps);

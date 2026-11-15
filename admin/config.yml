@@ -14,8 +14,8 @@ backend:
   branch: main
   base_url: https://sveltia-cms-auth.ryo-shihakata.workers.dev   # OAuth Worker（sveltia-cms-auth）
 
-site_url: https://5hkt.com
-display_url: https://5hkt.com
+site_url: https://ryo.md
+display_url: https://ryo.md
 
 # 画像アップロード先（site の絶対パスで参照）
 media_folder: assets/uploads

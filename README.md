@@ -1,4 +1,4 @@
-# 5HKT — ポートフォリオサイト
+# Takahashi Ryo — ポートフォリオサイト（https://ryo.md）
 
 個人ポートフォリオ（静的サイト）。プロフィール・作成Webアプリ・自宅サーバー（Homelab）・連絡先を、日英切替／ダークモード自動追従／控えめなアニメーション付きで掲載。作成Webアプリは `/works` で全件一覧、編集は **Sveltia CMS（GitHub連携・1クリック公開）** で行います。
 
@@ -30,19 +30,19 @@
 ├── js/
 │   ├── portfolio-data.js   # store：data/portfolio.json を fetch する単一ソース層（共通）
 │   ├── site.js             # 新デザイン共用（言語・ヘッダー・出現アニメ・カード）
-│   ├── icon.js             # 5HKT アイコン（活版 / ドット、ICON で切替）
 │   ├── diagrams.js         # 自宅サーバー / AI 運用の構成図
-│   ├── icon-glyphs.js      # アイコン用の 5/H/K/T アウトライン
 │   ├── main.js             # 新デザインのトップ（名前の見出し・アイコン・スパイ）
 │   ├── works.js            # 新デザインの /works（全件 + タグ絞り込み）
 │   ├── render.js           # 共有ヘルパ（esc / L）+ 旧デザインのカード描画
 │   ├── classic-main.js     # 旧デザインのトップ
 │   └── classic-works.js    # 旧デザインの /works
 ├── assets/
-│   ├── icon/               # ファビコン（favicon.svg / favicon-32.png / apple-touch-icon.png）
+│   ├── photo/hero.jpg      # HERO の写真（新旧デザイン共通）
+│   ├── icon/               # ファビコン（favicon-32.png / apple-touch-icon.png。写真を縮小したもの）
 │   ├── fonts/              # 旧デザイン用セルフホスト woff2（M PLUS 1 Code）
 │   └── uploads/            # CMS からの画像アップロード先
 ├── scripts/bump-assets.sh  # JS/CSS の参照に版番号（?v=）を付け直す。JS/CSS を変えたら実行
+├── functions/_middleware.js # 旧ドメイン 5hkt.com / www.5hkt.com → ryo.md へ 301 転送
 ├── _headers                # Cloudflare Pages セキュリティヘッダー
 ├── _redirects              # Cloudflare Pages リダイレクト設定
 └── README.md
@@ -71,7 +71,7 @@ npx serve .
 
 ### A. Sveltia CMS で編集（推奨・非エンジニア向け）
 
-`https://5hkt.com/admin/` を開き、GitHub でログイン → GUI で編集 → **「公開（Publish）」** を押すと、
+`https://ryo.md/admin/` を開き、GitHub でログイン → GUI で編集 → **「公開（Publish）」** を押すと、
 `data/portfolio.json` が GitHub に commit され、Cloudflare Pages が自動デプロイして本番に反映されます。**手動 commit は不要**です。
 
 - 編集できる内容: プロフィール / 実績バッジ / 作成Webアプリ / 学生活動 / 研究活動 / 自宅サーバー（Homelab）/ AI 運用 / 連絡先（各種リンク）
@@ -98,9 +98,9 @@ Sveltia CMS が GitHub に commit するには OAuth が必要です。Cloudflar
    - Authorization callback URL: `https://<あなたのWorker>.workers.dev/callback`
    - 発行された **Client ID / Client Secret** を控える
 2. **認証 Worker をデプロイ**: [`sveltia/sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth) を Cloudflare Workers にデプロイし、
-   環境変数に `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`（必要に応じて `ALLOWED_DOMAINS=5hkt.com`）を設定
+   環境変数に `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`（必要に応じて `ALLOWED_DOMAINS=ryo.md`）を設定
 3. **config.yml を更新**: [admin/config.yml](admin/config.yml) の `backend.base_url` を、デプロイした Worker の URL に置き換えて commit
-4. `https://5hkt.com/admin/` を開き「Login with GitHub」→ 編集 → Publish で公開完了
+4. `https://ryo.md/admin/` を開き「Login with GitHub」→ 編集 → Publish で公開完了
 
 > `_headers` の `X-Frame-Options: DENY` のままで動作します（認証はポップアップ方式）。
 
