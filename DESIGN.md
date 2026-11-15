@@ -36,7 +36,7 @@
 | コンポーネント | クラス | 要点 |
 |---|---|---|
 | ヘッダー | `.site-header` | sticky・不透明。スクロールすると下線（`.is-scrolled`） |
-| ロゴ / HERO アイコン | `.brand-mark` `.hero-art` | 5HKT アイコン（[js/icon.js](js/icon.js)）。`ICON` で `letterpress`（墨の活版刷り・升目に 5H/KT を白抜き）/ `dot`（5×7 ドット）を切替。文字はアウトライン（[js/icon-glyphs.js](js/icon-glyphs.js)）なのでフォント待ち無し。ファビコンは `assets/icon/` |
+| ロゴ / HERO 写真 | `.brand-name` `.hero-art` | ヘッダーとフッターは名前の文字（Takahashi Ryo）のみ。HERO は写真 `assets/photo/hero.jpg`（旧デザインのアバターも同じ写真）。ファビコンは写真を縮小した `assets/icon/` |
 | HERO | `.hero` | 名前の大見出し、肩書、紹介文、ボタン、実績を1行（`.facts`）で控えめに |
 | カード | `.card` | 四角・細罫線。画像なしは英題の頭文字（イタリック）+ 朱の四角の色面。hover で枠が濃くなり、頭文字が傾く。タグは「A / B / C」の文字列 |
 | 自宅サーバー / AI 運用 | `#homelab` `#ai` | リード → 構成図（[js/diagrams.js](js/diagrams.js)、段と矢印を HTML+CSS で描く）→ `groups` を3列（狭幅で1列）→ タグ。データが無ければセクションごと非表示 |

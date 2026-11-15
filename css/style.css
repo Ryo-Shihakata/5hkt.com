@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   5HKT ポートフォリオ（新デザイン） — スタイル
+   ポートフォリオ（新デザイン） — スタイル
    生成りの紙色 + 墨 + 朱の一点。見出しは明朝/セリフ、本文はゴシック。
    角丸・影・すりガラス・ピル型は使わない。四角と罫線と余白で組む。
    動きは控えめに（reduced-motion で停止）。
@@ -58,8 +58,8 @@ a{color:inherit}
 .site-header.is-scrolled{border-bottom-color:var(--line)}
 .header-inner{display:flex;align-items:center;gap:1.5rem;height:64px}
 .brand{display:flex;align-items:center;gap:.55rem;text-decoration:none;color:var(--ink)}
-.brand-mark{width:28px;height:28px;display:block}
-.brand-mark svg{width:100%;height:100%;display:block}
+
+
 .brand-name{font-family:var(--serif);font-size:1.3rem;font-weight:500;letter-spacing:.04em}
 .nav{display:flex;gap:1.6rem;margin-left:auto}
 .nav a{position:relative;font-size:.92rem;text-decoration:none;color:var(--ink-2);padding:.3rem 0;transition:color .2s}
@@ -93,7 +93,7 @@ a{color:inherit}
 .hero-lead{font-size:1.08rem;color:var(--ink-2);max-width:34em;margin:0 0 2.2rem}
 .hero-actions{display:flex;flex-wrap:wrap;gap:.7rem}
 .hero-art{margin:0;aspect-ratio:1/1;border:1px solid var(--line)}
-.hero-art svg{width:100%;height:100%;display:block}
+.hero-art img{width:100%;height:100%;display:block;object-fit:cover}
 
 /* 実績は1行で控えめに */
 .facts{display:flex;flex-wrap:wrap;gap:.3rem 1.8rem;margin:2.2rem 0 0;font-size:.85rem}
@@ -231,14 +231,9 @@ html.is-locked{overflow:hidden}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 @keyframes line-up{from{transform:translateY(105%)}to{transform:none}}
-/* 活版: 版が紙に降りて、一度沈んでから落ち着く */
-@keyframes press{0%{opacity:0;transform:scale(1.06)}55%{opacity:1;transform:scale(.985)}100%{opacity:1;transform:none}}
-/* ドット: 升目を1つずつ打つ */
-@keyframes dot-in{from{opacity:0}to{opacity:1}}
 
 .js .hero-in{animation:rise .9s calc(var(--d,0) * 110ms + 80ms) var(--ease) both}
-.js .hero-art .lp-plate{transform-box:fill-box;transform-origin:center;animation:press .9s .35s var(--ease) both}
-.js .hero-art .icon-dot rect[style]{animation:dot-in .01s calc(var(--n) * 14ms + 300ms) steps(1) both}
+.js .hero-art img{animation:fade 1.1s .3s var(--ease) both}
 .js .hero-title .line-in{animation:line-up 1s calc(var(--d,0) * 110ms + 80ms) var(--ease) both}
 .js .reveal{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0) * 90ms)}
 .js .reveal.is-in{opacity:1;transform:none}

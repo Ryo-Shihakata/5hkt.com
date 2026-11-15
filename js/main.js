@@ -1,12 +1,11 @@
 // ─────────────────────────────────────────────────────────────
 //  新デザイン トップ — レンダリング + アニメーション
-//  HERO（名前の大見出し / 5HKT アイコン）・実績の1行表記・
+//  HERO（名前の大見出し / 写真）・実績の1行表記・
 //  制作物の抜粋・自宅サーバー・連絡先・スクロールスパイ
 // ─────────────────────────────────────────────────────────────
-import { store } from './portfolio-data.js?v=20261014b';
-import { $, esc, initWorkDialog, br, L, lang, common, renderChrome, initChrome, observeReveals, cardHTML, arrowLink } from './site.js?v=20261014b';
-import { iconSVG } from './icon.js?v=20261014b';
-import { homelabDiagram, aiDiagram } from './diagrams.js?v=20261014b';
+import { store } from './portfolio-data.js?v=20261115a';
+import { $, esc, initWorkDialog, br, L, lang, common, renderChrome, initChrome, observeReveals, cardHTML, arrowLink } from './site.js?v=20261115a';
+import { homelabDiagram, aiDiagram } from './diagrams.js?v=20261115a';
 
 function i18n(ja) {
   return {
@@ -58,7 +57,7 @@ function render() {
   $('hero-actions').innerHTML =
     `<a class="btn btn-primary" href="#works">${esc(t.seeWork)}</a>` +
     (p.links || []).map((l) => arrowLink(l.label, l.url, 'btn btn-ghost')).join('');
-  document.title = name ? `${name} — 5HKT` : '5HKT — Portfolio';
+  document.title = 'Takahashi Ryo';
 
   // 実績（目立たせず、1行で添える）
   $('facts').innerHTML = (d.highlights || []).map((h) =>
@@ -99,9 +98,9 @@ function initSpy() {
   ['works', 'homelab', 'ai', 'contact'].forEach((id) => { const el = $(id); if (el) io.observe(el); });
 }
 
-// ─── HERO アート: 5HKT アイコン（出現の動きは CSS） ─────────────
+// ─── HERO アート: 写真（出現の動きは CSS） ───────────────────────
 function initHeroArt() {
-  $('hero-art').innerHTML = iconSVG({ id: 'hero' });
+  $('hero-art').innerHTML = '<img src="assets/photo/hero.jpg" alt="" width="288" height="288" decoding="async">';
 }
 
 // ─── 初期化 ───────────────────────────────────────────────────

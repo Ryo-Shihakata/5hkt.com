@@ -3,8 +3,7 @@
 //  言語・ヘッダー・フッター・スクロール表示アニメ・作品カード
 //  （旧デザイン /classic は render.js / classic-*.js を使う）
 // ─────────────────────────────────────────────────────────────
-import { esc, L as Lof } from './render.js?v=20261014b';
-import { iconSVG } from './icon.js?v=20261014b';
+import { esc, L as Lof } from './render.js?v=20261115a';
 
 export { esc };
 export const $ = (id) => document.getElementById(id);
@@ -53,8 +52,6 @@ export function renderChrome(t, d, { navBase = '', sections = [] } = {}) {
 }
 
 export function initChrome(onLang) {
-  // ヘッダーのロゴ = 5HKT アイコンの小さい版（かすれ等は省く）
-  $('brand-mark').innerHTML = iconSVG({ id: 'bm', texture: false });
   $('lang').addEventListener('click', () => { lang.toggle(); onLang(); });
   // スクロールしたらヘッダーに下線とすりガラス
   const header = $('site-header');
